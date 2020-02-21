@@ -16,6 +16,7 @@
 		44B24B8F24007B3500B4EA0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */; };
 		44B24B9A24007B3600B4EA0B /* personal_plannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B9924007B3600B4EA0B /* personal_plannerTests.swift */; };
 		44B24BA524007B3600B4EA0B /* personal_plannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BA424007B3600B4EA0B /* personal_plannerUITests.swift */; };
+		44B24BB524007C9800B4EA0B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B24BB424007C9800B4EA0B /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		44B24BA024007B3600B4EA0B /* personal-plannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "personal-plannerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44B24BA424007B3600B4EA0B /* personal_plannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = personal_plannerUITests.swift; sourceTree = "<group>"; };
 		44B24BA624007B3600B4EA0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44B24BB224007C2800B4EA0B /* personal-planner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "personal-planner.entitlements"; sourceTree = "<group>"; };
+		44B24BB424007C9800B4EA0B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44B24BB524007C9800B4EA0B /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +89,7 @@
 				44B24B9824007B3600B4EA0B /* personal-plannerTests */,
 				44B24BA324007B3600B4EA0B /* personal-plannerUITests */,
 				44B24B7D24007B3300B4EA0B /* Products */,
+				44B24BB324007C9800B4EA0B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +106,7 @@
 		44B24B7E24007B3300B4EA0B /* personal-planner */ = {
 			isa = PBXGroup;
 			children = (
+				44B24BB224007C2800B4EA0B /* personal-planner.entitlements */,
 				44B24B7F24007B3300B4EA0B /* AppDelegate.swift */,
 				44B24B8124007B3300B4EA0B /* SceneDelegate.swift */,
 				44B24B8624007B3300B4EA0B /* ContentView.swift */,
@@ -137,6 +143,14 @@
 				44B24BA624007B3600B4EA0B /* Info.plist */,
 			);
 			path = "personal-plannerUITests";
+			sourceTree = "<group>";
+		};
+		44B24BB324007C9800B4EA0B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				44B24BB424007C9800B4EA0B /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,6 +452,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "personal-planner/personal-planner.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"personal-planner/Preview Content\"";
 				DEVELOPMENT_TEAM = 5F35F2ZNFF;
@@ -458,6 +473,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "personal-planner/personal-planner.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"personal-planner/Preview Content\"";
 				DEVELOPMENT_TEAM = 5F35F2ZNFF;
