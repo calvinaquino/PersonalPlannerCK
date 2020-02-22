@@ -39,7 +39,7 @@ struct ShoppingItemListView: View {
         .sheet(isPresented: $showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
-          ShoppingItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
+          ShoppingItemFormView(item: self.editingItem).environment(\.managedObjectContext, Store.context)
       }
     }
   }

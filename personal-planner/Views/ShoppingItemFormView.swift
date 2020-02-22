@@ -13,28 +13,15 @@ import SwiftUI
 
 struct ShoppingItemFormView: View {
   
-  init() {
-    self.init(with: nil)
-  }
-
-  init(with shoppingItem: ShoppingItem?) {
-    self.item = shoppingItem
-    _name = State(initialValue: item?.name ?? "")
-    _localizedName = State(initialValue: item?.localizedName ?? "")
-    _price = State(initialValue: item?.price.stringValue ?? "")
-    _isNeeded = State(initialValue: item?.isNeeded ?? true)
-    _category = State(initialValue: item?.shoppingCategory ?? nil)
-  }
-  
-  private var item: ShoppingItem?
+  var item: ShoppingItem?
   
   @FetchRequest(fetchRequest: ShoppingCategory.allFetchRequest()) var categories: FetchedResults<ShoppingCategory>
   @Environment(\.presentationMode) var presentationMode
   
-  @State private var name: String
-  @State private var localizedName: String
-  @State private var price: String
-  @State private var isNeeded: Bool
+  @State private var name: String = ""
+  @State private var localizedName: String = ""
+  @State private var price: String = ""
+  @State private var isNeeded: Bool = true
   @State private var category: ShoppingCategory?
   
   var body: some View {
@@ -64,6 +51,13 @@ struct ShoppingItemFormView: View {
             self.presentationMode.wrappedValue.dismiss()
           }
         }
+      }
+      .onAppear {
+        self.name = self.item?.name ?? ""
+        self.localizedName = self.item?.localizedName ?? ""
+        self.price = self.item?.price.stringValue ?? ""
+        self.isNeeded = self.item?.isNeeded ?? true
+        self.category = self.item?.shoppingCategory ?? nil
       }
       .navigationBarTitle("Novo item")
     }
