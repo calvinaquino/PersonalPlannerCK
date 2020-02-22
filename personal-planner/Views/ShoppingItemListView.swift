@@ -1,5 +1,5 @@
 //
-//  ShoppingListScreen.swift
+//  ShoppingItemListView.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-02-21.
@@ -9,9 +9,11 @@
 import Combine
 import SwiftUI
 
-struct ShoppingListScreen: View {
+struct ShoppingItemListView: View {
   
   @FetchRequest(fetchRequest: ShoppingItem.allFetchRequest()) var shoppingItems: FetchedResults<ShoppingItem>
+  @State private var showingFormScreen = false
+  @State private var editingItem: ShoppingItem?
   
   var body: some View {
     NavigationView {
@@ -20,18 +22,25 @@ struct ShoppingListScreen: View {
         List {
           ForEach(self.shoppingItems) { item in
             Text(item.name)
+              .onTapGesture {
+                self.editingItem = item
+                self.showingFormScreen.toggle()
+              }
           }
           .onDelete(perform: self.delete)
         }
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
       .navigationBarItems(trailing: Button(action: {
-        let newItem = ShoppingItem()
-        newItem.name = "What"
-        Store.save()
+        self.showingFormScreen.toggle()
       }) {
         Image(systemName: "plus")
       })
+        .sheet(isPresented: $showingFormScreen, onDismiss: {
+          self.editingItem = nil
+        }) {
+          ShoppingItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
+      }
     }
   }
   
@@ -44,8 +53,8 @@ struct ShoppingListScreen: View {
   }
 }
 
-struct ShoppingListScreen_Previews: PreviewProvider {
+struct ShoppingItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingListScreen()
+    ShoppingItemListView()
   }
 }

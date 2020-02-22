@@ -11,12 +11,12 @@ import SwiftUI
 struct ContentView: View {
   var body: some View {
     TabView {
-      ShoppingListScreen()
+      ShoppingItemListView()
         .tabItem {
           Image(systemName: "cart")
           Text("Mercado")
       }
-      FinancesScreen()
+      TransactionItemListView()
         .tabItem {
           Image(systemName: "dollarsign.circle")
           Text("Finanças")

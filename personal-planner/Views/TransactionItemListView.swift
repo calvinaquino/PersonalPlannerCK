@@ -1,5 +1,5 @@
 //
-//  FinancesScreen.swift
+//  TransactionItemListView.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-02-21.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct FinancesScreen: View {
+struct TransactionItemListView: View {
   
   @FetchRequest(fetchRequest: TransactionItem.allFetchRequest()) var transactionItems: FetchedResults<TransactionItem>
   
@@ -42,8 +42,8 @@ struct FinancesScreen: View {
   }
 }
 
-struct FinancesScreen_Previews: PreviewProvider {
+struct TransactionItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    FinancesScreen()
+    TransactionItemListView()
   }
 }

@@ -23,11 +23,13 @@
 		44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC32400AAD100B4EA0B /* TransactionItem.swift */; };
 		44B24BC62400AAD900B4EA0B /* TransactionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */; };
 		44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */; };
-		44B24BCB2400AD2100B4EA0B /* ShoppingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCA2400AD2100B4EA0B /* ShoppingListScreen.swift */; };
-		44B24BCD2400AD3F00B4EA0B /* FinancesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCC2400AD3F00B4EA0B /* FinancesScreen.swift */; };
+		44B24BCB2400AD2100B4EA0B /* ShoppingItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCA2400AD2100B4EA0B /* ShoppingItemListView.swift */; };
+		44B24BCD2400AD3F00B4EA0B /* TransactionItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCC2400AD3F00B4EA0B /* TransactionItemListView.swift */; };
 		44B24BD02400AD5F00B4EA0B /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */; };
 		44B24BD22400AD7200B4EA0B /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD12400AD7200B4EA0B /* SearchBar.swift */; };
 		44B24BD42400CE2600B4EA0B /* ManagedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD32400CE2600B4EA0B /* ManagedRecord.swift */; };
+		44B24BD62401AA4D00B4EA0B /* ShoppingItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD52401AA4D00B4EA0B /* ShoppingItemFormView.swift */; };
+		44B24BD82401AD7A00B4EA0B /* ConversionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,11 +73,13 @@
 		44B24BC32400AAD100B4EA0B /* TransactionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItem.swift; sourceTree = "<group>"; };
 		44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategory.swift; sourceTree = "<group>"; };
 		44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
-		44B24BCA2400AD2100B4EA0B /* ShoppingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListScreen.swift; sourceTree = "<group>"; };
-		44B24BCC2400AD3F00B4EA0B /* FinancesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesScreen.swift; sourceTree = "<group>"; };
+		44B24BCA2400AD2100B4EA0B /* ShoppingItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemListView.swift; sourceTree = "<group>"; };
+		44B24BCC2400AD3F00B4EA0B /* TransactionItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemListView.swift; sourceTree = "<group>"; };
 		44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		44B24BD12400AD7200B4EA0B /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		44B24BD32400CE2600B4EA0B /* ManagedRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedRecord.swift; sourceTree = "<group>"; };
+		44B24BD52401AA4D00B4EA0B /* ShoppingItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemFormView.swift; sourceTree = "<group>"; };
+		44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +136,8 @@
 				44B24B7F24007B3300B4EA0B /* AppDelegate.swift */,
 				44B24B8124007B3300B4EA0B /* SceneDelegate.swift */,
 				44B24BC72400ACAE00B4EA0B /* Utils */,
-				44B24BB724009DFC00B4EA0B /* Data */,
 				44B24BB624009DEF00B4EA0B /* Views */,
+				44B24BB724009DFC00B4EA0B /* Data */,
 				44B24BCE2400AD5100B4EA0B /* Components */,
 				44B24B8824007B3500B4EA0B /* Assets.xcassets */,
 				44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */,
@@ -182,8 +186,9 @@
 			isa = PBXGroup;
 			children = (
 				44B24B8624007B3300B4EA0B /* ContentView.swift */,
-				44B24BCA2400AD2100B4EA0B /* ShoppingListScreen.swift */,
-				44B24BCC2400AD3F00B4EA0B /* FinancesScreen.swift */,
+				44B24BCA2400AD2100B4EA0B /* ShoppingItemListView.swift */,
+				44B24BCC2400AD3F00B4EA0B /* TransactionItemListView.swift */,
+				44B24BD52401AA4D00B4EA0B /* ShoppingItemFormView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */,
+				44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -355,14 +361,16 @@
 				44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */,
 				44B24BBB24009E3F00B4EA0B /* Store.swift in Sources */,
 				44B24BC22400AACB00B4EA0B /* ShoppingCategory.swift in Sources */,
-				44B24BCB2400AD2100B4EA0B /* ShoppingListScreen.swift in Sources */,
+				44B24BCB2400AD2100B4EA0B /* ShoppingItemListView.swift in Sources */,
 				44B24BD22400AD7200B4EA0B /* SearchBar.swift in Sources */,
+				44B24BD82401AD7A00B4EA0B /* ConversionUtils.swift in Sources */,
 				44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */,
 				44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */,
 				44B24BD42400CE2600B4EA0B /* ManagedRecord.swift in Sources */,
+				44B24BD62401AA4D00B4EA0B /* ShoppingItemFormView.swift in Sources */,
 				44B24BB924009E1200B4EA0B /* ShoppingItem.swift in Sources */,
 				44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */,
-				44B24BCD2400AD3F00B4EA0B /* FinancesScreen.swift in Sources */,
+				44B24BCD2400AD3F00B4EA0B /* TransactionItemListView.swift in Sources */,
 				44B24BC62400AAD900B4EA0B /* TransactionCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
