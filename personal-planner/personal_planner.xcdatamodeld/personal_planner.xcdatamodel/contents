@@ -1,4 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="true" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Xcode 11.0" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="ShoppingCategory" representedClassName=".ShoppingCategory" syncable="YES">
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <relationship name="shoppingItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingItem" inverseName="shoppingCategory" inverseEntity="ShoppingItem"/>
+    </entity>
+    <entity name="ShoppingItem" representedClassName=".ShoppingItem" syncable="YES">
+        <attribute name="isNeeded" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="localizedName" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="price" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="shoppingCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ShoppingCategory" inverseName="shoppingItems" inverseEntity="ShoppingCategory"/>
+    </entity>
+    <entity name="TransactionCategory" representedClassName=".TransactionCategory" syncable="YES">
+        <attribute name="budget" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <relationship name="transactionItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TransactionItem" inverseName="transactionCategory" inverseEntity="TransactionItem"/>
+    </entity>
+    <entity name="TransactionItem" representedClassName=".TransactionItem" syncable="YES">
+        <attribute name="day" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="month" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="value" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="year" attributeType="Integer 16" defaultValueString="2020" usesScalarValueType="YES"/>
+        <relationship name="transactionCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionCategory" inverseName="transactionItems" inverseEntity="TransactionCategory"/>
+    </entity>
+    <elements>
+        <element name="ShoppingCategory" positionX="347.046875" positionY="15.45703125" width="128" height="73"/>
+        <element name="ShoppingItem" positionX="75.546875" positionY="-26.046875" width="128" height="118"/>
+        <element name="TransactionCategory" positionX="308.0859375" positionY="-182.859375" width="128" height="88"/>
+        <element name="TransactionItem" positionX="65.16796875" positionY="-242.109375" width="128" height="148"/>
+    </elements>
 </model>

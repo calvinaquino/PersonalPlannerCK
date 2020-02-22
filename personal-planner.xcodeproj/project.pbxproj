@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,17 @@
 		44B24B9A24007B3600B4EA0B /* personal_plannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B9924007B3600B4EA0B /* personal_plannerTests.swift */; };
 		44B24BA524007B3600B4EA0B /* personal_plannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BA424007B3600B4EA0B /* personal_plannerUITests.swift */; };
 		44B24BB524007C9800B4EA0B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B24BB424007C9800B4EA0B /* CloudKit.framework */; };
+		44B24BB924009E1200B4EA0B /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BB824009E1200B4EA0B /* ShoppingItem.swift */; };
+		44B24BBB24009E3F00B4EA0B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BBA24009E3F00B4EA0B /* Store.swift */; };
+		44B24BC22400AACB00B4EA0B /* ShoppingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */; };
+		44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC32400AAD100B4EA0B /* TransactionItem.swift */; };
+		44B24BC62400AAD900B4EA0B /* TransactionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */; };
+		44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */; };
+		44B24BCB2400AD2100B4EA0B /* ShoppingListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCA2400AD2100B4EA0B /* ShoppingListScreen.swift */; };
+		44B24BCD2400AD3F00B4EA0B /* FinancesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCC2400AD3F00B4EA0B /* FinancesScreen.swift */; };
+		44B24BD02400AD5F00B4EA0B /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */; };
+		44B24BD22400AD7200B4EA0B /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD12400AD7200B4EA0B /* SearchBar.swift */; };
+		44B24BD42400CE2600B4EA0B /* ManagedRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD32400CE2600B4EA0B /* ManagedRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +65,17 @@
 		44B24BA624007B3600B4EA0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44B24BB224007C2800B4EA0B /* personal-planner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "personal-planner.entitlements"; sourceTree = "<group>"; };
 		44B24BB424007C9800B4EA0B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		44B24BB824009E1200B4EA0B /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
+		44B24BBA24009E3F00B4EA0B /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCategory.swift; sourceTree = "<group>"; };
+		44B24BC32400AAD100B4EA0B /* TransactionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItem.swift; sourceTree = "<group>"; };
+		44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategory.swift; sourceTree = "<group>"; };
+		44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
+		44B24BCA2400AD2100B4EA0B /* ShoppingListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListScreen.swift; sourceTree = "<group>"; };
+		44B24BCC2400AD3F00B4EA0B /* FinancesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancesScreen.swift; sourceTree = "<group>"; };
+		44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
+		44B24BD12400AD7200B4EA0B /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		44B24BD32400CE2600B4EA0B /* ManagedRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +131,10 @@
 				44B24BB224007C2800B4EA0B /* personal-planner.entitlements */,
 				44B24B7F24007B3300B4EA0B /* AppDelegate.swift */,
 				44B24B8124007B3300B4EA0B /* SceneDelegate.swift */,
-				44B24B8624007B3300B4EA0B /* ContentView.swift */,
+				44B24BC72400ACAE00B4EA0B /* Utils */,
+				44B24BB724009DFC00B4EA0B /* Data */,
+				44B24BB624009DEF00B4EA0B /* Views */,
+				44B24BCE2400AD5100B4EA0B /* Components */,
 				44B24B8824007B3500B4EA0B /* Assets.xcassets */,
 				44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */,
 				44B24B9024007B3500B4EA0B /* Info.plist */,
@@ -151,6 +176,46 @@
 				44B24BB424007C9800B4EA0B /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		44B24BB624009DEF00B4EA0B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				44B24B8624007B3300B4EA0B /* ContentView.swift */,
+				44B24BCA2400AD2100B4EA0B /* ShoppingListScreen.swift */,
+				44B24BCC2400AD3F00B4EA0B /* FinancesScreen.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		44B24BB724009DFC00B4EA0B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				44B24BB824009E1200B4EA0B /* ShoppingItem.swift */,
+				44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */,
+				44B24BC32400AAD100B4EA0B /* TransactionItem.swift */,
+				44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */,
+				44B24BD32400CE2600B4EA0B /* ManagedRecord.swift */,
+				44B24BBA24009E3F00B4EA0B /* Store.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		44B24BC72400ACAE00B4EA0B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		44B24BCE2400AD5100B4EA0B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */,
+				44B24BD12400AD7200B4EA0B /* SearchBar.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +298,7 @@
 				};
 			};
 			buildConfigurationList = 44B24B7724007B3300B4EA0B /* Build configuration list for PBXProject "personal-planner" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -285,9 +350,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */,
+				44B24BD02400AD5F00B4EA0B /* Toolbar.swift in Sources */,
 				44B24B8024007B3300B4EA0B /* AppDelegate.swift in Sources */,
 				44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */,
+				44B24BBB24009E3F00B4EA0B /* Store.swift in Sources */,
+				44B24BC22400AACB00B4EA0B /* ShoppingCategory.swift in Sources */,
+				44B24BCB2400AD2100B4EA0B /* ShoppingListScreen.swift in Sources */,
+				44B24BD22400AD7200B4EA0B /* SearchBar.swift in Sources */,
+				44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */,
+				44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */,
+				44B24BD42400CE2600B4EA0B /* ManagedRecord.swift in Sources */,
+				44B24BB924009E1200B4EA0B /* ShoppingItem.swift in Sources */,
 				44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */,
+				44B24BCD2400AD3F00B4EA0B /* FinancesScreen.swift in Sources */,
+				44B24BC62400AAD900B4EA0B /* TransactionCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +530,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "personal-planner/personal-planner.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"personal-planner/Preview Content\"";
 				DEVELOPMENT_TEAM = 5F35F2ZNFF;
 				ENABLE_PREVIEWS = YES;
@@ -464,6 +541,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -475,6 +553,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "personal-planner/personal-planner.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"personal-planner/Preview Content\"";
 				DEVELOPMENT_TEAM = 5F35F2ZNFF;
 				ENABLE_PREVIEWS = YES;
@@ -485,6 +564,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
