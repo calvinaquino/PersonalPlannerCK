@@ -26,6 +26,7 @@ struct TransactionItemListView: View {
         Toolbar {
           Button(action: {
             self.viewingDate.previousMonth()
+            self.total = 0.0
           }) {
             Image(systemName: "chevron.left")
           }
@@ -36,6 +37,7 @@ struct TransactionItemListView: View {
           Spacer()
           Button(action: {
             self.viewingDate.nextMonth()
+            self.total = 0.0
           }) {
             Image(systemName: "chevron.right")
           }

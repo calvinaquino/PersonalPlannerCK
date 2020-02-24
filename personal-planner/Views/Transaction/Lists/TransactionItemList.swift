@@ -14,7 +14,9 @@ import SwiftUI
 
 struct TransactionItemList: View {
   
-  var fetchRequest: FetchRequest<TransactionItem>
+  var itemFetchRequest: FetchRequest<TransactionItem>
+  var categoryfetchRequest: FetchRequest<TransactionCategory>
+
   @State private var showingFormScreen = false
   @State private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
@@ -26,25 +28,36 @@ struct TransactionItemList: View {
     } else {
       predicate = NSPredicate(format: "month == %@ AND year == %@", month.numberValue, year.numberValue)
     }
-    fetchRequest = FetchRequest<TransactionItem>(entity: TransactionItem.entity(), sortDescriptors: [], predicate: predicate)
+    itemFetchRequest = FetchRequest<TransactionItem>(entity: TransactionItem.entity(), sortDescriptors: [], predicate: predicate)
     totalTransaction = total
+    categoryfetchRequest = FetchRequest<TransactionCategory>(entity: TransactionCategory.entity(), sortDescriptors: [])
+  }
+  
+  var sections: [TransactionSection] {
+    TransactionSection.sections(items: itemFetchRequest, categories: categoryfetchRequest)
   }
   
   var body: some View {
     List {
-      ForEach(fetchRequest.wrappedValue, id: \.self) { item in
-        HStack {
-          Text(item.name)
-          Spacer()
-          Text(String(item.value))
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-          self.editingItem = item
-          self.showingFormScreen.toggle()
+      ForEach(sections, id: \.categoryName) { section in
+        Section(header: Text(section.categoryName)) {
+          ForEach(section.transactions, id: \.id) { item in
+            HStack {
+              Text(item.name)
+              Spacer()
+              Text(String(item.value))
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+              self.editingItem = item
+              self.showingFormScreen.toggle()
+            }
+          }
+          .onDelete(perform: { offsets in
+            self.delete(at: offsets, in: section)
+          })
         }
       }
-      .onDelete(perform: self.delete)
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
@@ -56,16 +69,16 @@ struct TransactionItemList: View {
     }
   }
   
-  func delete(at offsets: IndexSet) {
+  func delete(at offsets: IndexSet, in section: TransactionSection) {
     for offset in offsets {
-      let item = self.fetchRequest.wrappedValue[offset]
+      let item = section.transactions[offset]
       Store.context.delete(item)
     }
     Store.save()
   }
   
   func updateTotals() {
-    self.totalTransaction.wrappedValue = self.fetchRequest.wrappedValue.reduce(0) { $1.value + $0 }
+    self.totalTransaction.wrappedValue = self.itemFetchRequest.wrappedValue.reduce(0) { $1.value + $0 }
   }
 }
 

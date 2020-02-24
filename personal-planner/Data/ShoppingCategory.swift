@@ -23,4 +23,3 @@ class ShoppingCategory : NSManagedObject, Identifiable {
     return request
   }
 }
-

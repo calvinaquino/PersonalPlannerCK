@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ShoppingItemList: View {
   
-  var fetchRequest: FetchRequest<ShoppingItem>
+  var itemFetchRequest: FetchRequest<ShoppingItem>
+  var categoryfetchRequest: FetchRequest<ShoppingCategory>
   
   @State private var showingFormScreen = false
   @State private var editingItem: ShoppingItem?
@@ -20,29 +21,40 @@ struct ShoppingItemList: View {
     if !query.isEmpty {
       predicate = NSPredicate(format: "name CONTAINS[c] %@", query)
     }
-    fetchRequest = FetchRequest<ShoppingItem>(entity: ShoppingItem.entity(), sortDescriptors: [], predicate: predicate)
+    itemFetchRequest = FetchRequest<ShoppingItem>(entity: ShoppingItem.entity(), sortDescriptors: [], predicate: predicate)
+    categoryfetchRequest = FetchRequest<ShoppingCategory>(entity: ShoppingCategory.entity(), sortDescriptors: [])
+  }
+  
+  var sections: [ShoppingSection] {
+    ShoppingSection.sections(items: itemFetchRequest, categories: categoryfetchRequest)
   }
   
   var body: some View {
     List {
-      ForEach(fetchRequest.wrappedValue, id: \.self) { item in
-        HStack {
-          Text(item.name)
-          Spacer()
-          Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
-          .foregroundColor(Color(.systemBlue))
-          .onTapGesture {
-            item.isNeeded.toggle()
-            Store.save()
+      ForEach(sections, id: \.categoryName) { section in
+        Section(header: Text(section.categoryName)) {
+          ForEach(section.items, id: \.id) { item in
+            HStack {
+              Text(item.name)
+              Spacer()
+              Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
+              .foregroundColor(Color(.systemBlue))
+              .onTapGesture {
+                item.isNeeded.toggle()
+                Store.save()
+              }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+              self.editingItem = item
+              self.showingFormScreen.toggle()
+            }
           }
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-          self.editingItem = item
-          self.showingFormScreen.toggle()
+          .onDelete(perform: { offsets in
+            self.delete(at: offsets, in: section)
+          })
         }
       }
-      .onDelete(perform: self.delete)
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
@@ -51,9 +63,9 @@ struct ShoppingItemList: View {
     }
   }
   
-  func delete(at offsets: IndexSet) {
+  func delete(at offsets: IndexSet, in section: ShoppingSection) {
     for offset in offsets {
-      let item = self.fetchRequest.wrappedValue[offset]
+      let item = section.items[offset]
       Store.context.delete(item)
     }
     Store.save()

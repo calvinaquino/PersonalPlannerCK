@@ -28,6 +28,8 @@ class Store {
     return container
   }()
   
+  // MARK: - Convenience
+  
   class var context: NSManagedObjectContext {
     Store.shared.persistentContainer.viewContext
   }

@@ -16,6 +16,8 @@
 		448E927E2403AB3D00EC2DA1 /* TransactionCategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E927D2403AB3D00EC2DA1 /* TransactionCategoryFormView.swift */; };
 		448E92842403C01A00EC2DA1 /* ShoppingCategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92832403C01A00EC2DA1 /* ShoppingCategoryList.swift */; };
 		448E92862403C18700EC2DA1 /* TransactionCategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92852403C18700EC2DA1 /* TransactionCategoryList.swift */; };
+		448E92882403C43F00EC2DA1 /* ShoppingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92872403C43F00EC2DA1 /* ShoppingSection.swift */; };
+		448E928A2403C45200EC2DA1 /* TransactionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92892403C45200EC2DA1 /* TransactionSection.swift */; };
 		44B24B8024007B3300B4EA0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B7F24007B3300B4EA0B /* AppDelegate.swift */; };
 		44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8124007B3300B4EA0B /* SceneDelegate.swift */; };
 		44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8324007B3300B4EA0B /* personal_planner.xcdatamodeld */; };
@@ -67,6 +69,8 @@
 		448E927D2403AB3D00EC2DA1 /* TransactionCategoryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategoryFormView.swift; sourceTree = "<group>"; };
 		448E92832403C01A00EC2DA1 /* ShoppingCategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCategoryList.swift; sourceTree = "<group>"; };
 		448E92852403C18700EC2DA1 /* TransactionCategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategoryList.swift; sourceTree = "<group>"; };
+		448E92872403C43F00EC2DA1 /* ShoppingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingSection.swift; sourceTree = "<group>"; };
+		448E92892403C45200EC2DA1 /* TransactionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSection.swift; sourceTree = "<group>"; };
 		44B24B7C24007B3300B4EA0B /* personal-planner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "personal-planner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44B24B7F24007B3300B4EA0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44B24B8124007B3300B4EA0B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -273,6 +277,8 @@
 				44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */,
 				44B24BC32400AAD100B4EA0B /* TransactionItem.swift */,
 				44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */,
+				448E92872403C43F00EC2DA1 /* ShoppingSection.swift */,
+				448E92892403C45200EC2DA1 /* TransactionSection.swift */,
 				44B24BBA24009E3F00B4EA0B /* Store.swift */,
 			);
 			path = Data;
@@ -442,11 +448,13 @@
 				448E92862403C18700EC2DA1 /* TransactionCategoryList.swift in Sources */,
 				44B24BD82401AD7A00B4EA0B /* ConversionUtils.swift in Sources */,
 				44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */,
+				448E92882403C43F00EC2DA1 /* ShoppingSection.swift in Sources */,
 				444283C324024EDF005D731A /* TransactionItemFormView.swift in Sources */,
 				44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */,
 				44B24BD62401AA4D00B4EA0B /* ShoppingItemFormView.swift in Sources */,
 				448E927C2403AA1100EC2DA1 /* TransactionCategoryListView.swift in Sources */,
 				44B24BB924009E1200B4EA0B /* ShoppingItem.swift in Sources */,
+				448E928A2403C45200EC2DA1 /* TransactionSection.swift in Sources */,
 				448E26D5240353D30055702C /* ShoppingItemList.swift in Sources */,
 				444283C524032988005D731A /* TransactionItemList.swift in Sources */,
 				44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */,
