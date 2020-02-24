@@ -10,13 +10,25 @@ import Foundation
 
 import Foundation
 
-class CalendarHelper {
-  var month: Int!
-  var year: Int!
+class CalendarHelper: ObservableObject {
+  @Published var month: Int16!
+  @Published var year: Int16!
+  
+  class func monthNow() -> Int16 {
+    Int16(Calendar.current.component(.month, from: Date()))
+  }
+  
+  class func yearNow() -> Int16 {
+    Int16(Calendar.current.component(.year, from: Date()))
+  }
+  
+  class func dayNow() -> Int16 {
+    Int16(Calendar.current.component(.day, from: Date()))
+  }
   
   init() {
-    self.month = Calendar.current.component(.month, from: Date()) - 1 // keep it zero base
-    self.year = Calendar.current.component(.year, from: Date())
+    self.month = CalendarHelper.monthNow()
+    self.year = CalendarHelper.yearNow()
   }
   
   func nextMonth() {
@@ -38,6 +50,6 @@ class CalendarHelper {
   }
   
   func currentMonthAndYear() -> String {
-    return DateFormatter().monthSymbols[self.month] + " \(self.year!)"
+    return DateFormatter().monthSymbols[self.month.intValue] + " \(self.year!.intValue)"
   }
 }

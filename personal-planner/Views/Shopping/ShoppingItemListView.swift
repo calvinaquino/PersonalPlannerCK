@@ -14,11 +14,12 @@ struct ShoppingItemListView: View {
   @FetchRequest(fetchRequest: ShoppingItem.allFetchRequest()) var shoppingItems: FetchedResults<ShoppingItem>
   @State private var showingFormScreen = false
   @State private var editingItem: ShoppingItem?
+  @State private var searchText: String = ""
   
   var body: some View {
     NavigationView {
       VStack {
-        SearchBar()
+        SearchBar(searchText: self.$searchText)
         List {
           ForEach(self.shoppingItems) { item in
             Text(item.name)
@@ -31,15 +32,15 @@ struct ShoppingItemListView: View {
         }
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
-      .navigationBarItems(trailing: Button(action: {
-        self.showingFormScreen.toggle()
-      }) {
+      .navigationBarItems(leading: NavigationLink(destination: ShoppingCategoryListView()) {
+        Image(systemName: "folder")
+      }, trailing: Button(action: { self.showingFormScreen.toggle()}) {
         Image(systemName: "plus")
       })
-        .sheet(isPresented: $showingFormScreen, onDismiss: {
-          self.editingItem = nil
-        }) {
-          ShoppingItemFormView(item: self.editingItem).environment(\.managedObjectContext, Store.context)
+      .sheet(isPresented: $showingFormScreen, onDismiss: {
+        self.editingItem = nil
+      }) {
+        ShoppingItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
       }
     }
   }

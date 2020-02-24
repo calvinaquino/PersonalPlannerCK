@@ -9,10 +9,14 @@
 import CoreData
 import Foundation
 
-class TransactionCategory : ManagedRecord, Identifiable {
+class TransactionCategory : NSManagedObject, Identifiable {
   @NSManaged var name: String
   @NSManaged var budget: Double
   @NSManaged var transactionItems: [TransactionItem]?
+  
+  convenience init() {
+    self.init(context: Store.context)
+  }
   
   static func allFetchRequest() -> NSFetchRequest<TransactionCategory> {
     let request : NSFetchRequest<TransactionCategory> = TransactionCategory.fetchRequest() as! NSFetchRequest<TransactionCategory>

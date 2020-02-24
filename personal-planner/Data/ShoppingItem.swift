@@ -7,9 +7,9 @@
 //
 
 import CoreData
-import Foundation
+import SwiftUI
 
-class ShoppingItem : ManagedRecord, Identifiable {
+class ShoppingItem : NSManagedObject, Identifiable {
   @NSManaged var name: String
   @NSManaged var price: Double
   @NSManaged var localizedName: String?
@@ -26,3 +26,9 @@ class ShoppingItem : ManagedRecord, Identifiable {
     return request
   }
 }
+
+//@propertyWrapper
+//struct FetchedShoppingItems {
+//  @FetchRequest(fetchRequest: ShoppingItem.allFetchRequest()) private var items: FetchedResults<ShoppingItem>
+//  var wrappedValue: FetchedResults<ShoppingItem> { items }
+//}

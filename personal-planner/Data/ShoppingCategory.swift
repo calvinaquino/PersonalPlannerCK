@@ -9,9 +9,13 @@
 import CoreData
 import Foundation
 
-class ShoppingCategory : ManagedRecord, Identifiable {
+class ShoppingCategory : NSManagedObject, Identifiable {
   @NSManaged var name: String
   @NSManaged var shoppingItems: [ShoppingItem]?
+  
+  convenience init() {
+    self.init(context: Store.context)
+  }
   
   static func allFetchRequest() -> NSFetchRequest<ShoppingCategory> {
     let request : NSFetchRequest<ShoppingCategory> = ShoppingCategory.fetchRequest() as! NSFetchRequest<ShoppingCategory>

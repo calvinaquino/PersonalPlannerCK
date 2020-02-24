@@ -47,9 +47,10 @@ struct ShoppingItemFormView: View {
             .keyboardType(.decimalPad)
           Toggle("Em falta", isOn: $isNeeded)
           Picker("Categoria", selection: $category) {
-            ForEach(categories, id: \.self) {
-              Text($0.name)
+            ForEach(categories, id: \.self) { item in
+              Text(item.name).tag(item as ShoppingCategory?)
             }
+            Text("Geral").tag(nil as ShoppingCategory?)
           }
         }
         Section {
@@ -65,7 +66,7 @@ struct ShoppingItemFormView: View {
           }
         }
       }
-      .navigationBarTitle("Novo item")
+      .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
     }
   }
 }

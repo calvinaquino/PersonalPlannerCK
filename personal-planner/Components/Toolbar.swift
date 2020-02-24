@@ -18,7 +18,7 @@ struct Toolbar<Content>: View where Content : View {
   
   var body: some View {
     ZStack {
-      Color.white
+      Color(.systemGray6)
       HStack {
         self.content()
       }
