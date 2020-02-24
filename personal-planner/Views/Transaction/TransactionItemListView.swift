@@ -19,7 +19,7 @@ struct TransactionItemListView: View {
     NavigationView {
       VStack {
         SearchBar(searchText: self.$searchText)
-        TransactionItemList(month: self.viewingDate.month, year: self.viewingDate.year, total: self.$total)
+        TransactionItemList(month: self.viewingDate.month, year: self.viewingDate.year, total: self.$total, query: self.searchText)
         .sheet(isPresented: $showingFormScreen) {
             TransactionItemFormView(with: nil).environment(\.managedObjectContext, Store.context)
         }

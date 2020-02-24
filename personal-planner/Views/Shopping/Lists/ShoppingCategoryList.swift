@@ -1,26 +1,26 @@
 //
-//  ShoppingItemList.swift
+//  ShoppingCategoryList.swift
 //  personal-planner
 //
-//  Created by Calvin De Aquino on 2020-02-23.
+//  Created by Calvin De Aquino on 2020-02-24.
 //  Copyright © 2020 Calvin Aquino. All rights reserved.
 //
 
 import SwiftUI
 
-struct ShoppingItemList: View {
+struct ShoppingCategoryList: View {
   
-  var fetchRequest: FetchRequest<ShoppingItem>
+  var fetchRequest: FetchRequest<ShoppingCategory>
   
   @State private var showingFormScreen = false
-  @State private var editingItem: ShoppingItem?
+  @State private var editingItem: ShoppingCategory?
   
-  init(query: String?) {
+  init(query: String) {
     var predicate: NSPredicate? = nil
-    if let query = query {
+    if !query.isEmpty {
       predicate = NSPredicate(format: "name CONTAINS[c] %@", query)
     }
-    fetchRequest = FetchRequest<ShoppingItem>(entity: ShoppingItem.entity(), sortDescriptors: [], predicate: predicate)
+    fetchRequest = FetchRequest<ShoppingCategory>(entity: ShoppingCategory.entity(), sortDescriptors: [], predicate: predicate)
   }
   
   var body: some View {
@@ -29,6 +29,7 @@ struct ShoppingItemList: View {
         HStack {
           Text(item.name)
         }
+        .contentShape(Rectangle())
         .onTapGesture {
           self.editingItem = item
           self.showingFormScreen.toggle()
@@ -38,7 +39,7 @@ struct ShoppingItemList: View {
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
-          ShoppingItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
+          ShoppingCategoryFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
       }
     }
   }
@@ -52,8 +53,8 @@ struct ShoppingItemList: View {
   }
 }
 
-struct ShoppingItemList_Previews: PreviewProvider {
-  static var previews: some View {
-    ShoppingItemList(query: nil)
-  }
+struct ShoppingCategoryList_Previews: PreviewProvider {
+    static var previews: some View {
+        ShoppingCategoryList(query: "")
+    }
 }

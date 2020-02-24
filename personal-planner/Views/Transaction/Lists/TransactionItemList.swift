@@ -19,8 +19,14 @@ struct TransactionItemList: View {
   @State private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
   
-  init(month: Int16, year: Int16, total: Binding<Double>) {
-    fetchRequest = FetchRequest<TransactionItem>(entity: TransactionItem.entity(), sortDescriptors: [], predicate: NSPredicate(format: "month == %@ AND year == %@", month.numberValue, year.numberValue))
+  init(month: Int16, year: Int16, total: Binding<Double>, query: String) {
+    var predicate: NSPredicate? = nil
+    if !query.isEmpty {
+      predicate = NSPredicate(format: "month == %@ AND year == %@ AND name CONTAINS[c] %@ ", month.numberValue, year.numberValue, query)
+    } else {
+      predicate = NSPredicate(format: "month == %@ AND year == %@", month.numberValue, year.numberValue)
+    }
+    fetchRequest = FetchRequest<TransactionItem>(entity: TransactionItem.entity(), sortDescriptors: [], predicate: predicate)
     totalTransaction = total
   }
   
@@ -32,6 +38,7 @@ struct TransactionItemList: View {
           Spacer()
           Text(String(item.value))
         }
+        .contentShape(Rectangle())
         .onTapGesture {
           self.editingItem = item
           self.showingFormScreen.toggle()
@@ -64,6 +71,6 @@ struct TransactionItemList: View {
 
 struct TransactionItemList_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionItemList(month: 2, year: 2020, total: .constant(200.0))
+    TransactionItemList(month: 2, year: 2020, total: .constant(200.0), query: "")
   }
 }

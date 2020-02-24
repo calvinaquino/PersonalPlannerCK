@@ -11,46 +11,25 @@ import SwiftUI
 
 struct ShoppingItemListView: View {
   
-  @FetchRequest(fetchRequest: ShoppingItem.allFetchRequest()) var shoppingItems: FetchedResults<ShoppingItem>
   @State private var showingFormScreen = false
-  @State private var editingItem: ShoppingItem?
   @State private var searchText: String = ""
   
   var body: some View {
     NavigationView {
       VStack {
         SearchBar(searchText: self.$searchText)
-        List {
-          ForEach(self.shoppingItems) { item in
-            Text(item.name)
-              .onTapGesture {
-                self.editingItem = item
-                self.showingFormScreen.toggle()
-              }
-          }
-          .onDelete(perform: self.delete)
+        ShoppingItemList(query: searchText)
+        .sheet(isPresented: $showingFormScreen) {
+            ShoppingItemFormView(with: nil).environment(\.managedObjectContext, Store.context)
         }
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: ShoppingCategoryListView()) {
         Image(systemName: "folder")
-      }, trailing: Button(action: { self.showingFormScreen.toggle()}) {
+        }, trailing: Button(action: { self.showingFormScreen.toggle()}) {
         Image(systemName: "plus")
       })
-      .sheet(isPresented: $showingFormScreen, onDismiss: {
-        self.editingItem = nil
-      }) {
-        ShoppingItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
-      }
     }
-  }
-  
-  func delete(at offsets: IndexSet) {
-    for offset in offsets {
-      let item = self.shoppingItems[offset]
-      Store.context.delete(item)
-    }
-    Store.save()
   }
 }
 

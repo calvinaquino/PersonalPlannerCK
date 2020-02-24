@@ -9,46 +9,23 @@
 import SwiftUI
 
 struct TransactionCategoryListView: View {
-  @FetchRequest(fetchRequest: TransactionCategory.allFetchRequest()) var items: FetchedResults<TransactionCategory>
   @State private var showingFormScreen = false
-  @State private var editingItem: TransactionCategory?
   @State private var searchText: String = ""
   
   var body: some View {
-    NavigationView {
-      VStack {
-        SearchBar(searchText: self.$searchText)
-        List {
-          ForEach(self.items) { item in
-            Text(item.name)
-              .onTapGesture {
-                self.editingItem = item
-                self.showingFormScreen.toggle()
-              }
-          }
-          .onDelete(perform: self.delete)
-        }
-      }
-      .navigationBarTitle("Categorias", displayMode: .inline)
-      .navigationBarItems(trailing: Button(action: {
-        self.showingFormScreen.toggle()
-      }) {
-        Image(systemName: "plus")
-      })
-        .sheet(isPresented: $showingFormScreen, onDismiss: {
-          self.editingItem = nil
-        }) {
-          TransactionCategoryFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
+    VStack {
+      SearchBar(searchText: self.$searchText)
+      TransactionCategoryList(query: self.searchText)
+      .sheet(isPresented: $showingFormScreen) {
+          TransactionCategoryFormView(with: nil).environment(\.managedObjectContext, Store.context)
       }
     }
-  }
-  
-  func delete(at offsets: IndexSet) {
-    for offset in offsets {
-      let item = self.items[offset]
-      Store.context.delete(item)
-    }
-    Store.save()
+    .navigationBarTitle("Categorias", displayMode: .inline)
+    .navigationBarItems(trailing: Button(action: {
+      self.showingFormScreen.toggle()
+    }) {
+      Image(systemName: "plus")
+    })
   }
 }
 
