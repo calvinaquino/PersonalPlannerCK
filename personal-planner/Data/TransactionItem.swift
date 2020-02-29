@@ -16,7 +16,12 @@ class TransactionItem : NSManagedObject, Identifiable {
   @NSManaged var day: Int16
   @NSManaged var month: Int16
   @NSManaged var year: Int16
+  @NSManaged var isInflow: Bool
   @NSManaged var transactionCategory: TransactionCategory?
+  
+  var valueSigned: Double {
+    isInflow ? value : -value
+  }
   
   convenience init() {
     self.init(context: Store.context)

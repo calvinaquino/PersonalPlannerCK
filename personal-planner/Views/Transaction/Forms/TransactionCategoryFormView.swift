@@ -50,6 +50,6 @@ struct TransactionCategoryFormView: View {
 
 struct TransactionCategoryFormView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionCategoryFormView()
+    TransactionCategoryFormView().environment(\.managedObjectContext, Store.context)
   }
 }

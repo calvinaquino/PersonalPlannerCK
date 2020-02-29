@@ -11,10 +11,7 @@ import CloudKit
 import CoreData
 
 class Store {
-  static let shared: Store = {
-    let instance = Store()
-    return instance
-  }()
+  static let shared = Store()
   
   lazy var persistentContainer: NSPersistentCloudKitContainer = {
     let container = NSPersistentCloudKitContainer(name: "personal_planner")

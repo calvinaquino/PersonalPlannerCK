@@ -27,6 +27,8 @@ struct TransactionCategoryList: View {
       ForEach(fetchRequest.wrappedValue, id: \.self) { item in
         HStack {
           Text(item.name)
+          Spacer()
+          Text(item.budget.stringCurrencyValue)
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -54,6 +56,11 @@ struct TransactionCategoryList: View {
 
 struct TransactionCategoryList_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionCategoryList(query: "")
+    
+    let item1 = TransactionCategory()
+    item1.name = "Mercado"
+    item1.budget = 500.0
+    
+    return TransactionCategoryList(query: "").environment(\.managedObjectContext, Store.context)
   }
 }

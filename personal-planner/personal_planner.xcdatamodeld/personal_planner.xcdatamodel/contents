@@ -18,6 +18,7 @@
     </entity>
     <entity name="TransactionItem" representedClassName=".TransactionItem" syncable="YES">
         <attribute name="day" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="isInflow" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="location" optional="YES" attributeType="String"/>
         <attribute name="month" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
@@ -29,6 +30,6 @@
         <element name="ShoppingCategory" positionX="347.046875" positionY="15.45703125" width="128" height="73"/>
         <element name="ShoppingItem" positionX="75.546875" positionY="-26.046875" width="128" height="118"/>
         <element name="TransactionCategory" positionX="308.0859375" positionY="-182.859375" width="128" height="88"/>
-        <element name="TransactionItem" positionX="65.16796875" positionY="-242.109375" width="128" height="148"/>
+        <element name="TransactionItem" positionX="65.16796875" positionY="-242.109375" width="128" height="163"/>
     </elements>
 </model>

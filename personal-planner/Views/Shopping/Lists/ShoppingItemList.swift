@@ -36,8 +36,10 @@ struct ShoppingItemList: View {
           ForEach(section.items, id: \.id) { item in
             HStack {
               Text(item.name)
+              Text(item.price.stringCurrencyValue)
               Spacer()
               Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
+              .contentShape(Rectangle())
               .foregroundColor(Color(.systemBlue))
               .onTapGesture {
                 item.isNeeded.toggle()
@@ -74,6 +76,6 @@ struct ShoppingItemList: View {
 
 struct ShoppingItemList_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingItemList(query: "")
+    ShoppingItemList(query: "").environment(\.managedObjectContext, Store.context)
   }
 }

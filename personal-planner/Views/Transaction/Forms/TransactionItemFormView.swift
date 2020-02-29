@@ -22,6 +22,7 @@ struct TransactionItemFormView: View {
     _name = State(initialValue: item?.name ?? "")
     _value = State(initialValue: item?.value.stringValue ?? "")
     _date = State(initialValue: Date.with(day: item?.day, month: item?.month, year: item?.year))
+    _isInflow = State(initialValue: item?.isInflow ?? false)
     _category = State(initialValue: item?.transactionCategory ?? nil)
   }
   
@@ -33,6 +34,7 @@ struct TransactionItemFormView: View {
   @State private var name: String
   @State private var value: String
   @State private var date: Date
+  @State private var isInflow: Bool
   @State private var category: TransactionCategory?
   
   var body: some View {
@@ -42,6 +44,7 @@ struct TransactionItemFormView: View {
           TextField("Nome", text: $name)
           TextField("Valor", text: $value)
             .keyboardType(.decimalPad)
+          Toggle("Recebido", isOn: $isInflow)
           DatePicker(selection: $date, displayedComponents: .date) {
             Text("Data")
           }
@@ -57,6 +60,7 @@ struct TransactionItemFormView: View {
             let editingItem = self.item ?? TransactionItem()
             editingItem.name = self.name
             editingItem.value = self.value.doubleValue
+            editingItem.isInflow = self.isInflow
             editingItem.day = self.date.day
             editingItem.month = self.date.month
             editingItem.year = self.date.year
@@ -73,7 +77,7 @@ struct TransactionItemFormView: View {
 
 struct TransactionItemFormView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionItemFormView()
+    TransactionItemFormView().environment(\.managedObjectContext, Store.context)
   }
 }
 

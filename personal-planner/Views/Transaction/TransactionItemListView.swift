@@ -12,6 +12,7 @@ struct TransactionItemListView: View {
   
   @State private var viewingDate: Date = Date()
   @State private var showingFormScreen = false
+  @State private var showingAlert = false
   @State private var searchText: String = ""
   @State private var total: Double = 0.0
   
@@ -33,7 +34,11 @@ struct TransactionItemListView: View {
           Spacer()
           Text(self.viewingDate.currentMonthAndYear())
           Spacer()
-          Text(self.totalForMonth())
+          Button(action: {
+            self.showingAlert.toggle()
+          }) {
+            Text(self.totalForMonth())
+          }
           Spacer()
           Button(action: {
             self.viewingDate.nextMonth()
@@ -45,10 +50,26 @@ struct TransactionItemListView: View {
       }
       .navigationBarTitle("Finanças", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: TransactionCategoryListView()) {
-        Image(systemName: "folder")
+//        Image(systemName: "folder")
+        Text("Categorias")
       }, trailing: Button(action: { self.showingFormScreen.toggle() }) {
-        Image(systemName: "plus")
+//        Image(systemName: "plus")
+        Text("Novo")
       })
+      .alert(isPresented: self.$showingAlert) {
+        Alert(title: Text("Atenção"), message: Text("Gostaria de enviar \(self.total.stringCurrencyValue) como sobra para o próximo mês?"), primaryButton: .default(Text("Sim"), action: {
+          // create new events
+          let item = TransactionItem()
+          item.name = "Sobra mês anterior"
+          item.value = self.total
+          item.isInflow = true
+          item.day = 1
+          item.month = self.viewingDate.month + 1
+          item.year = self.viewingDate.year
+          Store.save()
+          
+        }), secondaryButton: .cancel(Text("Não")))
+      }
     }
   }
   
@@ -59,6 +80,6 @@ struct TransactionItemListView: View {
 
 struct TransactionItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionItemListView()
+    TransactionItemListView().environment(\.managedObjectContext, Store.context)
   }
 }

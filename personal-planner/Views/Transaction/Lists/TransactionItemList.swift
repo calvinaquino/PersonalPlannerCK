@@ -40,12 +40,16 @@ struct TransactionItemList: View {
   var body: some View {
     List {
       ForEach(sections, id: \.categoryName) { section in
-        Section(header: Text(section.categoryName)) {
+        Section(header: HStack{
+          Text(section.categoryName)
+          Spacer()
+          Text(section.total.stringCurrencyValue)
+        }) {
           ForEach(section.transactions, id: \.id) { item in
             HStack {
               Text(item.name)
               Spacer()
-              Text(String(item.value))
+              Text(item.valueSigned.stringCurrencyValue)
             }
             .contentShape(Rectangle())
             .onTapGesture {
@@ -56,15 +60,22 @@ struct TransactionItemList: View {
           .onDelete(perform: { offsets in
             self.delete(at: offsets, in: section)
           })
+          .onAppear {
+            self.updateTotals()
+          }
+          .onDisappear {
+            self.updateTotals()
+          }
         }
       }
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
-          TransactionItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
-      }
-      .onAppear {
-        self.updateTotals()
+          TransactionItemFormView(with: self.editingItem)
+            .environment(\.managedObjectContext, Store.context)
+            .onDisappear {
+              self.updateTotals()
+            }
       }
     }
   }
@@ -78,12 +89,29 @@ struct TransactionItemList: View {
   }
   
   func updateTotals() {
-    self.totalTransaction.wrappedValue = self.itemFetchRequest.wrappedValue.reduce(0) { $1.value + $0 }
+    self.totalTransaction.wrappedValue = self.itemFetchRequest.wrappedValue.reduce(0) { $1.valueSigned + $0 }
   }
 }
 
 struct TransactionItemList_Previews: PreviewProvider {
+  static let month: Int16 = 2
+  static let year: Int16 = 2020
+  
   static var previews: some View {
-    TransactionItemList(month: 2, year: 2020, total: .constant(200.0), query: "")
+    
+    let item1 = TransactionItem()
+    item1.name = "Compras"
+    item1.value = 230.0
+    item1.month = month
+    item1.year = year
+    
+    let item2 = TransactionItem()
+    item2.name = "Salario"
+    item2.value = 2000
+    item1.isInflow = true
+    item2.month = month
+    item2.year = year
+    
+    return TransactionItemList(month: month, year: year, total: .constant(200.0), query: "").environment(\.managedObjectContext, Store.context)
   }
 }

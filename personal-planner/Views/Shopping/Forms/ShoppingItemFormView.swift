@@ -73,6 +73,6 @@ struct ShoppingItemFormView: View {
 
 struct ShoppingItemFormView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingItemFormView()
+    ShoppingItemFormView().environment(\.managedObjectContext, Store.context)
   }
 }

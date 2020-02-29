@@ -25,9 +25,11 @@ struct ShoppingItemListView: View {
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: ShoppingCategoryListView()) {
-        Image(systemName: "folder")
+//        Image(systemName: "folder")
+        Text("Categorias")
         }, trailing: Button(action: { self.showingFormScreen.toggle()}) {
-        Image(systemName: "plus")
+//        Image(systemName: "plus")
+          Text("Novo")
       })
     }
   }
@@ -35,6 +37,6 @@ struct ShoppingItemListView: View {
 
 struct ShoppingItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingItemListView()
+    ShoppingItemListView().environment(\.managedObjectContext, Store.context)
   }
 }

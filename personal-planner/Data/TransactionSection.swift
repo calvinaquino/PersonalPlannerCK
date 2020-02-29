@@ -22,7 +22,7 @@ struct TransactionSection: Hashable {
   }
   
   var total: Double {
-    self.transactions.reduce(0) { $1.value + $0 }
+    self.transactions.reduce(0) { $1.valueSigned + $0 }
   }
   
   static func sections(items: FetchRequest<TransactionItem>, categories: FetchRequest<TransactionCategory>) -> [TransactionSection] {

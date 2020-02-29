@@ -29,6 +29,6 @@ struct ShoppingCategoryListView: View {
 
 struct ShoppingCategoryListView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingCategoryListView()
+    ShoppingCategoryListView().environment(\.managedObjectContext, Store.context)
   }
 }

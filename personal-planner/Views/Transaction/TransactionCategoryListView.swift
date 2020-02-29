@@ -31,6 +31,6 @@ struct TransactionCategoryListView: View {
 
 struct TransactionCategoryListView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionCategoryListView()
+    TransactionCategoryListView().environment(\.managedObjectContext, Store.context)
   }
 }

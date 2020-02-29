@@ -28,6 +28,7 @@ struct ShoppingCategoryList: View {
       ForEach(fetchRequest.wrappedValue, id: \.self) { item in
         HStack {
           Text(item.name)
+          Spacer()
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -55,6 +56,6 @@ struct ShoppingCategoryList: View {
 
 struct ShoppingCategoryList_Previews: PreviewProvider {
     static var previews: some View {
-        ShoppingCategoryList(query: "")
+        ShoppingCategoryList(query: "").environment(\.managedObjectContext, Store.context)
     }
 }
