@@ -28,7 +28,7 @@ struct TransactionItemFormView: View {
   
   private var item: TransactionItem?
   
-  @FetchRequest(fetchRequest: TransactionCategory.allFetchRequest()) var categories: FetchedResults<TransactionCategory>
+  @ObservedObject private var categories = TransactionCategories()
   @Environment(\.presentationMode) var presentationMode
   
   @State private var name: String
@@ -49,7 +49,7 @@ struct TransactionItemFormView: View {
             Text("Data")
           }
           Picker("Categoria", selection: $category) {
-            ForEach(categories, id: \.self) { item in
+            ForEach(categories.items, id: \.id) { item in
               Text(item.name).tag(item as TransactionCategory?)
             }
             Text("Geral").tag(nil as TransactionCategory?)
@@ -65,7 +65,7 @@ struct TransactionItemFormView: View {
             editingItem.month = self.date.month
             editingItem.year = self.date.year
             editingItem.transactionCategory = self.category
-            Store.save()
+            editingItem.save()
             self.presentationMode.wrappedValue.dismiss()
           }
         }
@@ -77,7 +77,7 @@ struct TransactionItemFormView: View {
 
 struct TransactionItemFormView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionItemFormView().environment(\.managedObjectContext, Store.context)
+    TransactionItemFormView()
   }
 }
 

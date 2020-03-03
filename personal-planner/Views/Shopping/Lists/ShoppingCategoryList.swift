@@ -10,22 +10,18 @@ import SwiftUI
 
 struct ShoppingCategoryList: View {
   
-  var fetchRequest: FetchRequest<ShoppingCategory>
+  @ObservedObject private var shoppingCategories = ShoppingCategories()
   
   @State private var showingFormScreen = false
   @State private var editingItem: ShoppingCategory?
   
   init(query: String) {
-    var predicate: NSPredicate? = nil
-    if !query.isEmpty {
-      predicate = NSPredicate(format: "name CONTAINS[c] %@", query)
-    }
-    fetchRequest = FetchRequest<ShoppingCategory>(entity: ShoppingCategory.entity(), sortDescriptors: [], predicate: predicate)
+    self.shoppingCategories.query = query
   }
   
   var body: some View {
     List {
-      ForEach(fetchRequest.wrappedValue, id: \.self) { item in
+      ForEach(shoppingCategories.items, id: \.id) { item in
         HStack {
           Text(item.name)
           Spacer()
@@ -40,22 +36,24 @@ struct ShoppingCategoryList: View {
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
-          ShoppingCategoryFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
+          ShoppingCategoryFormView(with: self.editingItem)
       }
+    }
+    .onAppear{
+      self.shoppingCategories.fetch()
     }
   }
   
   func delete(at offsets: IndexSet) {
     for offset in offsets {
-      let item = self.fetchRequest.wrappedValue[offset]
-      Store.context.delete(item)
+      let item = self.shoppingCategories.items[offset]
+      item.delete()
     }
-    Store.save()
   }
 }
 
-struct ShoppingCategoryList_Previews: PreviewProvider {
-    static var previews: some View {
-        ShoppingCategoryList(query: "").environment(\.managedObjectContext, Store.context)
-    }
-}
+//struct ShoppingCategoryList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ShoppingCategoryList(query: "").environment(\.managedObjectContext, Store.context)
+//    }
+//}

@@ -10,28 +10,23 @@ import SwiftUI
 
 struct ShoppingItemList: View {
   
-  var itemFetchRequest: FetchRequest<ShoppingItem>
-  var categoryfetchRequest: FetchRequest<ShoppingCategory>
+  @ObservedObject private var shoppingItems = ShoppingItems()
+  @ObservedObject private var shoppingCategories = ShoppingCategories()
   
   @State private var showingFormScreen = false
   @State private var editingItem: ShoppingItem?
   
   init(query: String) {
-    var predicate: NSPredicate? = nil
-    if !query.isEmpty {
-      predicate = NSPredicate(format: "name CONTAINS[c] %@", query)
-    }
-    itemFetchRequest = FetchRequest<ShoppingItem>(entity: ShoppingItem.entity(), sortDescriptors: [], predicate: predicate)
-    categoryfetchRequest = FetchRequest<ShoppingCategory>(entity: ShoppingCategory.entity(), sortDescriptors: [])
+    self.shoppingItems.query = query
   }
   
   var sections: [ShoppingSection] {
-    ShoppingSection.sections(items: itemFetchRequest, categories: categoryfetchRequest)
+    ShoppingSection.sections(items: shoppingItems.items, categories: shoppingCategories.items)
   }
   
   var body: some View {
     List {
-      ForEach(sections, id: \.categoryName) { section in
+      ForEach(sections, id: \.id) { section in
         Section(header: Text(section.categoryName)) {
           ForEach(section.items, id: \.id) { item in
             HStack {
@@ -43,7 +38,7 @@ struct ShoppingItemList: View {
               .foregroundColor(Color(.systemBlue))
               .onTapGesture {
                 item.isNeeded.toggle()
-                Store.save()
+                item.save()
               }
             }
             .contentShape(Rectangle())
@@ -60,22 +55,25 @@ struct ShoppingItemList: View {
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
           self.editingItem = nil
         }) {
-          ShoppingItemFormView(with: self.editingItem).environment(\.managedObjectContext, Store.context)
+          ShoppingItemFormView(with: self.editingItem)
       }
+    }
+    .onAppear{
+      self.shoppingCategories.fetch()
+      self.shoppingItems.fetch()
     }
   }
   
   func delete(at offsets: IndexSet, in section: ShoppingSection) {
     for offset in offsets {
       let item = section.items[offset]
-      Store.context.delete(item)
+      item.delete()
     }
-    Store.save()
   }
 }
 
-struct ShoppingItemList_Previews: PreviewProvider {
-  static var previews: some View {
-    ShoppingItemList(query: "").environment(\.managedObjectContext, Store.context)
-  }
-}
+//struct ShoppingItemList_Previews: PreviewProvider {
+//  static var previews: some View {
+//    ShoppingItemList(query: "").environment(\.managedObjectContext, Store.context)
+//  }
+//}

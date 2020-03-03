@@ -9,28 +9,32 @@
 import SwiftUI
 import CoreData
 
-struct ShoppingSection: Hashable {
+struct ShoppingSection: Hashable, Identifiable {
   var category: ShoppingCategory?
   var items: [ShoppingItem]
   var categoryName: String {
     category?.name ?? "Geral"
   }
   
-  static func sections(items: FetchRequest<ShoppingItem>, categories: FetchRequest<ShoppingCategory>) -> [ShoppingSection] {
+  var id: String {
+    self.category?.id ?? "Geral"
+  }
+  
+  static func sections(items: [ShoppingItem], categories: [ShoppingCategory]) -> [ShoppingSection] {
     var sections: [ShoppingSection] = []
-    let generalSection = ShoppingSection(category: nil, items: items.wrappedValue.filter({
-        ($0.shoppingCategory == nil)
+    let generalSection = ShoppingSection(category: nil, items: items.filter({
+      ($0.shoppingCategory == nil)
     }))
     if generalSection.items.count > 0 {
-        sections.append(generalSection)
+      sections.append(generalSection)
     }
-    for category in categories.wrappedValue {
-        let section = ShoppingSection(category: category, items: items.wrappedValue.filter({
-            ($0.shoppingCategory != nil) ? $0.shoppingCategory!.id == category.id : false
-        }))
-        if section.items.count > 0 {
-            sections.append(section)
-        }
+    for category in categories {
+      let section = ShoppingSection(category: category, items: items.filter({
+        ($0.shoppingCategory != nil) ? $0.shoppingCategory!.id == category.id : false
+      }))
+      if section.items.count > 0 {
+        sections.append(section)
+      }
     }
     return sections
   }

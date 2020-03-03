@@ -101,48 +101,48 @@ extension String: NumberConvertible, DoubleConvertible, IntConvertible {
 }
 
 extension Date {
-  static var monthNow: Int16 {
-    Int16(Calendar.current.component(.month, from: Date()))
+  static var monthNow: Int {
+    Calendar.current.component(.month, from: Date())
   }
   
-  static var yearNow: Int16 {
-    Int16(Calendar.current.component(.year, from: Date()))
+  static var yearNow: Int {
+    Calendar.current.component(.year, from: Date())
   }
   
-  static var dayNow: Int16 {
-    Int16(Calendar.current.component(.day, from: Date()))
+  static var dayNow: Int {
+    Calendar.current.component(.day, from: Date())
   }
   
-  static func with(day: Int16?, month: Int16?, year: Int16?) -> Date {
-    DateComponents(calendar: Calendar.current, year: year?.intValue ?? Date.yearNow.intValue, month: month?.intValue ?? Date.monthNow.intValue, day: day?.intValue ?? Date.dayNow.intValue).date ?? Date()
+  static func with(day: Int?, month: Int?, year: Int?) -> Date {
+    DateComponents(calendar: Calendar.current, year: year ?? Date.yearNow, month: month ?? Date.monthNow, day: day ?? Date.dayNow).date ?? Date()
   }
   
-  var day: Int16 {
+  var day: Int {
     get {
-      Int16(Calendar.current.component(.day, from: self))
+      Calendar.current.component(.day, from: self)
     }
     set {
-      let dateComponents = DateComponents(calendar: Calendar.current, year: self.year.intValue, month: self.month.intValue, day: newValue.intValue)
+      let dateComponents = DateComponents(calendar: Calendar.current, year: self.year, month: self.month, day: newValue)
       self = dateComponents.date ?? self
     }
   }
   
-  var month: Int16 {
+  var month: Int {
     get {
-      Int16(Calendar.current.component(.month, from: self))
+      Calendar.current.component(.month, from: self)
     }
     set {
-      let dateComponents = DateComponents(calendar: Calendar.current, year: self.year.intValue, month: newValue.intValue, day: self.day.intValue)
+      let dateComponents = DateComponents(calendar: Calendar.current, year: self.year, month: newValue, day: self.day)
       self = dateComponents.date ?? self
     }
   }
   
-  var year: Int16 {
+  var year: Int {
     get {
-      Int16(Calendar.current.component(.year, from: self))
+      Calendar.current.component(.year, from: self)
     }
     set {
-      let dateComponents = DateComponents(calendar: Calendar.current, year: newValue.intValue, month: self.month.intValue, day: self.day.intValue)
+      let dateComponents = DateComponents(calendar: Calendar.current, year: newValue, month: self.month, day: self.day)
       self = dateComponents.date ?? self
     }
   }
@@ -166,6 +166,6 @@ extension Date {
   }
   
   func currentMonthAndYear() -> String {
-    return DateFormatter().monthSymbols[self.month.intValue - 1] + " \(self.year.intValue)"
+    return DateFormatter().monthSymbols[self.month - 1] + " \(self.year)"
   }
 }

@@ -34,7 +34,7 @@ struct ShoppingCategoryFormView: View {
           Button("Salvar") {
             let editingItem = self.item ?? ShoppingCategory()
             editingItem.name = self.name
-            Store.save()
+            editingItem.save()
             self.presentationMode.wrappedValue.dismiss()
           }
         }
@@ -46,6 +46,6 @@ struct ShoppingCategoryFormView: View {
 
 struct ShoppingCategoryFormView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingCategoryFormView().environment(\.managedObjectContext, Store.context)
+    ShoppingCategoryFormView()
   }
 }

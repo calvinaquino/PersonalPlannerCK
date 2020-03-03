@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		444283C324024EDF005D731A /* TransactionItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444283C224024EDF005D731A /* TransactionItemFormView.swift */; };
 		444283C524032988005D731A /* TransactionItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444283C424032988005D731A /* TransactionItemList.swift */; };
+		4484BB16240C6804009ED7F7 /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4484BB15240C6804009ED7F7 /* Cloud.swift */; };
+		4484BB18240C68F9009ED7F7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4484BB17240C68F9009ED7F7 /* Record.swift */; };
+		4484BB1A240CC62B009ED7F7 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4484BB19240CC62B009ED7F7 /* Notifications.swift */; };
 		448E26D5240353D30055702C /* ShoppingItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E26D4240353D30055702C /* ShoppingItemList.swift */; };
 		448E26D924037BBF0055702C /* ShoppingCategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E26D824037BBF0055702C /* ShoppingCategoryListView.swift */; };
 		448E927A2403A95D00EC2DA1 /* ShoppingCategoryFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92792403A95D00EC2DA1 /* ShoppingCategoryFormView.swift */; };
@@ -33,7 +36,6 @@
 		44B24BC22400AACB00B4EA0B /* ShoppingCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */; };
 		44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC32400AAD100B4EA0B /* TransactionItem.swift */; };
 		44B24BC62400AAD900B4EA0B /* TransactionCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */; };
-		44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */; };
 		44B24BCB2400AD2100B4EA0B /* ShoppingItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCA2400AD2100B4EA0B /* ShoppingItemListView.swift */; };
 		44B24BCD2400AD3F00B4EA0B /* TransactionItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCC2400AD3F00B4EA0B /* TransactionItemListView.swift */; };
 		44B24BD02400AD5F00B4EA0B /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */; };
@@ -62,6 +64,9 @@
 /* Begin PBXFileReference section */
 		444283C224024EDF005D731A /* TransactionItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemFormView.swift; sourceTree = "<group>"; };
 		444283C424032988005D731A /* TransactionItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemList.swift; sourceTree = "<group>"; };
+		4484BB15240C6804009ED7F7 /* Cloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
+		4484BB17240C68F9009ED7F7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		4484BB19240CC62B009ED7F7 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		448E26D4240353D30055702C /* ShoppingItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemList.swift; sourceTree = "<group>"; };
 		448E26D824037BBF0055702C /* ShoppingCategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCategoryListView.swift; sourceTree = "<group>"; };
 		448E92792403A95D00EC2DA1 /* ShoppingCategoryFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCategoryFormView.swift; sourceTree = "<group>"; };
@@ -93,7 +98,6 @@
 		44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCategory.swift; sourceTree = "<group>"; };
 		44B24BC32400AAD100B4EA0B /* TransactionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItem.swift; sourceTree = "<group>"; };
 		44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategory.swift; sourceTree = "<group>"; };
-		44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHelper.swift; sourceTree = "<group>"; };
 		44B24BCA2400AD2100B4EA0B /* ShoppingItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemListView.swift; sourceTree = "<group>"; };
 		44B24BCC2400AD3F00B4EA0B /* TransactionItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemListView.swift; sourceTree = "<group>"; };
 		44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
@@ -186,6 +190,20 @@
 			path = Forms;
 			sourceTree = "<group>";
 		};
+		44AA4BB8240E2938007ACF16 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				44B24BB824009E1200B4EA0B /* ShoppingItem.swift */,
+				44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */,
+				44B24BC32400AAD100B4EA0B /* TransactionItem.swift */,
+				44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */,
+				448E92872403C43F00EC2DA1 /* ShoppingSection.swift */,
+				448E92892403C45200EC2DA1 /* TransactionSection.swift */,
+				4484BB17240C68F9009ED7F7 /* Record.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		44B24B7324007B3300B4EA0B = {
 			isa = PBXGroup;
 			children = (
@@ -273,13 +291,10 @@
 		44B24BB724009DFC00B4EA0B /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				44B24BB824009E1200B4EA0B /* ShoppingItem.swift */,
-				44B24BC12400AACB00B4EA0B /* ShoppingCategory.swift */,
-				44B24BC32400AAD100B4EA0B /* TransactionItem.swift */,
-				44B24BC52400AAD900B4EA0B /* TransactionCategory.swift */,
-				448E92872403C43F00EC2DA1 /* ShoppingSection.swift */,
-				448E92892403C45200EC2DA1 /* TransactionSection.swift */,
+				44AA4BB8240E2938007ACF16 /* Model */,
 				44B24BBA24009E3F00B4EA0B /* Store.swift */,
+				4484BB15240C6804009ED7F7 /* Cloud.swift */,
+				4484BB19240CC62B009ED7F7 /* Notifications.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -287,7 +302,6 @@
 		44B24BC72400ACAE00B4EA0B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				44B24BC82400ACBA00B4EA0B /* CalendarHelper.swift */,
 				44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */,
 			);
 			path = Utils;
@@ -435,8 +449,10 @@
 			files = (
 				448E927E2403AB3D00EC2DA1 /* TransactionCategoryFormView.swift in Sources */,
 				44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */,
+				4484BB1A240CC62B009ED7F7 /* Notifications.swift in Sources */,
 				44B24BD02400AD5F00B4EA0B /* Toolbar.swift in Sources */,
 				44B24B8024007B3300B4EA0B /* AppDelegate.swift in Sources */,
+				4484BB18240C68F9009ED7F7 /* Record.swift in Sources */,
 				44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */,
 				44B24BBB24009E3F00B4EA0B /* Store.swift in Sources */,
 				44B24BC22400AACB00B4EA0B /* ShoppingCategory.swift in Sources */,
@@ -447,7 +463,6 @@
 				44B24BD22400AD7200B4EA0B /* SearchBar.swift in Sources */,
 				448E92862403C18700EC2DA1 /* TransactionCategoryList.swift in Sources */,
 				44B24BD82401AD7A00B4EA0B /* ConversionUtils.swift in Sources */,
-				44B24BC92400ACBA00B4EA0B /* CalendarHelper.swift in Sources */,
 				448E92882403C43F00EC2DA1 /* ShoppingSection.swift in Sources */,
 				444283C324024EDF005D731A /* TransactionItemFormView.swift in Sources */,
 				44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */,
@@ -458,6 +473,7 @@
 				448E26D5240353D30055702C /* ShoppingItemList.swift in Sources */,
 				444283C524032988005D731A /* TransactionItemList.swift in Sources */,
 				44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */,
+				4484BB16240C6804009ED7F7 /* Cloud.swift in Sources */,
 				44B24BCD2400AD3F00B4EA0B /* TransactionItemListView.swift in Sources */,
 				44B24BC62400AAD900B4EA0B /* TransactionCategory.swift in Sources */,
 			);

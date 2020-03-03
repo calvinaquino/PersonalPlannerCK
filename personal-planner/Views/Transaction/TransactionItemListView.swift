@@ -22,7 +22,7 @@ struct TransactionItemListView: View {
         SearchBar(searchText: self.$searchText)
         TransactionItemList(month: self.viewingDate.month, year: self.viewingDate.year, total: self.$total, query: self.searchText)
         .sheet(isPresented: $showingFormScreen) {
-            TransactionItemFormView(with: nil).environment(\.managedObjectContext, Store.context)
+            TransactionItemFormView(with: nil)
         }
         Toolbar {
           Button(action: {
@@ -66,8 +66,7 @@ struct TransactionItemListView: View {
           item.day = 1
           item.month = self.viewingDate.month + 1
           item.year = self.viewingDate.year
-          Store.save()
-          
+          item.save()
         }), secondaryButton: .cancel(Text("Não")))
       }
     }
@@ -80,6 +79,6 @@ struct TransactionItemListView: View {
 
 struct TransactionItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionItemListView().environment(\.managedObjectContext, Store.context)
+    TransactionItemListView()
   }
 }

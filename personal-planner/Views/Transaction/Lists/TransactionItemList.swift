@@ -14,32 +14,27 @@ import SwiftUI
 
 struct TransactionItemList: View {
   
-  var itemFetchRequest: FetchRequest<TransactionItem>
-  var categoryfetchRequest: FetchRequest<TransactionCategory>
-
+  @ObservedObject private var transactionItems = TransactionItems(month: Date.monthNow, year: Date.yearNow)
+  @ObservedObject private var transactionCategories = TransactionCategories()
+  
   @State private var showingFormScreen = false
   @State private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
   
-  init(month: Int16, year: Int16, total: Binding<Double>, query: String) {
-    var predicate: NSPredicate? = nil
-    if !query.isEmpty {
-      predicate = NSPredicate(format: "month == %@ AND year == %@ AND name CONTAINS[c] %@ ", month.numberValue, year.numberValue, query)
-    } else {
-      predicate = NSPredicate(format: "month == %@ AND year == %@", month.numberValue, year.numberValue)
-    }
-    itemFetchRequest = FetchRequest<TransactionItem>(entity: TransactionItem.entity(), sortDescriptors: [], predicate: predicate)
+  init(month: Int, year: Int, total: Binding<Double>, query: String) {
+    _transactionItems.wrappedValue.query = query
+    _transactionItems.wrappedValue.month = month
+    _transactionItems.wrappedValue.year = year
     totalTransaction = total
-    categoryfetchRequest = FetchRequest<TransactionCategory>(entity: TransactionCategory.entity(), sortDescriptors: [])
   }
   
   var sections: [TransactionSection] {
-    TransactionSection.sections(items: itemFetchRequest, categories: categoryfetchRequest)
+    TransactionSection.sections(items: transactionItems.items, categories: transactionCategories.items)
   }
   
   var body: some View {
     List {
-      ForEach(sections, id: \.categoryName) { section in
+      ForEach(sections, id: \.id) { section in
         Section(header: HStack{
           Text(section.categoryName)
           Spacer()
@@ -60,8 +55,8 @@ struct TransactionItemList: View {
           .onDelete(perform: { offsets in
             self.delete(at: offsets, in: section)
           })
-          .onAppear {
-            self.updateTotals()
+            .onAppear {
+              self.updateTotals()
           }
           .onDisappear {
             self.updateTotals()
@@ -69,49 +64,51 @@ struct TransactionItemList: View {
         }
       }
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-          self.editingItem = nil
-        }) {
-          TransactionItemFormView(with: self.editingItem)
-            .environment(\.managedObjectContext, Store.context)
-            .onDisappear {
-              self.updateTotals()
-            }
+        self.editingItem = nil
+      }) {
+        TransactionItemFormView(with: self.editingItem)
+          .onDisappear {
+            self.updateTotals()
+        }
       }
+    }
+    .onAppear{
+      self.transactionCategories.fetch()
+      self.transactionItems.fetch()
     }
   }
   
   func delete(at offsets: IndexSet, in section: TransactionSection) {
     for offset in offsets {
       let item = section.transactions[offset]
-      Store.context.delete(item)
+      item.delete()
     }
-    Store.save()
   }
   
   func updateTotals() {
-    self.totalTransaction.wrappedValue = self.itemFetchRequest.wrappedValue.reduce(0) { $1.valueSigned + $0 }
+    self.totalTransaction.wrappedValue = self.transactionItems.items.reduce(0) { $1.valueSigned + $0 }
   }
 }
 
-struct TransactionItemList_Previews: PreviewProvider {
-  static let month: Int16 = 2
-  static let year: Int16 = 2020
-  
-  static var previews: some View {
-    
-    let item1 = TransactionItem()
-    item1.name = "Compras"
-    item1.value = 230.0
-    item1.month = month
-    item1.year = year
-    
-    let item2 = TransactionItem()
-    item2.name = "Salario"
-    item2.value = 2000
-    item1.isInflow = true
-    item2.month = month
-    item2.year = year
-    
-    return TransactionItemList(month: month, year: year, total: .constant(200.0), query: "").environment(\.managedObjectContext, Store.context)
-  }
-}
+//struct TransactionItemList_Previews: PreviewProvider {
+//  static let month: Int16 = 2
+//  static let year: Int16 = 2020
+//
+//  static var previews: some View {
+//
+//    let item1 = TransactionItem(with: nil)
+//    item1.name = "Compras"
+//    item1.value = 230.0
+//    item1.month = month
+//    item1.year = year
+//
+//    let item2 = TransactionItem(with: nil)
+//    item2.name = "Salario"
+//    item2.value = 2000
+//    item1.isInflow = true
+//    item2.month = month
+//    item2.year = year
+//
+//    return TransactionItemList(month: month, year: year, total: .constant(200.0), query: "").environment(\.managedObjectContext, Store.context)
+//  }
+//}

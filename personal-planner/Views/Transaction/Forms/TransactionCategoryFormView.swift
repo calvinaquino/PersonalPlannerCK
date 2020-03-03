@@ -38,7 +38,7 @@ struct TransactionCategoryFormView: View {
             let editingItem = self.item ?? TransactionCategory()
             editingItem.name = self.name
             editingItem.budget = self.budget.doubleValue
-            Store.save()
+            editingItem.save()
             self.presentationMode.wrappedValue.dismiss()
           }
         }
@@ -50,6 +50,6 @@ struct TransactionCategoryFormView: View {
 
 struct TransactionCategoryFormView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionCategoryFormView().environment(\.managedObjectContext, Store.context)
+    TransactionCategoryFormView()
   }
 }

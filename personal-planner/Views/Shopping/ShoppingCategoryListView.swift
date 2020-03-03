@@ -17,7 +17,7 @@ struct ShoppingCategoryListView: View {
       SearchBar(searchText: self.$searchText)
       ShoppingCategoryList(query: self.searchText)
         .sheet(isPresented: $showingFormScreen) {
-          ShoppingCategoryFormView(with: nil).environment(\.managedObjectContext, Store.context)
+          ShoppingCategoryFormView(with: nil)
       }
     }
     .navigationBarTitle("Categories", displayMode: .inline)
@@ -29,6 +29,6 @@ struct ShoppingCategoryListView: View {
 
 struct ShoppingCategoryListView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingCategoryListView().environment(\.managedObjectContext, Store.context)
+    ShoppingCategoryListView()
   }
 }

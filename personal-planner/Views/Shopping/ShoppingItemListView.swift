@@ -20,7 +20,7 @@ struct ShoppingItemListView: View {
         SearchBar(searchText: self.$searchText)
         ShoppingItemList(query: searchText)
         .sheet(isPresented: $showingFormScreen) {
-            ShoppingItemFormView(with: nil).environment(\.managedObjectContext, Store.context)
+            ShoppingItemFormView(with: nil)
         }
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
@@ -37,6 +37,6 @@ struct ShoppingItemListView: View {
 
 struct ShoppingItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingItemListView().environment(\.managedObjectContext, Store.context)
+    ShoppingItemListView()
   }
 }

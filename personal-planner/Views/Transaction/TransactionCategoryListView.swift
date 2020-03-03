@@ -17,7 +17,7 @@ struct TransactionCategoryListView: View {
       SearchBar(searchText: self.$searchText)
       TransactionCategoryList(query: self.searchText)
       .sheet(isPresented: $showingFormScreen) {
-          TransactionCategoryFormView(with: nil).environment(\.managedObjectContext, Store.context)
+          TransactionCategoryFormView(with: nil)
       }
     }
     .navigationBarTitle("Categorias", displayMode: .inline)
@@ -31,6 +31,6 @@ struct TransactionCategoryListView: View {
 
 struct TransactionCategoryListView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionCategoryListView().environment(\.managedObjectContext, Store.context)
+    TransactionCategoryListView()
   }
 }

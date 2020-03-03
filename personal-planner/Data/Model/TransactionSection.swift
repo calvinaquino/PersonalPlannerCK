@@ -9,7 +9,7 @@
 import SwiftUI
 import CoreData
 
-struct TransactionSection: Hashable {
+struct TransactionSection: Hashable, Identifiable {
   var category: TransactionCategory?
   var transactions: [TransactionItem]
   
@@ -25,16 +25,20 @@ struct TransactionSection: Hashable {
     self.transactions.reduce(0) { $1.valueSigned + $0 }
   }
   
-  static func sections(items: FetchRequest<TransactionItem>, categories: FetchRequest<TransactionCategory>) -> [TransactionSection] {
+  var id: String {
+    self.category?.id ?? "Geral"
+  }
+  
+  static func sections(items: [TransactionItem], categories: [TransactionCategory]) -> [TransactionSection] {
     var sections: [TransactionSection] = []
-    let generalSection = TransactionSection(category: nil, transactions: items.wrappedValue.filter({
+    let generalSection = TransactionSection(category: nil, transactions: items.filter({
       ($0.transactionCategory == nil)
     }))
     if generalSection.transactions.count > 0 {
       sections.append(generalSection)
     }
-    for category in categories.wrappedValue {
-      let section = TransactionSection(category: category, transactions: items.wrappedValue.filter({
+    for category in categories {
+      let section = TransactionSection(category: category, transactions: items.filter({
         ($0.transactionCategory != nil) ? $0.transactionCategory!.id == category.id : false
       }))
       if section.transactions.count > 0 {

@@ -28,7 +28,7 @@ struct ShoppingItemFormView: View {
   
   private var item: ShoppingItem?
   
-  @FetchRequest(fetchRequest: ShoppingCategory.allFetchRequest()) var categories: FetchedResults<ShoppingCategory>
+  @ObservedObject private var categories = ShoppingCategories()
   @Environment(\.presentationMode) var presentationMode
   
   @State private var name: String
@@ -47,7 +47,7 @@ struct ShoppingItemFormView: View {
             .keyboardType(.decimalPad)
           Toggle("Em falta", isOn: $isNeeded)
           Picker("Categoria", selection: $category) {
-            ForEach(categories, id: \.self) { item in
+            ForEach(categories.items, id: \.id) { item in
               Text(item.name).tag(item as ShoppingCategory?)
             }
             Text("Geral").tag(nil as ShoppingCategory?)
@@ -61,7 +61,7 @@ struct ShoppingItemFormView: View {
             editingItem.price = self.price.doubleValue
             editingItem.isNeeded = self.isNeeded
             editingItem.shoppingCategory = self.category
-            Store.save()
+            editingItem.save()
             self.presentationMode.wrappedValue.dismiss()
           }
         }
@@ -73,6 +73,6 @@ struct ShoppingItemFormView: View {
 
 struct ShoppingItemFormView_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingItemFormView().environment(\.managedObjectContext, Store.context)
+    ShoppingItemFormView()
   }
 }
