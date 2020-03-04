@@ -85,7 +85,6 @@ class TransactionItems: ObservableObject {
   required init(month: Int, year: Int) {
     self.month = month
     self.year = year
-    self.update()
     self.fetch()
     NotificationCenter.default.addObserver(self, selector: #selector(update), name: .transactionItem, object: nil)
   }
@@ -120,7 +119,7 @@ class TransactionItems: ObservableObject {
   
   @objc func update() {
     DispatchQueue.main.async {
-      self._items = Store.shared.transactionItems.items.filter { $0.month == self.month && $0.year == self.year }
+      self._items = Store.shared.transactionItems.items.filter { $0.month == self.month && $0.year == self.year }.sorted{ $0.name < $1.name }
       self.updateFilter()
     }
   }

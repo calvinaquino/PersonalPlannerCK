@@ -39,15 +39,17 @@ struct TransactionCategoryList: View {
         TransactionCategoryFormView(with: self.editingItem)
       }
     }
-    .onAppear{
-      self.transactionCategories.fetch()
-    }
+    .overlay(
+      RefreshButton(action: {
+        self.transactionCategories.fetch()
+      })
+    , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet) {
     for offset in offsets {
       let item = self.transactionCategories.items[offset]
-      item.save()
+      item.delete()
     }
   }
 }

@@ -74,7 +74,7 @@ class ShoppingItems: ObservableObject {
   }
   
   
-  @Published private var _items: [ShoppingItem] = Store.shared.shoppingItems.items
+  @Published private var _items: [ShoppingItem] = []
   @Published private var _filteredItems: [ShoppingItem] = []
   var query: String = "" {
     didSet {
@@ -93,7 +93,7 @@ class ShoppingItems: ObservableObject {
   
   @objc func update() {
     DispatchQueue.main.async {
-      self._items = Store.shared.shoppingItems.items
+      self._items = Store.shared.shoppingItems.items.sorted{ $0.name < $1.name }
       self.updateFilter()
     }
   }

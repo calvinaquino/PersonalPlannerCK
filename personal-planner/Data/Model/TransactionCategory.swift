@@ -34,7 +34,7 @@ class TransactionCategory: Record {
 
 class TransactionCategories: ObservableObject {
   required init() {
-    self.update()
+    self.fetch()
   NotificationCenter.default.addObserver(self, selector: #selector(update), name: .transactionCategory, object: nil)
   }
   
@@ -42,7 +42,7 @@ class TransactionCategories: ObservableObject {
     NotificationCenter.default.removeObserver(self)
   }
   
-  @Published private var _items: [TransactionCategory] = Store.shared.transactionCategories.items
+  @Published private var _items: [TransactionCategory] = []
   @Published private var _filteredItems: [TransactionCategory] = []
   var query: String = "" {
     didSet {
@@ -61,7 +61,7 @@ class TransactionCategories: ObservableObject {
   
   @objc func update() {
     DispatchQueue.main.async {
-      self._items = Store.shared.transactionCategories.items
+      self._items = Store.shared.transactionCategories.items.sorted{ $0.name < $1.name }
       self.updateFilter()
     }
   }

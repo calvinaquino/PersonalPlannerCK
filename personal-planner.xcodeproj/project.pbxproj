@@ -21,6 +21,7 @@
 		448E92862403C18700EC2DA1 /* TransactionCategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92852403C18700EC2DA1 /* TransactionCategoryList.swift */; };
 		448E92882403C43F00EC2DA1 /* ShoppingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92872403C43F00EC2DA1 /* ShoppingSection.swift */; };
 		448E928A2403C45200EC2DA1 /* TransactionSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448E92892403C45200EC2DA1 /* TransactionSection.swift */; };
+		44AA4BC424103754007ACF16 /* RefreshButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44AA4BC324103754007ACF16 /* RefreshButton.swift */; };
 		44B24B8024007B3300B4EA0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B7F24007B3300B4EA0B /* AppDelegate.swift */; };
 		44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8124007B3300B4EA0B /* SceneDelegate.swift */; };
 		44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8324007B3300B4EA0B /* personal_planner.xcdatamodeld */; };
@@ -76,6 +77,7 @@
 		448E92852403C18700EC2DA1 /* TransactionCategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCategoryList.swift; sourceTree = "<group>"; };
 		448E92872403C43F00EC2DA1 /* ShoppingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingSection.swift; sourceTree = "<group>"; };
 		448E92892403C45200EC2DA1 /* TransactionSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSection.swift; sourceTree = "<group>"; };
+		44AA4BC324103754007ACF16 /* RefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshButton.swift; sourceTree = "<group>"; };
 		44B24B7C24007B3300B4EA0B /* personal-planner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "personal-planner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44B24B7F24007B3300B4EA0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44B24B8124007B3300B4EA0B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 			children = (
 				44B24BCF2400AD5F00B4EA0B /* Toolbar.swift */,
 				44B24BD12400AD7200B4EA0B /* SearchBar.swift */,
+				44AA4BC324103754007ACF16 /* RefreshButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -332,6 +335,8 @@
 			dependencies = (
 			);
 			name = "personal-planner";
+			packageProductDependencies = (
+			);
 			productName = "personal-planner";
 			productReference = 44B24B7C24007B3300B4EA0B /* personal-planner.app */;
 			productType = "com.apple.product-type.application";
@@ -404,6 +409,8 @@
 				Base,
 			);
 			mainGroup = 44B24B7324007B3300B4EA0B;
+			packageReferences = (
+			);
 			productRefGroup = 44B24B7D24007B3300B4EA0B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -454,6 +461,7 @@
 				44B24B8024007B3300B4EA0B /* AppDelegate.swift in Sources */,
 				4484BB18240C68F9009ED7F7 /* Record.swift in Sources */,
 				44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */,
+				44AA4BC424103754007ACF16 /* RefreshButton.swift in Sources */,
 				44B24BBB24009E3F00B4EA0B /* Store.swift in Sources */,
 				44B24BC22400AACB00B4EA0B /* ShoppingCategory.swift in Sources */,
 				448E92842403C01A00EC2DA1 /* ShoppingCategoryList.swift in Sources */,

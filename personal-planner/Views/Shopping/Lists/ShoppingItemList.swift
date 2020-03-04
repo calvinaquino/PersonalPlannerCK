@@ -15,6 +15,8 @@ struct ShoppingItemList: View {
   
   @State private var showingFormScreen = false
   @State private var editingItem: ShoppingItem?
+  //  @State private var isLoading = false
+  @State private var rotation: Double = 0.0;
   
   init(query: String) {
     self.shoppingItems.query = query
@@ -34,11 +36,11 @@ struct ShoppingItemList: View {
               Text(item.price.stringCurrencyValue)
               Spacer()
               Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
-              .contentShape(Rectangle())
-              .foregroundColor(Color(.systemBlue))
-              .onTapGesture {
-                item.isNeeded.toggle()
-                item.save()
+                .contentShape(Rectangle())
+                .foregroundColor(Color(.systemBlue))
+                .onTapGesture {
+                  item.isNeeded.toggle()
+                  item.save()
               }
             }
             .contentShape(Rectangle())
@@ -53,15 +55,17 @@ struct ShoppingItemList: View {
         }
       }
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-          self.editingItem = nil
-        }) {
-          ShoppingItemFormView(with: self.editingItem)
+        self.editingItem = nil
+      }) {
+        ShoppingItemFormView(with: self.editingItem)
       }
     }
-    .onAppear{
-      self.shoppingCategories.fetch()
-      self.shoppingItems.fetch()
-    }
+    .overlay(
+      RefreshButton(action: {
+        self.shoppingCategories.fetch()
+        self.shoppingItems.fetch()
+      })
+    , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet, in section: ShoppingSection) {

@@ -72,10 +72,12 @@ struct TransactionItemList: View {
         }
       }
     }
-    .onAppear{
-      self.transactionCategories.fetch()
-      self.transactionItems.fetch()
-    }
+    .overlay(
+      RefreshButton(action: {
+        self.transactionCategories.fetch()
+        self.transactionItems.fetch()
+      })
+    , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet, in section: TransactionSection) {

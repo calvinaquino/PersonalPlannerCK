@@ -77,7 +77,6 @@ class Cloud {
   }
   
   class func modify(save: Record?, delete: Record?, completion: @escaping () -> Void) {
-    print("modify operation requested")
     let modifyRecordsOperation = CKModifyRecordsOperation()
     if let save = save {
       modifyRecordsOperation.recordsToSave = [save.ckRecord]
@@ -89,14 +88,12 @@ class Cloud {
     configuration.qualityOfService = .userInitiated
     modifyRecordsOperation.configuration = configuration
     modifyRecordsOperation.modifyRecordsCompletionBlock = { saved, deleted, error in
-      print("modify operation completed")
       completion()
     }
     Cloud.shared.database.add(modifyRecordsOperation)
   }
   
   class func fetch(_ record: Record, completion: @escaping () -> Void) {
-    print("fetch operation requested")
     let fetchOperation = CKFetchRecordsOperation(recordIDs: [record.recordId])
     let configuration = CKOperation.Configuration()
     configuration.qualityOfService = .userInitiated
@@ -105,7 +102,6 @@ class Cloud {
       record.ckRecord = fetchedRecord
     }
     fetchOperation.fetchRecordsCompletionBlock = { _, error in
-      print("fetch operation completed")
       completion()
     }
     Cloud.shared.database.add(fetchOperation)
@@ -147,7 +143,6 @@ class Cloud {
   }
   
   class func fetchShoppingItems(completion: @escaping () -> Void) {
-    print("query items operation requested")
     var shoppingItems: [ShoppingItem] = []
     let fetchOperation = queryOperation(for: ShoppingItem.self)
     fetchOperation.recordFetchedBlock = { record in
@@ -159,7 +154,6 @@ class Cloud {
       }
       Store.shared.shoppingItems.items = shoppingItems
       DispatchQueue.main.async {
-        print("query items operation completed")
         completion()
       }
     }
@@ -167,7 +161,6 @@ class Cloud {
   }
   
   class func fetchTransactionItems(for month: Int, year: Int, completion: @escaping () -> Void) {
-    print("query transactions operation requested")
     var transactionItems: [TransactionItem] = []
     let predicate = TransactionItem.predicate(month: month, year: year)
     let fetchOperation = queryOperation(for: TransactionItem.self, predicate: predicate)
@@ -180,7 +173,6 @@ class Cloud {
       }
       Store.shared.transactionItems.items = transactionItems
       DispatchQueue.main.async {
-        print("query transactions operation completed")
         completion()
       }
     }
@@ -188,7 +180,6 @@ class Cloud {
   }
   
   class func fetchTransactionCategories(completion: @escaping () -> Void) {
-    print("query transactions categories operation requested")
     var transactionCategories: [TransactionCategory] = []
     let fetchOperation = queryOperation(for: TransactionCategory.self)
     fetchOperation.recordFetchedBlock = { record in
@@ -200,7 +191,6 @@ class Cloud {
       }
       Store.shared.transactionCategories.items = transactionCategories
       DispatchQueue.main.async {
-        print("query transactions categories operation completed")
         completion()
       }
     }
@@ -208,7 +198,6 @@ class Cloud {
   }
   
   class func fetchShoppingCategories(completion: @escaping () -> Void) {
-    print("query shopping categories operation requested")
     var shoppingCategories: [ShoppingCategory] = []
     let fetchOperation = queryOperation(for: ShoppingCategory.self)
     fetchOperation.recordFetchedBlock = { record in
@@ -220,7 +209,6 @@ class Cloud {
       }
       Store.shared.shoppingCategories.items = shoppingCategories
       DispatchQueue.main.async {
-        print("query shopping categories operation completed")
         completion()
       }
     }

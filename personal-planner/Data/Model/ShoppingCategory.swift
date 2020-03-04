@@ -42,7 +42,7 @@ class ShoppingCategories: ObservableObject {
     NotificationCenter.default.removeObserver(self)
   }
   
-  @Published private var _items: [ShoppingCategory] = Store.shared.shoppingCategories.items
+  @Published private var _items: [ShoppingCategory] = []
   @Published private var _filteredItems: [ShoppingCategory] = []
   var query: String = "" {
     didSet {
@@ -61,7 +61,7 @@ class ShoppingCategories: ObservableObject {
   
   @objc func update() {
     DispatchQueue.main.async {
-      self._items = Store.shared.shoppingCategories.items
+      self._items = Store.shared.shoppingCategories.items.sorted{ $0.name < $1.name }
       self.updateFilter()
     }
   }
