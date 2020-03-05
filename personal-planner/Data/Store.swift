@@ -6,10 +6,18 @@
 //  Copyright © 2020 Calvin Aquino. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 import CloudKit
+import Combine
 
 class Store {
+  init() {
+    Cloud.fetchShoppingCategories { }
+    Cloud.fetchTransactionCategories { }
+    Cloud.fetchShoppingItems { }
+    Cloud.fetchTransactionItems(for: Date.monthNow, year: Date.yearNow) { }
+  }
+  
   static let shared = Store()
   
   @discardableResult
@@ -22,18 +30,20 @@ class Store {
     return false
   }
   
-  var shoppingItems = Cache<ShoppingItem>(notificationName: .shoppingItem)
-  var shoppingCategories = Cache<ShoppingCategory>(notificationName: .shoppingCategory)
-  var transactionItems = Cache<TransactionItem>(notificationName: .transactionItem)
-  var transactionCategories = Cache<TransactionCategory>(notificationName: .transactionCategory)
+  var shoppingItems = Cache<ShoppingItem>()
+  var shoppingCategories = Cache<ShoppingCategory>()
+  var transactionItems = Cache<TransactionItem>()
+  var transactionCategories = Cache<TransactionCategory>()
 }
 
 class Cache<T: Record> {
-  init(notificationName: Notification.Name) {
-    self.notificationName = notificationName
+  init() {
+    self.subject = CurrentValueSubject<[T], Never>([])
+    self.publisher = self.subject.eraseToAnyPublisher()
   }
   
-  private var notificationName: Notification.Name
+  let subject: CurrentValueSubject<[T], Never>
+  let publisher: AnyPublisher<[T], Never>
   private var itemCache: [String: T] = [:]
   
   var items: [T] {
@@ -47,20 +57,20 @@ class Cache<T: Record> {
       newValue.forEach { record in
         self.itemCache[record.id] = record
       }
-      NotificationCenter.default.post(name: self.notificationName, object: nil)
+      self.subject.send(self.items)
     }
   }
   
   func save(_ record: T) {
     self.itemCache[record.id] = record
-    NotificationCenter.default.post(name: self.notificationName, object: nil)
+    self.subject.send(self.items)
   }
   
   @discardableResult
   func delete(_ id: String) -> Bool {
     if self.itemCache[id] != nil {
       self.itemCache[id] = nil
-      NotificationCenter.default.post(name: self.notificationName, object: nil)
+      self.subject.send(self.items)
       return true
     }
     return false

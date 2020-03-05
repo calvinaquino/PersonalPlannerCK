@@ -6,13 +6,20 @@
 //  Copyright © 2020 Calvin Aquino. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 import CloudKit
+import Combine
 
 class TransactionCategory: Record {
   override class var recordType: String {
     "TransactionCategory"
   }
+  
+  static func ==(lhs: TransactionCategory, rhs: TransactionCategory) -> Bool {(
+    lhs.id == rhs.id &&
+    lhs.name == rhs.name &&
+    lhs.budget == rhs.budget
+  )}
   
   var name: String {
     get { self.ckRecord["name"] ?? "" }
@@ -33,41 +40,38 @@ class TransactionCategory: Record {
 }
 
 class TransactionCategories: ObservableObject {
+  static let shared = TransactionCategories()
+  
   required init() {
-    self.fetch()
-  NotificationCenter.default.addObserver(self, selector: #selector(update), name: .transactionCategory, object: nil)
+    self.itemSubscriber = Store.shared.transactionCategories.publisher
+      .receive(on: RunLoop.main)
+      .map({ $0.sorted{ $0.name < $1.name } })
+      .sink(receiveValue: { items in
+        if self.query.isEmpty {
+            self._items = items
+        } else {
+            self._filteredItems = items.filter{ self.filterPredicate().evaluate(with: $0.name) }
+        }
+      })
   }
   
   deinit {
-    NotificationCenter.default.removeObserver(self)
+    self.itemSubscriber.cancel()
   }
   
+  var itemSubscriber: AnyCancellable!
   @Published private var _items: [TransactionCategory] = []
   @Published private var _filteredItems: [TransactionCategory] = []
   var query: String = "" {
-    didSet {
-      self.updateFilter()
-    }
+    didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }
   
-  func updateFilter() {
-    if !self.query.isEmpty {
-      let predicate = NSPredicate(format: "SELF CONTAINS[c] %@", self.query)
-      self._filteredItems = self._items.filter {
-        predicate.evaluate(with: $0.name)
-      }
-    }
-  }
-  
-  @objc func update() {
-    DispatchQueue.main.async {
-      self._items = Store.shared.transactionCategories.items.sorted{ $0.name < $1.name }
-      self.updateFilter()
-    }
+  func filterPredicate() -> NSPredicate {
+    NSPredicate(format: "SELF CONTAINS[c] %@", self.query)
   }
   
   func fetch() {
-    Cloud.fetchTransactionCategories { self.update() }
+    Cloud.fetchTransactionCategories { }
   }
   
   var items: [TransactionCategory] {

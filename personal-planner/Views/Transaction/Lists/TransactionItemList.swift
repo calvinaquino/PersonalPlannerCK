@@ -14,17 +14,16 @@ import SwiftUI
 
 struct TransactionItemList: View {
   
-  @ObservedObject private var transactionItems = TransactionItems(month: Date.monthNow, year: Date.yearNow)
-  @ObservedObject private var transactionCategories = TransactionCategories()
+  @ObservedObject private var transactionItems = TransactionItems.shared
+  @ObservedObject private var transactionCategories = TransactionCategories.shared
   
   @State private var showingFormScreen = false
   @State private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
   
-  init(month: Int, year: Int, total: Binding<Double>, query: String) {
+  init(date: Date, total: Binding<Double>, query: String) {
     _transactionItems.wrappedValue.query = query
-    _transactionItems.wrappedValue.month = month
-    _transactionItems.wrappedValue.year = year
+    _transactionItems.wrappedValue.date = date
     totalTransaction = total
   }
   
@@ -92,25 +91,8 @@ struct TransactionItemList: View {
   }
 }
 
-//struct TransactionItemList_Previews: PreviewProvider {
-//  static let month: Int16 = 2
-//  static let year: Int16 = 2020
-//
-//  static var previews: some View {
-//
-//    let item1 = TransactionItem(with: nil)
-//    item1.name = "Compras"
-//    item1.value = 230.0
-//    item1.month = month
-//    item1.year = year
-//
-//    let item2 = TransactionItem(with: nil)
-//    item2.name = "Salario"
-//    item2.value = 2000
-//    item1.isInflow = true
-//    item2.month = month
-//    item2.year = year
-//
-//    return TransactionItemList(month: month, year: year, total: .constant(200.0), query: "").environment(\.managedObjectContext, Store.context)
-//  }
-//}
+struct TransactionItemList_Previews: PreviewProvider {
+  static var previews: some View {
+    return TransactionItemList(date: Date(), total: .constant(200.0), query: "")
+  }
+}

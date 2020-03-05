@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ShoppingItemList: View {
   
-  @ObservedObject private var shoppingItems = ShoppingItems()
-  @ObservedObject private var shoppingCategories = ShoppingCategories()
+  @ObservedObject private var shoppingItems = ShoppingItems.shared
+  @ObservedObject private var shoppingCategories = ShoppingCategories.shared
   
   @State private var showingFormScreen = false
   @State private var editingItem: ShoppingItem?
@@ -76,8 +76,8 @@ struct ShoppingItemList: View {
   }
 }
 
-//struct ShoppingItemList_Previews: PreviewProvider {
-//  static var previews: some View {
-//    ShoppingItemList(query: "").environment(\.managedObjectContext, Store.context)
-//  }
-//}
+struct ShoppingItemList_Previews: PreviewProvider {
+  static var previews: some View {
+    ShoppingItemList(query: "")
+  }
+}

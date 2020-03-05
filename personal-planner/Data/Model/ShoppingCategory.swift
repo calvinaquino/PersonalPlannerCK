@@ -8,11 +8,17 @@
 
 import Foundation
 import CloudKit
+import Combine
 
 class ShoppingCategory: Record {
   override class var recordType: String {
     "ShoppingCategory"
   }
+  
+  static func ==(lhs: ShoppingCategory, rhs: ShoppingCategory) -> Bool {(
+    lhs.id == rhs.id &&
+    lhs.name == rhs.name
+  )}
   
   var name: String {
     get { self.ckRecord["name"] ?? "" }
@@ -33,41 +39,40 @@ class ShoppingCategory: Record {
 }
 
 class ShoppingCategories: ObservableObject {
+  static let shared = ShoppingCategories()
+  
   required init() {
-    self.fetch()
-    NotificationCenter.default.addObserver(self, selector: #selector(update), name: .shoppingCategory, object: nil)
+    self.itemSubscriber = Store.shared.shoppingCategories.publisher
+      .receive(on: RunLoop.main)
+      .map({ $0.sorted{ $0.name < $1.name } })
+      .sink(receiveValue: { items in
+        if self.query.isEmpty {
+            self._items = items
+        } else {
+            self._filteredItems = items.filter{ self.filterPredicate().evaluate(with: $0.name) }
+        }
+      })
   }
   
   deinit {
-    NotificationCenter.default.removeObserver(self)
+    self.itemSubscriber.cancel()
   }
   
+  var itemSubscriber: AnyCancellable!
   @Published private var _items: [ShoppingCategory] = []
   @Published private var _filteredItems: [ShoppingCategory] = []
   var query: String = "" {
     didSet {
-      self.updateFilter()
+      self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) }
     }
   }
   
-  func updateFilter() {
-    if !self.query.isEmpty {
-      let predicate = NSPredicate(format: "SELF CONTAINS[c] %@", self.query)
-      self._filteredItems = self._items.filter {
-        predicate.evaluate(with: $0.name)
-      }
-    }
-  }
-  
-  @objc func update() {
-    DispatchQueue.main.async {
-      self._items = Store.shared.shoppingCategories.items.sorted{ $0.name < $1.name }
-      self.updateFilter()
-    }
+  func filterPredicate() -> NSPredicate {
+    NSPredicate(format: "SELF CONTAINS[c] %@", self.query)
   }
   
   func fetch() {
-    Cloud.fetchShoppingCategories { self.update() }
+    Cloud.fetchShoppingCategories { }
   }
   
   var items: [ShoppingCategory] {

@@ -46,6 +46,7 @@ class Cloud {
     }
     
     let subscriptionOperation = CKModifySubscriptionsOperation(subscriptionsToSave: subscriptionsToSave, subscriptionIDsToDelete: nil)
+    
     subscriptionOperation.modifySubscriptionsCompletionBlock = { (_, _, error) in
       if let error = error {
         print(error.localizedDescription)
@@ -58,6 +59,8 @@ class Cloud {
   
   class func queryOperation(for recordType: Record.Type, predicate: NSPredicate = NSPredicate(value: true)) -> CKQueryOperation {
     let query = CKQuery(recordType: recordType.recordType, predicate: predicate)
+    let nameSort = NSSortDescriptor(key: "name", ascending: true)
+    query.sortDescriptors = [nameSort]
     let queryOperation = CKQueryOperation(query: query)
     queryOperation.database = Cloud.shared.database
     return queryOperation
@@ -78,6 +81,7 @@ class Cloud {
   
   class func modify(save: Record?, delete: Record?, completion: @escaping () -> Void) {
     let modifyRecordsOperation = CKModifyRecordsOperation()
+    modifyRecordsOperation.savePolicy = .changedKeys
     if let save = save {
       modifyRecordsOperation.recordsToSave = [save.ckRecord]
     }
@@ -88,6 +92,9 @@ class Cloud {
     configuration.qualityOfService = .userInitiated
     modifyRecordsOperation.configuration = configuration
     modifyRecordsOperation.modifyRecordsCompletionBlock = { saved, deleted, error in
+      if error != nil {
+        print(error.debugDescription)
+      }
       completion()
     }
     Cloud.shared.database.add(modifyRecordsOperation)

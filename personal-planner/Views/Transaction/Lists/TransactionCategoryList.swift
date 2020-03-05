@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TransactionCategoryList: View {
-  @ObservedObject private var transactionCategories = TransactionCategories()
+  @ObservedObject private var transactionCategories = TransactionCategories.shared
   
   @State private var showingFormScreen = false
   @State private var editingItem: TransactionCategory?
@@ -54,13 +54,8 @@ struct TransactionCategoryList: View {
   }
 }
 
-//struct TransactionCategoryList_Previews: PreviewProvider {
-//  static var previews: some View {
-//    
-//    let item1 = TransactionCategory()
-//    item1.name = "Mercado"
-//    item1.budget = 500.0
-//    
-//    return TransactionCategoryList(query: "").environment(\.managedObjectContext, Store.context)
-//  }
-//}
+struct TransactionCategoryList_Previews: PreviewProvider {
+  static var previews: some View {
+    return TransactionCategoryList(query: "")
+  }
+}

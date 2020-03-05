@@ -8,11 +8,24 @@
 
 import SwiftUI
 import CloudKit
+import Combine
 
 class TransactionItem: Record {
   override class var recordType: String {
     "TransactionItem"
   }
+  
+  static func ==(lhs: TransactionItem, rhs: TransactionItem) -> Bool {(
+    lhs.id == rhs.id &&
+    lhs.name == rhs.name &&
+    lhs.location == rhs.location &&
+    lhs.value == rhs.value &&
+    lhs.isInflow == rhs.isInflow &&
+    lhs.day == rhs.day &&
+    lhs.month == rhs.month &&
+    lhs.year == rhs.year &&
+    lhs.transactionCategory == rhs.transactionCategory
+  )}
   
   var name: String {
     get { self.ckRecord["name"] ?? "" }
@@ -82,85 +95,51 @@ class TransactionItem: Record {
 }
 
 class TransactionItems: ObservableObject {
-  required init(month: Int, year: Int) {
-    self.month = month
-    self.year = year
-    self.fetch()
-    NotificationCenter.default.addObserver(self, selector: #selector(update), name: .transactionItem, object: nil)
+  static let shared = TransactionItems(date: Date())
+  
+  required init(date: Date) {
+    self.date = date
+    self.itemSubscriber = Store.shared.transactionItems.publisher
+      .receive(on: RunLoop.main)
+      .map({ $0.filter { $0.month == self.date.month && $0.year == self.date.year }.sorted{ $0.name < $1.name } })
+      .sink(receiveValue: { items in
+        if self.query.isEmpty {
+          self._items = items
+        } else {
+          self._filteredItems = items.filter{ self.filterPredicate().evaluate(with: $0.name) }
+        }
+      })
   }
   
   deinit {
-    NotificationCenter.default.removeObserver(self)
+    self.itemSubscriber.cancel()
   }
   
+  var itemSubscriber: AnyCancellable!
   @Published private var _items: [TransactionItem] = []
   @Published private var _filteredItems: [TransactionItem] = []
   var query: String = "" {
-    didSet {
-      self.updateFilter()
-    }
+    didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }
   
-  func updateFilter() {
-    if !self.query.isEmpty {
-      let predicate = NSPredicate(format: "SELF CONTAINS[c] %@", self.query)
-      self._filteredItems = self._items.filter {
-        predicate.evaluate(with: $0.name)
+  func filterPredicate() -> NSPredicate {
+    NSPredicate(format: "SELF CONTAINS[c] %@", self.query)
+  }
+  
+  var date: Date! {
+    didSet {
+      if oldValue != self.date {
+        self.fetch()
       }
     }
   }
   
-  var month: Int! {
-    didSet { self.update() }
-  }
-  var year: Int! {
-    didSet { self.update() }
-  }
-  
-  @objc func update() {
-    DispatchQueue.main.async {
-      self._items = Store.shared.transactionItems.items.filter { $0.month == self.month && $0.year == self.year }.sorted{ $0.name < $1.name }
-      self.updateFilter()
-    }
-  }
-  
   func fetch() {
-    Cloud.fetchTransactionItems(for: self.month, year: self.year) { self.update() }
+    Cloud.fetchTransactionItems(for: self.date.month, year: self.date.year) { }
   }
   
   var items: [TransactionItem] {
     return self.query.isEmpty ? _items : _filteredItems
   }
 }
-
-//class FetchTransactionItems: ObservableObject {
-//  var month: Int16 {
-//    didSet {
-//      self.updateRequest()
-//    }
-//  }
-//  var year: Int16 {
-//    didSet {
-//      self.updateRequest()
-//    }
-//  }
-//
-//  @FetchRequest(fetchRequest: TransactionItem.allFetchRequest()) var items: FetchedResults<TransactionItem>
-//
-//  func updateRequest() {
-//    let predicate = NSPredicate(format: "month == %@ AND year == $@", self.month.numberValue, self.year.numberValue)
-//    let sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-//    _items = FetchRequest(entity: TransactionItem.entity(), sortDescriptors: sortDescriptors, predicate: predicate)
-//  }
-//
-//  init(month: Int16, year: Int16) {
-//    self.month = month
-//    self.year = year
-//    self.updateRequest()
-//  }
-//
-//  func callAsFunction() -> FetchedResults<TransactionItem> {
-//    self.items
-//  }
-//}
 
