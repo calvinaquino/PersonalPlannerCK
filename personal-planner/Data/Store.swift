@@ -15,7 +15,7 @@ class Store {
     Cloud.fetchShoppingCategories { }
     Cloud.fetchTransactionCategories { }
     Cloud.fetchShoppingItems { }
-    Cloud.fetchTransactionItems(for: Date.monthNow, year: Date.yearNow) { }
+    Cloud.fetchTransactionItems(for: Date()) { }
   }
   
   static let shared = Store()

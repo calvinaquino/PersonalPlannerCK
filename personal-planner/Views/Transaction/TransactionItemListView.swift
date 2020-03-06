@@ -22,7 +22,7 @@ struct TransactionItemListView: View {
         SearchBar(searchText: self.$searchText)
         TransactionItemList(date: self.viewingDate, total: self.$total, query: self.searchText)
         .sheet(isPresented: $showingFormScreen) {
-            TransactionItemFormView(with: nil)
+          TransactionItemFormView(with: nil, date: self.viewingDate)
         }
         Toolbar {
           Button(action: {
@@ -63,9 +63,9 @@ struct TransactionItemListView: View {
           item.name = "Sobra mês anterior"
           item.value = self.total
           item.isInflow = true
-          item.day = 1
-          item.month = self.viewingDate.month + 1
-          item.year = self.viewingDate.year
+          item.date.day = 1
+          item.date.month = self.viewingDate.month + 1
+          item.date.year = self.viewingDate.year
           item.save()
         }), secondaryButton: .cancel(Text("Não")))
       }

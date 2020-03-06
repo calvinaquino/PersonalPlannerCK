@@ -21,9 +21,7 @@ class TransactionItem: Record {
     lhs.location == rhs.location &&
     lhs.value == rhs.value &&
     lhs.isInflow == rhs.isInflow &&
-    lhs.day == rhs.day &&
-    lhs.month == rhs.month &&
-    lhs.year == rhs.year &&
+    lhs.date == rhs.date &&
     lhs.transactionCategory == rhs.transactionCategory
   )}
   
@@ -43,17 +41,9 @@ class TransactionItem: Record {
     get { self.ckRecord["isInflow"] ?? false }
     set { self.ckRecord["isInflow"] = newValue}
   }
-  var day: Int {
-    get { self.ckRecord["day"] ?? 0 }
-    set { self.ckRecord["day"] = newValue }
-  }
-  var month: Int {
-    get { self.ckRecord["month"] ?? 0 }
-    set { self.ckRecord["month"] = newValue }
-  }
-  var year: Int {
-    get { self.ckRecord["year"] ?? 0 }
-    set { self.ckRecord["year"] = newValue }
+  var date: Date {
+    get { self.ckRecord["date"] ?? Date() }
+    set { self.ckRecord["date"] = newValue }
   }
   
   var valueSigned: Double {
@@ -101,7 +91,7 @@ class TransactionItems: ObservableObject {
     self.date = date
     self.itemSubscriber = Store.shared.transactionItems.publisher
       .receive(on: RunLoop.main)
-      .map({ $0.filter { $0.month == self.date.month && $0.year == self.date.year }.sorted{ $0.name < $1.name } })
+      .map({ $0.filter { $0.date.month == self.date.month && $0.date.year == self.date.year }.sorted{ $0.name < $1.name } })
       .sink(receiveValue: { items in
         if self.query.isEmpty {
           self._items = items
@@ -135,7 +125,7 @@ class TransactionItems: ObservableObject {
   }
   
   func fetch() {
-    Cloud.fetchTransactionItems(for: self.date.month, year: self.date.year) { }
+    Cloud.fetchTransactionItems(for: self.date) { }
   }
   
   var items: [TransactionItem] {

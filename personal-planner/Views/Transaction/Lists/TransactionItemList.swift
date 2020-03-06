@@ -65,7 +65,7 @@ struct TransactionItemList: View {
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
         self.editingItem = nil
       }) {
-        TransactionItemFormView(with: self.editingItem)
+        TransactionItemFormView(with: self.editingItem, date: nil)
           .onDisappear {
             self.updateTotals()
         }

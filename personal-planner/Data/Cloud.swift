@@ -167,10 +167,9 @@ class Cloud {
     Cloud.shared.database.add(fetchOperation)
   }
   
-  class func fetchTransactionItems(for month: Int, year: Int, completion: @escaping () -> Void) {
+  class func fetchTransactionItems(for date: Date, completion: @escaping () -> Void) {
     var transactionItems: [TransactionItem] = []
-    let predicate = TransactionItem.predicate(month: month, year: year)
-    let fetchOperation = queryOperation(for: TransactionItem.self, predicate: predicate)
+    let fetchOperation = queryOperation(for: TransactionItem.self, predicate: date.currentMonthPredicate)
     fetchOperation.recordFetchedBlock = { record in
       transactionItems.append(TransactionItem(with: record))
     }

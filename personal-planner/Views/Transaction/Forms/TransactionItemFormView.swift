@@ -14,14 +14,14 @@ import SwiftUI
 struct TransactionItemFormView: View {
   
   init() {
-    self.init(with: nil)
+    self.init(with: nil, date: nil)
   }
 
-  init(with transactionItem: TransactionItem?) {
+  init(with transactionItem: TransactionItem?, date: Date?) {
     self.item = transactionItem
     _name = State(initialValue: item?.name ?? "")
     _value = State(initialValue: item?.value.stringValue ?? "")
-    _date = State(initialValue: Date.with(day: item?.day, month: item?.month, year: item?.year))
+    _date = State(initialValue: date ?? transactionItem?.date ?? Date())
     _isInflow = State(initialValue: item?.isInflow ?? false)
     _category = State(initialValue: item?.transactionCategory ?? nil)
   }
@@ -61,9 +61,7 @@ struct TransactionItemFormView: View {
             editingItem.name = self.name
             editingItem.value = self.value.doubleValue
             editingItem.isInflow = self.isInflow
-            editingItem.day = self.date.day
-            editingItem.month = self.date.month
-            editingItem.year = self.date.year
+            editingItem.date = self.date
             editingItem.transactionCategory = self.category
             editingItem.save()
             self.presentationMode.wrappedValue.dismiss()

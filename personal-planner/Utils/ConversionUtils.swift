@@ -147,6 +147,20 @@ extension Date {
     }
   }
   
+    var currentMonthPredicate: NSPredicate {
+      let start = self.startOfMonth() as NSDate
+      let end = self.endOfMonth() as NSDate
+      return NSPredicate(format: "%@ <= date AND date <= %@", start, end)
+    }
+  
+  func endOfMonth() -> Date {
+    Calendar.current.dateInterval(of: .month, for: self)!.end
+  }
+
+  func startOfMonth() -> Date {
+    Calendar.current.dateInterval(of: .month, for: self)!.start
+  }
+  
   mutating func nextMonth() {
     if self.month + 1 > 12 {
       self.month = 1
