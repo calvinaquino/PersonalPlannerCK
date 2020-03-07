@@ -34,10 +34,10 @@ struct TransactionItemList: View {
   var body: some View {
     List {
       ForEach(sections, id: \.id) { section in
-        Section(header: HStack{
+        Section(header: HStack {
           Text(section.categoryName)
           Spacer()
-          Text(section.total.stringCurrencyValue)
+          Text(section.currentVersusTotal)
         }) {
           ForEach(section.transactions, id: \.id) { item in
             HStack {
@@ -59,6 +59,9 @@ struct TransactionItemList: View {
           }
           .onDisappear {
             self.updateTotals()
+          }
+          if self.sections.last == section {
+            Rectangle().foregroundColor(.clear)
           }
         }
       }

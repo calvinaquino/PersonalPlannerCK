@@ -53,21 +53,26 @@ struct ShoppingItemFormView: View {
             Text("Geral").tag(nil as ShoppingCategory?)
           }
         }
-        Section {
-          Button("Salvar") {
-            let editingItem = self.item ?? ShoppingItem()
-            editingItem.name = self.name
-            editingItem.localizedName = self.localizedName
-            editingItem.price = self.price.doubleValue
-            editingItem.isNeeded = self.isNeeded
-            editingItem.shoppingCategory = self.category
-            editingItem.save()
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }
       }
       .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
+      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+          Text("Cancelar")
+      }, trailing: Button(action: { self.save()}) {
+          Text("Salvar")
+      })
     }
+    .navigationViewStyle(StackNavigationViewStyle())
+  }
+  
+  func save() {
+    let editingItem = self.item ?? ShoppingItem()
+    editingItem.name = self.name
+    editingItem.localizedName = self.localizedName
+    editingItem.price = self.price.doubleValue
+    editingItem.isNeeded = self.isNeeded
+    editingItem.shoppingCategory = self.category
+    editingItem.save()
+    self.presentationMode.wrappedValue.dismiss()
   }
 }
 

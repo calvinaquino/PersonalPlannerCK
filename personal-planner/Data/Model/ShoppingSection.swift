@@ -10,6 +10,7 @@ import SwiftUI
 import CoreData
 
 struct ShoppingSection: Hashable, Identifiable {
+  var visible: Bool = true
   var category: ShoppingCategory?
   var items: [ShoppingItem]
   var categoryName: String {
@@ -18,6 +19,10 @@ struct ShoppingSection: Hashable, Identifiable {
   
   var id: String {
     self.category?.id ?? "Geral"
+  }
+  
+  var countVersusTotal: String {
+    "\(self.items.filter{!$0.isNeeded}.count)/\(self.items.count)"
   }
   
   static func sections(items: [ShoppingItem], categories: [ShoppingCategory]) -> [ShoppingSection] {

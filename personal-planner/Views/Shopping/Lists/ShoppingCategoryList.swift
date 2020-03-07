@@ -34,16 +34,17 @@ struct ShoppingCategoryList: View {
       }
       .onDelete(perform: self.delete)
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-          self.editingItem = nil
-        }) {
-          ShoppingCategoryFormView(with: self.editingItem)
+        self.editingItem = nil
+      }) {
+        ShoppingCategoryFormView(with: self.editingItem)
       }
+      Rectangle().foregroundColor(.clear)
     }
     .overlay(
       RefreshButton(action: {
         self.shoppingCategories.fetch()
       })
-    , alignment: .bottomTrailing)
+      , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet) {
@@ -55,7 +56,7 @@ struct ShoppingCategoryList: View {
 }
 
 struct ShoppingCategoryList_Previews: PreviewProvider {
-    static var previews: some View {
-        ShoppingCategoryList(query: "")
-    }
+  static var previews: some View {
+    ShoppingCategoryList(query: "")
+  }
 }

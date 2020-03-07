@@ -38,6 +38,7 @@ struct TransactionCategoryList: View {
       }) {
         TransactionCategoryFormView(with: self.editingItem)
       }
+      Rectangle().foregroundColor(.clear)
     }
     .overlay(
       RefreshButton(action: {

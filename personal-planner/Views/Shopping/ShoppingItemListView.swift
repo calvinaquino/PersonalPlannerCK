@@ -32,6 +32,7 @@ struct ShoppingItemListView: View {
           Text("Novo")
       })
     }
+    .navigationViewStyle(StackNavigationViewStyle())
   }
 }
 

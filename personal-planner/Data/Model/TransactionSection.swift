@@ -29,6 +29,10 @@ struct TransactionSection: Hashable, Identifiable {
     self.category?.id ?? "Geral"
   }
   
+  var currentVersusTotal: String {
+    "\(self.categoryBudget + self.total)/\(self.categoryBudget)"
+  }
+  
   static func sections(items: [TransactionItem], categories: [TransactionCategory]) -> [TransactionSection] {
     var sections: [TransactionSection] = []
     let generalSection = TransactionSection(category: nil, transactions: items.filter({

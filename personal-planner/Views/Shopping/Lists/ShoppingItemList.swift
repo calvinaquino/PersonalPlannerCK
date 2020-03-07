@@ -29,14 +29,24 @@ struct ShoppingItemList: View {
   var body: some View {
     List {
       ForEach(sections, id: \.id) { section in
-        Section(header: Text(section.categoryName)) {
+        Section(header: HStack {
+          Text(section.categoryName)
+          Spacer()
+          Text(section.countVersusTotal)
+        }) {
           ForEach(section.items, id: \.id) { item in
             HStack {
-              Text(item.name)
-              Text(item.price.stringCurrencyValue)
+              VStack(alignment: .leading) {
+                Text(item.name)
+                Text(item.localizedName)
+                  .font(.subheadline)
+              }
               Spacer()
+              Text(item.price.stringCurrencyValue)
               Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
+                .imageScale(.large)
                 .contentShape(Rectangle())
+                .frame(width: 40, height: 40, alignment: .center)
                 .foregroundColor(Color(.systemBlue))
                 .onTapGesture {
                   item.isNeeded.toggle()
@@ -52,6 +62,9 @@ struct ShoppingItemList: View {
           .onDelete(perform: { offsets in
             self.delete(at: offsets, in: section)
           })
+          if self.sections.last == section {
+            Rectangle().foregroundColor(.clear)
+          }
         }
       }
       .sheet(isPresented: self.$showingFormScreen, onDismiss: {

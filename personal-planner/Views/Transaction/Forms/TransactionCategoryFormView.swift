@@ -33,18 +33,23 @@ struct TransactionCategoryFormView: View {
           TextField("Nome", text: $name)
           TextField("Orçamento", text: $budget)
         }
-        Section {
-          Button("Salvar") {
-            let editingItem = self.item ?? TransactionCategory()
-            editingItem.name = self.name
-            editingItem.budget = self.budget.doubleValue
-            editingItem.save()
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }
       }
       .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
+      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+          Text("Cancelar")
+      }, trailing: Button(action: { self.save()}) {
+          Text("Salvar")
+      })
     }
+    .navigationViewStyle(StackNavigationViewStyle())
+  }
+  
+  func save() {
+    let editingItem = self.item ?? TransactionCategory()
+    editingItem.name = self.name
+    editingItem.budget = self.budget.doubleValue
+    editingItem.save()
+    self.presentationMode.wrappedValue.dismiss()
   }
 }
 

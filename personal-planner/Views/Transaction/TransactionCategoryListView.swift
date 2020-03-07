@@ -24,7 +24,8 @@ struct TransactionCategoryListView: View {
     .navigationBarItems(trailing: Button(action: {
       self.showingFormScreen.toggle()
     }) {
-      Image(systemName: "plus")
+//      Image(systemName: "plus")
+      Text("Novo")
     })
   }
 }

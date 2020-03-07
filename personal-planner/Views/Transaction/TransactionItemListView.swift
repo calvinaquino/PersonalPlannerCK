@@ -70,6 +70,7 @@ struct TransactionItemListView: View {
         }), secondaryButton: .cancel(Text("Não")))
       }
     }
+    .navigationViewStyle(StackNavigationViewStyle())
   }
   
   func totalForMonth() -> String {

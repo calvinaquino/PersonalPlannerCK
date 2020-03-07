@@ -30,17 +30,22 @@ struct ShoppingCategoryFormView: View {
         Section {
           TextField("Nome", text: $name)
         }
-        Section {
-          Button("Salvar") {
-            let editingItem = self.item ?? ShoppingCategory()
-            editingItem.name = self.name
-            editingItem.save()
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }
       }
       .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
+      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+          Text("Cancelar")
+      }, trailing: Button(action: { self.save()}) {
+          Text("Salvar")
+      })
     }
+    .navigationViewStyle(StackNavigationViewStyle())
+  }
+  
+  func save() {
+    let editingItem = self.item ?? ShoppingCategory()
+    editingItem.name = self.name
+    editingItem.save()
+    self.presentationMode.wrappedValue.dismiss()
   }
 }
 

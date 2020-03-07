@@ -55,21 +55,26 @@ struct TransactionItemFormView: View {
             Text("Geral").tag(nil as TransactionCategory?)
           }
         }
-        Section {
-          Button("Salvar") {
-            let editingItem = self.item ?? TransactionItem()
-            editingItem.name = self.name
-            editingItem.value = self.value.doubleValue
-            editingItem.isInflow = self.isInflow
-            editingItem.date = self.date
-            editingItem.transactionCategory = self.category
-            editingItem.save()
-            self.presentationMode.wrappedValue.dismiss()
-          }
-        }
       }
       .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
+      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+          Text("Cancelar")
+      }, trailing: Button(action: { self.save()}) {
+          Text("Salvar")
+      })
     }
+    .navigationViewStyle(StackNavigationViewStyle())
+  }
+  
+  func save() {
+    let editingItem = self.item ?? TransactionItem()
+    editingItem.name = self.name
+    editingItem.value = self.value.doubleValue
+    editingItem.isInflow = self.isInflow
+    editingItem.date = self.date
+    editingItem.transactionCategory = self.category
+    editingItem.save()
+    self.presentationMode.wrappedValue.dismiss()
   }
 }
 

@@ -22,7 +22,8 @@ struct ShoppingCategoryListView: View {
     }
     .navigationBarTitle("Categories", displayMode: .inline)
     .navigationBarItems(trailing: Button(action: { self.showingFormScreen.toggle() }) {
-      Image(systemName: "plus")
+//      Image(systemName: "plus")
+      Text("Novo")
     })
   }
 }
