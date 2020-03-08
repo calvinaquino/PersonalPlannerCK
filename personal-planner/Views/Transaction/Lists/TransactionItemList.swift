@@ -40,14 +40,8 @@ struct TransactionItemList: View {
           Text(section.currentVersusTotal)
         }) {
           ForEach(section.transactions, id: \.id) { item in
-            HStack {
-              Text(item.name)
-              Spacer()
-              Text(item.valueSigned.stringCurrencyValue)
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-              self.editingItem = item
+            TransactionItemRow(item: item) {
+              self.editingItem = $0
               self.showingFormScreen.toggle()
             }
           }

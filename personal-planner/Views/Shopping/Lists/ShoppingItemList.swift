@@ -25,93 +25,32 @@ struct ShoppingItemList: View {
   }
   
   var sections: [ShoppingSection] {
-    ShoppingSection.sections(items: shoppingItems.items, categories: shoppingCategories.items)
-  }
-  
-  var filtered: [ShoppingItem] {
-    shoppingItems.items.filter { $0.isNeeded }
+    ShoppingSection.sections(items: shoppingItems.items, categories: shoppingCategories.items, filter: self.isFiltering)
   }
   
   var body: some View {
-    Group {
-      if self.isFiltering {
-        List {
-          ForEach(filtered, id: \.id) { item in
-            HStack {
-              VStack(alignment: .leading) {
-                Text(item.name)
-                Text(item.localizedName)
-                  .font(.subheadline)
-              }
-              Spacer()
-              Text(item.price.stringCurrencyValue)
-              Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
-                .imageScale(.large)
-                .contentShape(Rectangle())
-                .frame(width: 40, height: 40, alignment: .center)
-                .foregroundColor(Color(.systemBlue))
-                .onTapGesture {
-                  item.isNeeded.toggle()
-                  item.save()
-              }
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-              self.editingItem = item
-              self.showingFormScreen.toggle()
+    List {
+      ForEach(sections, id: \.id) { section in
+        Section(header: HStack {
+          Text(section.categoryName)
+          Spacer()
+          Text(self.isFiltering ? section.items.count.stringValue : section.countVersusTotal)
+        }) {
+          ForEach(section.items, id: \.id) { item in
+            ShoppingItemRow(item: item) {
+              self.editingItem = $0
+              self.showingFormScreen = true
             }
           }
           .onDelete(perform: { offsets in
-            for offset in offsets {
-              let item = self.filtered[offset]
-              item.delete()
-            }
+            self.delete(at: offsets, in: section)
           })
         }
-      } else {
-        List {
-          ForEach(sections, id: \.id) { section in
-            Section(header: HStack {
-              Text(section.categoryName)
-              Spacer()
-              Text(section.countVersusTotal)
-            }) {
-              ForEach(section.items, id: \.id) { item in
-                HStack {
-                  VStack(alignment: .leading) {
-                    Text(item.name)
-                    Text(item.localizedName)
-                      .font(.subheadline)
-                  }
-                  Spacer()
-                  Text(item.price.stringCurrencyValue)
-                  Image(systemName: item.isNeeded ? "cube.box" : "cube.box.fill")
-                    .imageScale(.large)
-                    .contentShape(Rectangle())
-                    .frame(width: 40, height: 40, alignment: .center)
-                    .foregroundColor(Color(.systemBlue))
-                    .onTapGesture {
-                      item.isNeeded.toggle()
-                      item.save()
-                  }
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                  self.editingItem = item
-                  self.showingFormScreen.toggle()
-                }
-              }
-              .onDelete(perform: { offsets in
-                self.delete(at: offsets, in: section)
-              })
-            }
-          }
-          .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-            self.editingItem = nil
-          }) {
-            ShoppingItemFormView(with: self.editingItem)
-          }
-        }
+      }
+      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
+        self.editingItem = nil
+      }) {
+        ShoppingItemFormView(with: self.editingItem)
       }
     }
   }

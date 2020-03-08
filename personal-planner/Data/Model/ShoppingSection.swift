@@ -25,16 +25,17 @@ struct ShoppingSection: Hashable, Identifiable {
     "\(self.items.filter{!$0.isNeeded}.count)/\(self.items.count)"
   }
   
-  static func sections(items: [ShoppingItem], categories: [ShoppingCategory]) -> [ShoppingSection] {
+  static func sections(items: [ShoppingItem], categories: [ShoppingCategory], filter: Bool) -> [ShoppingSection] {
     var sections: [ShoppingSection] = []
-    let generalSection = ShoppingSection(category: nil, items: items.filter({
+    let filteredItems = filter ? items.filter { $0.isNeeded } : items
+    let generalSection = ShoppingSection(category: nil, items: filteredItems.filter({
       ($0.shoppingCategory == nil)
     }))
     if generalSection.items.count > 0 {
       sections.append(generalSection)
     }
     for category in categories {
-      let section = ShoppingSection(category: category, items: items.filter({
+      let section = ShoppingSection(category: category, items: filteredItems.filter({
         ($0.shoppingCategory != nil) ? $0.shoppingCategory!.id == category.id : false
       }))
       if section.items.count > 0 {
