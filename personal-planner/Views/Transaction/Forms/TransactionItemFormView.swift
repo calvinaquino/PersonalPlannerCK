@@ -20,7 +20,7 @@ struct TransactionItemFormView: View {
   init(with transactionItem: TransactionItem?, date: Date?) {
     self.item = transactionItem
     _name = State(initialValue: item?.name ?? "")
-    _value = State(initialValue: item?.value.stringValue ?? "")
+    _value = State(initialValue: item?.value.stringCurrencyValue ?? "")
     _date = State(initialValue: date ?? transactionItem?.date ?? Date())
     _isInflow = State(initialValue: item?.isInflow ?? false)
     _category = State(initialValue: item?.transactionCategory ?? nil)

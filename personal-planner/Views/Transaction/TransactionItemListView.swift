@@ -19,7 +19,15 @@ struct TransactionItemListView: View {
   var body: some View {
     NavigationView {
       VStack {
-        SearchBar(searchText: self.$searchText)
+        HStack {
+          SearchBar(searchText: self.$searchText)
+          if searchText.isEmpty {
+            RefreshButton(action: {
+              Cloud.fetchTransactionCategories { }
+              Cloud.fetchTransactionItems(for: self.viewingDate) { }
+            })
+          }
+        }
         TransactionItemList(date: self.viewingDate, total: self.$total, query: self.searchText)
         .sheet(isPresented: $showingFormScreen) {
           TransactionItemFormView(with: nil, date: self.viewingDate)
@@ -30,6 +38,8 @@ struct TransactionItemListView: View {
             self.total = 0.0
           }) {
             Image(systemName: "chevron.left")
+            .frame(width: 30, height: 30, alignment: .center)
+            .contentShape(Rectangle())
           }
           Spacer()
           Text(self.viewingDate.currentMonthAndYear())
@@ -45,6 +55,8 @@ struct TransactionItemListView: View {
             self.total = 0.0
           }) {
             Image(systemName: "chevron.right")
+            .frame(width: 30, height: 30, alignment: .center)
+            .contentShape(Rectangle())
           }
         }
       }

@@ -14,7 +14,14 @@ struct ShoppingCategoryListView: View {
   
   var body: some View {
     VStack {
-      SearchBar(searchText: self.$searchText)
+      HStack {
+        SearchBar(searchText: self.$searchText)
+        if searchText.isEmpty {
+          RefreshButton(action: {
+            Cloud.fetchShoppingCategories { }
+          })
+        }
+      }
       ShoppingCategoryList(query: self.searchText)
         .sheet(isPresented: $showingFormScreen) {
           ShoppingCategoryFormView(with: nil)

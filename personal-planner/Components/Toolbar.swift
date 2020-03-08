@@ -22,7 +22,8 @@ struct Toolbar<Content>: View where Content : View {
       HStack {
         self.content()
       }
-      .padding(16)
+      .frame(width: nil, height: 44, alignment: .center)
+      .padding(EdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 10))
     }
     .frame(width: nil, height: 50, alignment: .center)
   }

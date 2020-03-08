@@ -38,13 +38,7 @@ struct ShoppingCategoryList: View {
       }) {
         ShoppingCategoryFormView(with: self.editingItem)
       }
-      Rectangle().foregroundColor(.clear)
     }
-    .overlay(
-      RefreshButton(action: {
-        self.shoppingCategories.fetch()
-      })
-      , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet) {

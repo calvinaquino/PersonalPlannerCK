@@ -54,14 +54,11 @@ struct TransactionItemList: View {
           .onDelete(perform: { offsets in
             self.delete(at: offsets, in: section)
           })
-            .onAppear {
-              self.updateTotals()
+          .onAppear {
+            self.updateTotals()
           }
           .onDisappear {
             self.updateTotals()
-          }
-          if self.sections.last == section {
-            Rectangle().foregroundColor(.clear)
           }
         }
       }
@@ -74,12 +71,6 @@ struct TransactionItemList: View {
         }
       }
     }
-    .overlay(
-      RefreshButton(action: {
-        self.transactionCategories.fetch()
-        self.transactionItems.fetch()
-      })
-    , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet, in section: TransactionSection) {

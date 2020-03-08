@@ -38,13 +38,7 @@ struct TransactionCategoryList: View {
       }) {
         TransactionCategoryFormView(with: self.editingItem)
       }
-      Rectangle().foregroundColor(.clear)
     }
-    .overlay(
-      RefreshButton(action: {
-        self.transactionCategories.fetch()
-      })
-    , alignment: .bottomTrailing)
   }
   
   func delete(at offsets: IndexSet) {

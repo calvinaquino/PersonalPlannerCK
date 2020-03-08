@@ -30,7 +30,10 @@ struct TransactionSection: Hashable, Identifiable {
   }
   
   var currentVersusTotal: String {
-    "\(self.categoryBudget + self.total)/\(self.categoryBudget)"
+    if category == nil {
+      return "\(self.total.stringCurrencyValue)"
+    }
+    return "\((self.categoryBudget + self.total).stringCurrencyValue)/\(self.categoryBudget.stringCurrencyValue)"
   }
   
   static func sections(items: [TransactionItem], categories: [TransactionCategory]) -> [TransactionSection] {

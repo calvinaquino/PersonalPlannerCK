@@ -13,12 +13,24 @@ struct ShoppingItemListView: View {
   
   @State private var showingFormScreen = false
   @State private var searchText: String = ""
+  @State private var isActive = false
   
   var body: some View {
     NavigationView {
       VStack {
-        SearchBar(searchText: self.$searchText)
-        ShoppingItemList(query: searchText)
+        HStack {
+          SearchBar(searchText: self.$searchText)
+          if searchText.isEmpty {
+            FilterButton(isActive: self.$isActive) {
+              self.isActive.toggle()
+            }
+            RefreshButton(action: {
+              Cloud.fetchShoppingCategories { }
+              Cloud.fetchShoppingItems { }
+            })
+          }
+        }
+        ShoppingItemList(query: searchText, isFiltering: self.$isActive)
         .sheet(isPresented: $showingFormScreen) {
             ShoppingItemFormView(with: nil)
         }
