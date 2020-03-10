@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "44B24B7B24007B3300B4EA0B"
-               BuildableName = "personal-planner.app"
+               BuildableName = "Planejador.app"
                BlueprintName = "personal-planner"
                ReferencedContainer = "container:personal-planner.xcodeproj">
             </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "44B24B7B24007B3300B4EA0B"
-            BuildableName = "personal-planner.app"
+            BuildableName = "Planejador.app"
             BlueprintName = "personal-planner"
             ReferencedContainer = "container:personal-planner.xcodeproj">
          </BuildableReference>
@@ -82,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "44B24B7B24007B3300B4EA0B"
-            BuildableName = "personal-planner.app"
+            BuildableName = "Planejador.app"
             BlueprintName = "personal-planner"
             ReferencedContainer = "container:personal-planner.xcodeproj">
          </BuildableReference>

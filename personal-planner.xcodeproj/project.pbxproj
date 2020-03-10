@@ -10,6 +10,7 @@
 		4401B7DB2414E84100641B18 /* FilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4401B7DA2414E84100641B18 /* FilterButton.swift */; };
 		4401B7DD2415978200641B18 /* ShoppingItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4401B7DC2415978200641B18 /* ShoppingItemRow.swift */; };
 		4401B7DF24159D0600641B18 /* TransactionItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4401B7DE24159D0600641B18 /* TransactionItemRow.swift */; };
+		442DF2FC241732B100BB1D89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 442DF2FB241732B100BB1D89 /* Assets.xcassets */; };
 		444283C324024EDF005D731A /* TransactionItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444283C224024EDF005D731A /* TransactionItemFormView.swift */; };
 		444283C524032988005D731A /* TransactionItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444283C424032988005D731A /* TransactionItemList.swift */; };
 		4484BB16240C6804009ED7F7 /* Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4484BB15240C6804009ED7F7 /* Cloud.swift */; };
@@ -29,7 +30,6 @@
 		44B24B8224007B3300B4EA0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8124007B3300B4EA0B /* SceneDelegate.swift */; };
 		44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8324007B3300B4EA0B /* personal_planner.xcdatamodeld */; };
 		44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8624007B3300B4EA0B /* ContentView.swift */; };
-		44B24B8924007B3500B4EA0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44B24B8824007B3500B4EA0B /* Assets.xcassets */; };
 		44B24B8C24007B3500B4EA0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44B24B8B24007B3500B4EA0B /* Preview Assets.xcassets */; };
 		44B24B8F24007B3500B4EA0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */; };
 		44B24B9A24007B3600B4EA0B /* personal_plannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B9924007B3600B4EA0B /* personal_plannerTests.swift */; };
@@ -69,6 +69,7 @@
 		4401B7DA2414E84100641B18 /* FilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterButton.swift; sourceTree = "<group>"; };
 		4401B7DC2415978200641B18 /* ShoppingItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemRow.swift; sourceTree = "<group>"; };
 		4401B7DE24159D0600641B18 /* TransactionItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemRow.swift; sourceTree = "<group>"; };
+		442DF2FB241732B100BB1D89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/AppIcons/Assets.xcassets; sourceTree = "<group>"; };
 		444283C224024EDF005D731A /* TransactionItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemFormView.swift; sourceTree = "<group>"; };
 		444283C424032988005D731A /* TransactionItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemList.swift; sourceTree = "<group>"; };
 		4484BB15240C6804009ED7F7 /* Cloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud.swift; sourceTree = "<group>"; };
@@ -89,7 +90,6 @@
 		44B24B8124007B3300B4EA0B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		44B24B8424007B3300B4EA0B /* personal_planner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = personal_planner.xcdatamodel; sourceTree = "<group>"; };
 		44B24B8624007B3300B4EA0B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		44B24B8824007B3500B4EA0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44B24B8B24007B3500B4EA0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		44B24B8E24007B3500B4EA0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44B24B9024007B3500B4EA0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 				44B24BB624009DEF00B4EA0B /* Views */,
 				44B24BB724009DFC00B4EA0B /* Data */,
 				44B24BCE2400AD5100B4EA0B /* Components */,
-				44B24B8824007B3500B4EA0B /* Assets.xcassets */,
+				442DF2FB241732B100BB1D89 /* Assets.xcassets */,
 				44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */,
 				44B24B9024007B3500B4EA0B /* Info.plist */,
 				44B24B8324007B3300B4EA0B /* personal_planner.xcdatamodeld */,
@@ -438,7 +438,7 @@
 			files = (
 				44B24B8F24007B3500B4EA0B /* LaunchScreen.storyboard in Resources */,
 				44B24B8C24007B3500B4EA0B /* Preview Assets.xcassets in Resources */,
-				44B24B8924007B3500B4EA0B /* Assets.xcassets in Resources */,
+				442DF2FC241732B100BB1D89 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,7 +671,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = Planejador;
 				SUPPORTS_MACCATALYST = YES;
@@ -695,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3;
+				MARKETING_VERSION = 0.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = Planejador;
 				SUPPORTS_MACCATALYST = YES;
