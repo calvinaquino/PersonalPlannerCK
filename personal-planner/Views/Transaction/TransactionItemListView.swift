@@ -11,6 +11,7 @@ import SwiftUI
 struct TransactionItemListView: View {
   
   @State private var viewingDate: Date = Date()
+  @State private var editingItem: TransactionItem? = nil
   @State private var showingFormScreen = false
   @State private var showingAlert = false
   @State private var searchText: String = ""
@@ -23,15 +24,18 @@ struct TransactionItemListView: View {
           SearchBar(searchText: self.$searchText)
           if searchText.isEmpty {
             RefreshButton(action: {
-              Cloud.fetchTransactionCategories { }
-              Cloud.fetchTransactionItems(for: self.viewingDate) { }
+              Cloud.fetchTransactionCategories{}
+              Cloud.fetchTransactionItems(for: self.viewingDate){}
             })
           }
         }
-        TransactionItemList(date: self.viewingDate, total: self.$total, query: self.searchText)
-        .sheet(isPresented: $showingFormScreen) {
-          TransactionItemFormView(with: nil, date: self.viewingDate)
-        }
+        TransactionItemList(
+          date: self.viewingDate,
+          total: self.$total,
+          query: self.searchText,
+          editingItem: self.$editingItem,
+          showingFormScreen: self.$showingFormScreen
+        )
         Toolbar {
           Button(action: {
             self.viewingDate.previousMonth()
@@ -64,7 +68,10 @@ struct TransactionItemListView: View {
       .navigationBarItems(leading: NavigationLink(destination: TransactionCategoryListView()) {
 //        Image(systemName: "folder")
         Text("Categorias")
-      }, trailing: Button(action: { self.showingFormScreen.toggle() }) {
+      }, trailing: Button(action: {
+        self.editingItem = nil
+        self.showingFormScreen.toggle()
+      }) {
 //        Image(systemName: "plus")
         Text("Novo")
       })
@@ -81,6 +88,9 @@ struct TransactionItemListView: View {
           item.save()
         }), secondaryButton: .cancel(Text("Não")))
       }
+    }
+    .sheet(isPresented: $showingFormScreen) {
+      TransactionItemFormView(with: self.$editingItem.wrappedValue, date: self.viewingDate)
     }
     .navigationViewStyle(StackNavigationViewStyle())
   }

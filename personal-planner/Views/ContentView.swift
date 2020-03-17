@@ -9,18 +9,21 @@
 import SwiftUI
 
 struct ContentView: View {
+  
+  @State var tabIndex: Int
+  
   var body: some View {
-    TabView {
+    TabView(selection: self.$tabIndex) {
       ShoppingItemListView()
         .tabItem {
           Image(systemName: "cart")
           Text("Mercado")
-      }
+      }.tag(0)
       TransactionItemListView()
         .tabItem {
           Image(systemName: "dollarsign.circle")
           Text("Finanças")
-      }
+      }.tag(1)
     }
     .font(.headline)
   }
@@ -28,6 +31,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView()
+    ContentView(tabIndex: 0)
   }
 }

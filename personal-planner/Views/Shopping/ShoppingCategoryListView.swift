@@ -11,6 +11,7 @@ import SwiftUI
 struct ShoppingCategoryListView: View {
   @State private var showingFormScreen = false
   @State private var searchText: String = ""
+  @State private var editingItem: ShoppingCategory?
   
   var body: some View {
     VStack {
@@ -22,10 +23,14 @@ struct ShoppingCategoryListView: View {
           })
         }
       }
-      ShoppingCategoryList(query: self.searchText)
-        .sheet(isPresented: $showingFormScreen) {
-          ShoppingCategoryFormView(with: nil)
-      }
+      ShoppingCategoryList(
+        query: self.searchText,
+        editingItem: self.$editingItem,
+        showingFormScreen: self.$showingFormScreen
+      )
+    }
+    .sheet(isPresented: $showingFormScreen) {
+        ShoppingCategoryFormView(with: nil)
     }
     .navigationBarTitle("Categories", displayMode: .inline)
     .navigationBarItems(trailing: Button(action: { self.showingFormScreen.toggle() }) {

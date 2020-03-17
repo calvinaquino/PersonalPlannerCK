@@ -14,7 +14,7 @@ import SwiftUI
 struct ShoppingItemFormView: View {
   
   init() {
-    self.init(with: nil)
+    self.init(with: FormViewManager.shared.shoppingItemForm.editingItem)
   }
 
   init(with shoppingItem: ShoppingItem?) {

@@ -12,6 +12,8 @@ import CloudKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
+  var shortcutItemToProcess: UIApplicationShortcutItem?
+  
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     
@@ -22,6 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
       }
     })
+    
+    if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+        shortcutItemToProcess = shortcutItem
+    }
     
     return true
   }
@@ -57,5 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Cloud.subscribeIfNeeded()
   }
   
+  func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+      shortcutItemToProcess = shortcutItem
+  }
 }
 

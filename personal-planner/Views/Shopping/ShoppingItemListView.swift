@@ -12,6 +12,7 @@ import SwiftUI
 struct ShoppingItemListView: View {
   
   @State private var showingFormScreen = false
+  @State private var editingItem: ShoppingItem? = nil
   @State private var searchText: String = ""
   @State private var isActive = false
   
@@ -30,19 +31,27 @@ struct ShoppingItemListView: View {
             })
           }
         }
-        ShoppingItemList(query: searchText, isFiltering: self.$isActive)
-        .sheet(isPresented: $showingFormScreen) {
-            ShoppingItemFormView(with: nil)
-        }
+        ShoppingItemList(
+          query: searchText,
+          editingItem: self.$editingItem,
+          isFiltering: self.$isActive,
+          showingFormScreen: self.$showingFormScreen
+        )
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: ShoppingCategoryListView()) {
 //        Image(systemName: "folder")
         Text("Categorias")
-        }, trailing: Button(action: { self.showingFormScreen.toggle()}) {
+        }, trailing: Button(action: {
+          self.editingItem = nil
+          self.showingFormScreen.toggle()
+        }) {
 //        Image(systemName: "plus")
           Text("Novo")
       })
+    }
+    .sheet(isPresented: $showingFormScreen) {
+      ShoppingItemFormView(with: self.$editingItem.wrappedValue)
     }
     .navigationViewStyle(StackNavigationViewStyle())
   }

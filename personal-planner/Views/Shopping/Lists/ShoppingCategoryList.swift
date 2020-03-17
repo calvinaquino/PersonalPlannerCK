@@ -12,10 +12,12 @@ struct ShoppingCategoryList: View {
   
   @ObservedObject private var shoppingCategories = ShoppingCategories.shared
   
-  @State private var showingFormScreen = false
-  @State private var editingItem: ShoppingCategory?
+  @Binding private var showingFormScreen: Bool
+  @Binding private var editingItem: ShoppingCategory?
   
-  init(query: String) {
+  init(query: String, editingItem: Binding<ShoppingCategory?>, showingFormScreen: Binding<Bool>) {
+    self._editingItem = editingItem
+    self._showingFormScreen = showingFormScreen
     self.shoppingCategories.query = query
   }
   
@@ -33,11 +35,6 @@ struct ShoppingCategoryList: View {
         }
       }
       .onDelete(perform: self.delete)
-      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-        self.editingItem = nil
-      }) {
-        ShoppingCategoryFormView(with: self.editingItem)
-      }
     }
   }
   
@@ -51,6 +48,6 @@ struct ShoppingCategoryList: View {
 
 struct ShoppingCategoryList_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingCategoryList(query: "")
+    ShoppingCategoryList(query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
   }
 }

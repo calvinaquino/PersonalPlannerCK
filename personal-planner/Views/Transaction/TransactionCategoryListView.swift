@@ -11,6 +11,7 @@ import SwiftUI
 struct TransactionCategoryListView: View {
   @State private var showingFormScreen = false
   @State private var searchText: String = ""
+  @State private var editingItem: TransactionCategory?
   
   var body: some View {
     VStack {
@@ -22,10 +23,14 @@ struct TransactionCategoryListView: View {
           })
         }
       }
-      TransactionCategoryList(query: self.searchText)
-      .sheet(isPresented: $showingFormScreen) {
-          TransactionCategoryFormView(with: nil)
-      }
+      TransactionCategoryList(
+        query: self.searchText,
+        editingItem: self.$editingItem,
+        showingFormScreen: self.$showingFormScreen
+      )
+    }
+    .sheet(isPresented: $showingFormScreen) {
+      TransactionCategoryFormView(with: self.$editingItem.wrappedValue)
     }
     .navigationBarTitle("Categorias", displayMode: .inline)
     .navigationBarItems(trailing: Button(action: {

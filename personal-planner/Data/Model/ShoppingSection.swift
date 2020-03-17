@@ -13,12 +13,15 @@ struct ShoppingSection: Hashable, Identifiable {
   var visible: Bool = true
   var category: ShoppingCategory?
   var items: [ShoppingItem]
+  
+  static let generalId: String = UUID().uuidString;
+  
   var categoryName: String {
     category?.name ?? "Geral"
   }
   
   var id: String {
-    self.category?.id ?? "Geral"
+    self.category?.id ?? ShoppingSection.generalId
   }
   
   var countVersusTotal: String {

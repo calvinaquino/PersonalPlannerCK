@@ -13,6 +13,8 @@ struct TransactionSection: Hashable, Identifiable {
   var category: TransactionCategory?
   var transactions: [TransactionItem]
   
+  static let generalId: String = UUID().uuidString;
+  
   var categoryName: String {
     category?.name ?? "Geral"
   }
@@ -26,7 +28,7 @@ struct TransactionSection: Hashable, Identifiable {
   }
   
   var id: String {
-    self.category?.id ?? "Geral"
+    self.category?.id ?? TransactionSection.generalId
   }
   
   var currentVersusTotal: String {

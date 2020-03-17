@@ -38,8 +38,17 @@ class ShoppingCategory: Record {
   }
 }
 
-class ShoppingCategories: ObservableObject {
+class ShoppingCategories: ObservableObject, Equatable, Identifiable {
   static let shared = ShoppingCategories()
+  
+  let id: String = UUID().uuidString
+  
+  static func ==(lhs: ShoppingCategories, rhs: ShoppingCategories) -> Bool {(
+    lhs.id == rhs.id &&
+    lhs._items.count == rhs._items.count &&
+    lhs._filteredItems.count == rhs._filteredItems.count &&
+    lhs.query == rhs.query
+  )}
   
   required init() {
     self.itemSubscriber = Store.shared.shoppingCategories.publisher

@@ -14,13 +14,14 @@ struct ShoppingItemList: View {
   @ObservedObject private var shoppingCategories = ShoppingCategories.shared
   
   @Binding var isFiltering: Bool
-  
-  @State private var showingFormScreen = false
-  @State private var editingItem: ShoppingItem?
+  @Binding private var showingFormScreen: Bool
+  @Binding private var editingItem: ShoppingItem?
   @State private var rotation: Double = 0.0;
   
-  init(query: String, isFiltering: Binding<Bool>) {
+  init(query: String, editingItem: Binding<ShoppingItem?>, isFiltering: Binding<Bool>, showingFormScreen: Binding<Bool>) {
     self._isFiltering = isFiltering
+    self._editingItem = editingItem
+    self._showingFormScreen = showingFormScreen
     self.shoppingItems.query = query
   }
   
@@ -47,11 +48,6 @@ struct ShoppingItemList: View {
           })
         }
       }
-      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-        self.editingItem = nil
-      }) {
-        ShoppingItemFormView(with: self.editingItem)
-      }
     }
   }
   
@@ -65,6 +61,6 @@ struct ShoppingItemList: View {
 
 struct ShoppingItemList_Previews: PreviewProvider {
   static var previews: some View {
-    ShoppingItemList(query: "", isFiltering: .constant(false))
+    ShoppingItemList(query: "", editingItem: .constant(nil), isFiltering: .constant(false), showingFormScreen: .constant(false))
   }
 }

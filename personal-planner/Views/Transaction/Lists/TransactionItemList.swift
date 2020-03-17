@@ -17,14 +17,16 @@ struct TransactionItemList: View {
   @ObservedObject private var transactionItems = TransactionItems.shared
   @ObservedObject private var transactionCategories = TransactionCategories.shared
   
-  @State private var showingFormScreen = false
-  @State private var editingItem: TransactionItem?
+  @Binding private var showingFormScreen: Bool
+  @Binding private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
   
-  init(date: Date, total: Binding<Double>, query: String) {
+  init(date: Date, total: Binding<Double>, query: String, editingItem: Binding<TransactionItem?>, showingFormScreen: Binding<Bool>) {
     _transactionItems.wrappedValue.query = query
     _transactionItems.wrappedValue.date = date
     totalTransaction = total
+    _editingItem = editingItem
+    _showingFormScreen = showingFormScreen
   }
   
   var sections: [TransactionSection] {
@@ -56,14 +58,14 @@ struct TransactionItemList: View {
           }
         }
       }
-      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-        self.editingItem = nil
-      }) {
-        TransactionItemFormView(with: self.editingItem, date: nil)
-          .onDisappear {
-            self.updateTotals()
-        }
-      }
+//      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
+//        self.editingItem = nil
+//      }) {
+//        TransactionItemFormView(with: self.editingItem, date: nil)
+//          .onDisappear {
+//            self.updateTotals()
+//        }
+//      }
     }
   }
   
@@ -81,6 +83,6 @@ struct TransactionItemList: View {
 
 struct TransactionItemList_Previews: PreviewProvider {
   static var previews: some View {
-    return TransactionItemList(date: Date(), total: .constant(200.0), query: "")
+    return TransactionItemList(date: Date(), total: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
   }
 }

@@ -11,10 +11,12 @@ import SwiftUI
 struct TransactionCategoryList: View {
   @ObservedObject private var transactionCategories = TransactionCategories.shared
   
-  @State private var showingFormScreen = false
-  @State private var editingItem: TransactionCategory?
+  @Binding private var showingFormScreen: Bool
+  @Binding private var editingItem: TransactionCategory?
   
-  init(query: String) {
+  init(query: String, editingItem: Binding<TransactionCategory?>, showingFormScreen: Binding<Bool>) {
+    self._editingItem = editingItem
+    self._showingFormScreen = showingFormScreen
     self.transactionCategories.query = query
   }
   
@@ -33,11 +35,6 @@ struct TransactionCategoryList: View {
         }
       }
       .onDelete(perform: self.delete)
-      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-        self.editingItem = nil
-      }) {
-        TransactionCategoryFormView(with: self.editingItem)
-      }
     }
   }
   
@@ -51,6 +48,6 @@ struct TransactionCategoryList: View {
 
 struct TransactionCategoryList_Previews: PreviewProvider {
   static var previews: some View {
-    return TransactionCategoryList(query: "")
+    return TransactionCategoryList(query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
   }
 }

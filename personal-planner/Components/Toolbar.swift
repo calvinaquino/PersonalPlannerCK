@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct Toolbar<Content>: View where Content : View {
+struct Toolbar<Content: View>: View {
   
   init(@ViewBuilder content: @escaping () -> Content) {
     self.content = content
@@ -17,15 +17,12 @@ struct Toolbar<Content>: View where Content : View {
   var content: () -> Content
   
   var body: some View {
-    ZStack {
-      Color(.systemGray6)
-      HStack {
-        self.content()
-      }
-      .frame(width: nil, height: 44, alignment: .center)
-      .padding(EdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 10))
+    HStack {
+      self.content()
     }
-    .frame(width: nil, height: 50, alignment: .center)
+    .frame(width: nil, height: 44, alignment: .center)
+    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+    .background(Color(.systemGray6).blur(radius: 5))
   }
 }
 

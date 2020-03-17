@@ -46,6 +46,7 @@
 		44B24BD22400AD7200B4EA0B /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD12400AD7200B4EA0B /* SearchBar.swift */; };
 		44B24BD62401AA4D00B4EA0B /* ShoppingItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD52401AA4D00B4EA0B /* ShoppingItemFormView.swift */; };
 		44B24BD82401AD7A00B4EA0B /* ConversionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */; };
+		44EEC6AC24203A0F00E68DB3 /* FormViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		44B24BD12400AD7200B4EA0B /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		44B24BD52401AA4D00B4EA0B /* ShoppingItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemFormView.swift; sourceTree = "<group>"; };
 		44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionUtils.swift; sourceTree = "<group>"; };
+		44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				44B24BD72401AD7A00B4EA0B /* ConversionUtils.swift */,
+				44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -464,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				448E927E2403AB3D00EC2DA1 /* TransactionCategoryFormView.swift in Sources */,
+				44EEC6AC24203A0F00E68DB3 /* FormViewManager.swift in Sources */,
 				44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */,
 				4484BB1A240CC62B009ED7F7 /* Notifications.swift in Sources */,
 				44B24BD02400AD5F00B4EA0B /* Toolbar.swift in Sources */,
@@ -671,7 +675,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = Planejador;
 				SUPPORTS_MACCATALYST = YES;
@@ -695,7 +699,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.2;
+				MARKETING_VERSION = 0.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = Planejador;
 				SUPPORTS_MACCATALYST = YES;
