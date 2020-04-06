@@ -10,9 +10,9 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionItem: Record {
+class TransactionItem: Record, Nameable, Valuable, Categorizable {
   override class var recordType: String {
-    "TransactionItem"
+    CKRecord.RecordType.TransactionItem
   }
   
   static func ==(lhs: TransactionItem, rhs: TransactionItem) -> Bool {(
@@ -22,7 +22,7 @@ class TransactionItem: Record {
     lhs.value == rhs.value &&
     lhs.isInflow == rhs.isInflow &&
     lhs.date == rhs.date &&
-    lhs.transactionCategory == rhs.transactionCategory
+    lhs.category == rhs.category
   )}
   
   var name: String {
@@ -50,7 +50,7 @@ class TransactionItem: Record {
     isInflow ? value : -value
   }
   
-  var transactionCategory: TransactionCategory? {
+  var category: TransactionCategory? {
     get {
       if let reference = self.ckRecord["transactionCategory"] as? CKRecord.Reference {
         let record = CKRecord(recordType: TransactionCategory.recordType, recordID: reference.recordID)

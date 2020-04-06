@@ -32,14 +32,14 @@ struct ShoppingSection: Hashable, Identifiable {
     var sections: [ShoppingSection] = []
     let filteredItems = filter ? items.filter { $0.isNeeded } : items
     let generalSection = ShoppingSection(category: nil, items: filteredItems.filter({
-      ($0.shoppingCategory == nil)
+      ($0.category == nil)
     }))
     if generalSection.items.count > 0 {
       sections.append(generalSection)
     }
     for category in categories {
       let section = ShoppingSection(category: category, items: filteredItems.filter({
-        ($0.shoppingCategory != nil) ? $0.shoppingCategory!.id == category.id : false
+        ($0.category != nil) ? $0.category!.id == category.id : false
       }))
       if section.items.count > 0 {
         sections.append(section)

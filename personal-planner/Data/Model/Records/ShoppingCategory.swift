@@ -1,50 +1,49 @@
 //
-//  TransactionCategory.swift
+//  ShoppingCategory.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-02-21.
 //  Copyright © 2020 Calvin Aquino. All rights reserved.
 //
 
-import SwiftUI
+import Foundation
 import CloudKit
 import Combine
 
-class TransactionCategory: Record {
+class ShoppingCategory: Record, Nameable {
   override class var recordType: String {
-    "TransactionCategory"
+    CKRecord.RecordType.ShoppingCategory
   }
   
-  static func ==(lhs: TransactionCategory, rhs: TransactionCategory) -> Bool {(
+  static func ==(lhs: ShoppingCategory, rhs: ShoppingCategory) -> Bool {(
     lhs.id == rhs.id &&
-    lhs.name == rhs.name &&
-    lhs.budget == rhs.budget
+    lhs.name == rhs.name
   )}
   
   var name: String {
     get { self.ckRecord["name"] ?? "" }
     set { self.ckRecord["name"] = newValue }
   }
-  var budget: Double {
-    get { self.ckRecord["budget"] ?? 0.0 }
-    set { self.ckRecord["budget"] = newValue }
+  
+  override var debugDescription: String {
+    "Category - name: \(name)"
   }
   
   override func onSave() {
-    Store.shared.transactionCategories.save(self)
+    Store.shared.shoppingCategories.save(self)
   }
   
   override func onDelete() {
-    Store.shared.transactionCategories.delete(self.id)
+    Store.shared.shoppingCategories.delete(self.id)
   }
 }
 
-class TransactionCategories: ObservableObject, Equatable, Identifiable {
-  static let shared = TransactionCategories()
+class ShoppingCategories: ObservableObject, Equatable, Identifiable {
+  static let shared = ShoppingCategories()
   
   let id: String = UUID().uuidString
   
-  static func ==(lhs: TransactionCategories, rhs: TransactionCategories) -> Bool {(
+  static func ==(lhs: ShoppingCategories, rhs: ShoppingCategories) -> Bool {(
     lhs.id == rhs.id &&
     lhs._items.count == rhs._items.count &&
     lhs._filteredItems.count == rhs._filteredItems.count &&
@@ -52,7 +51,7 @@ class TransactionCategories: ObservableObject, Equatable, Identifiable {
   )}
   
   required init() {
-    self.itemSubscriber = Store.shared.transactionCategories.publisher
+    self.itemSubscriber = Store.shared.shoppingCategories.publisher
       .receive(on: RunLoop.main)
       .map({ $0.sorted{ $0.name < $1.name } })
       .sink(receiveValue: { items in
@@ -69,10 +68,12 @@ class TransactionCategories: ObservableObject, Equatable, Identifiable {
   }
   
   var itemSubscriber: AnyCancellable!
-  @Published private var _items: [TransactionCategory] = []
-  @Published private var _filteredItems: [TransactionCategory] = []
+  @Published private var _items: [ShoppingCategory] = []
+  @Published private var _filteredItems: [ShoppingCategory] = []
   var query: String = "" {
-    didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
+    didSet {
+      self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) }
+    }
   }
   
   func filterPredicate() -> NSPredicate {
@@ -80,10 +81,10 @@ class TransactionCategories: ObservableObject, Equatable, Identifiable {
   }
   
   func fetch() {
-    Cloud.fetchTransactionCategories { }
+    Cloud.fetchShoppingCategories { }
   }
   
-  var items: [TransactionCategory] {
+  var items: [ShoppingCategory] {
     return self.query.isEmpty ? _items : _filteredItems
   }
 }

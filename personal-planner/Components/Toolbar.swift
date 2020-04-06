@@ -22,7 +22,7 @@ struct Toolbar<Content: View>: View {
     }
     .frame(width: nil, height: 44, alignment: .center)
     .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-    .background(Color(.systemGray6).blur(radius: 5))
+    .background(Color(.systemGray6))
   }
 }
 
@@ -36,7 +36,7 @@ struct Toolbar_Previews: PreviewProvider {
       Button(action: {}) {
         Image(systemName: "square")
       }
-    }
+    }.colorScheme(.dark)
   }
 }
 

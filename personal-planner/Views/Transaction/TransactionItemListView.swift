@@ -19,7 +19,7 @@ struct TransactionItemListView: View {
   
   var body: some View {
     NavigationView {
-      VStack {
+      VStack(alignment: .center, spacing: 0) {
         HStack {
           SearchBar(searchText: self.$searchText)
           if searchText.isEmpty {

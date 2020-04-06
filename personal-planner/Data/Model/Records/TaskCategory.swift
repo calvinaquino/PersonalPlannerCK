@@ -1,8 +1,8 @@
 //
-//  ShoppingCategory.swift
+//  TaskCategory.swift
 //  personal-planner
 //
-//  Created by Calvin De Aquino on 2020-02-21.
+//  Created by Calvin De Aquino on 2020-03-17.
 //  Copyright © 2020 Calvin Aquino. All rights reserved.
 //
 
@@ -10,40 +10,37 @@ import Foundation
 import CloudKit
 import Combine
 
-class ShoppingCategory: Record {
+class TaskCategory: Record, Nameable {
   override class var recordType: String {
-    "ShoppingCategory"
+    CKRecord.RecordType.TaskCategory
   }
-  
-  static func ==(lhs: ShoppingCategory, rhs: ShoppingCategory) -> Bool {(
+  static func ==(lhs: TaskCategory, rhs: TaskCategory) -> Bool {(
     lhs.id == rhs.id &&
     lhs.name == rhs.name
   )}
   
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
+  private let kName = "name"
   
-  override var debugDescription: String {
-    "Category - name: \(name)"
+  var name: String {
+    get { self.ckRecord[kName] ?? "" }
+    set { self.ckRecord[kName] = newValue }
   }
   
   override func onSave() {
-    Store.shared.shoppingCategories.save(self)
+    Store.shared.taskCategories.save(self)
   }
   
   override func onDelete() {
-    Store.shared.shoppingCategories.delete(self.id)
+    Store.shared.taskCategories.delete(self.id)
   }
 }
 
-class ShoppingCategories: ObservableObject, Equatable, Identifiable {
-  static let shared = ShoppingCategories()
+class TaskCategories: ObservableObject, Equatable, Identifiable {
+  static let shared = TaskCategories()
   
   let id: String = UUID().uuidString
   
-  static func ==(lhs: ShoppingCategories, rhs: ShoppingCategories) -> Bool {(
+  static func ==(lhs: TaskCategories, rhs: TaskCategories) -> Bool {(
     lhs.id == rhs.id &&
     lhs._items.count == rhs._items.count &&
     lhs._filteredItems.count == rhs._filteredItems.count &&
@@ -51,14 +48,14 @@ class ShoppingCategories: ObservableObject, Equatable, Identifiable {
   )}
   
   required init() {
-    self.itemSubscriber = Store.shared.shoppingCategories.publisher
+    self.itemSubscriber = Store.shared.taskCategories.publisher
       .receive(on: RunLoop.main)
       .map({ $0.sorted{ $0.name < $1.name } })
       .sink(receiveValue: { items in
         if self.query.isEmpty {
-            self._items = items
+          self._items = items
         } else {
-            self._filteredItems = items.filter{ self.filterPredicate().evaluate(with: $0.name) }
+          self._filteredItems = items.filter{ self.filterPredicate().evaluate(with: $0.name) }
         }
       })
   }
@@ -68,8 +65,8 @@ class ShoppingCategories: ObservableObject, Equatable, Identifiable {
   }
   
   var itemSubscriber: AnyCancellable!
-  @Published private var _items: [ShoppingCategory] = []
-  @Published private var _filteredItems: [ShoppingCategory] = []
+  @Published private var _items: [TaskCategory] = []
+  @Published private var _filteredItems: [TaskCategory] = []
   var query: String = "" {
     didSet {
       self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) }
@@ -81,10 +78,11 @@ class ShoppingCategories: ObservableObject, Equatable, Identifiable {
   }
   
   func fetch() {
-    Cloud.fetchShoppingCategories { }
+    Cloud.fetchTaskCategories { }
   }
   
-  var items: [ShoppingCategory] {
+  var items: [TaskCategory] {
     return self.query.isEmpty ? _items : _filteredItems
   }
 }
+

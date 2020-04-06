@@ -6,10 +6,10 @@
 //  Copyright © 2020 Calvin Aquino. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CloudKit
 
-@objc class Record: NSObject, Identifiable {
+@objc class Record: NSObject, StringIdentifiable {
   open var ckRecord: CKRecord!
   var deleted: Bool = false
   
@@ -77,9 +77,62 @@ extension CKRecord {
   }
 }
 
+extension CKRecord {
+  subscript<Root, Value: CKRecordValueProtocol>(dynamicMember keyPath: WritableKeyPath<Root, Value>) -> Value? {
+    get {
+      let key = NSExpression(forKeyPath: keyPath).keyPath
+      return self[key]
+    }
+    set {
+      let key = NSExpression(forKeyPath: keyPath).keyPath
+      // Fatal error: Could not extract a String from KeyPath Swift.ReferenceWritableKeyPath
+      self[key] = newValue
+    }
+  }
+}
+
 extension CKRecord.RecordType {
   static var ShoppingItem: String { "ShoppingItem" }
   static var ShoppingCategory: String { "ShoppingCategory" }
   static var TransactionItem: String { "TransactionItem" }
   static var TransactionCategory: String { "TransactionCategory" }
+  static var TaskItem: String { "TaskItem" }
+  static var TaskCategory: String { "TaskCategory" }
+  static var PurchaseItem: String { "PurchaseItem" }
+  static var PurchaseCategory: String { "PurchaseCategory" }
+}
+
+protocol StringIdentifiable: Identifiable {
+  var id: String { get }
+}
+
+protocol Nameable {
+  var name: String { get set }
+}
+
+// Cannot be negative
+protocol Priceable {
+  var price: Double { get set }
+}
+
+// Can be negative
+protocol Valuable {
+  var isInflow: Bool { get set }
+  var value: Double { get set }
+  var valueSigned: Double { get}
+}
+
+extension Valuable {
+  var valueSigned: Double {
+    isInflow ? value : -value
+  }
+}
+
+protocol Needable {
+  var isNeeded: Bool { get set }
+}
+
+protocol Categorizable {
+  associatedtype Category: StringIdentifiable, Nameable
+  var category: Category? { get set }
 }

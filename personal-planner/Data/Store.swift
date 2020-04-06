@@ -14,8 +14,12 @@ class Store {
   init() {
     Cloud.fetchShoppingCategories { }
     Cloud.fetchTransactionCategories { }
+    Cloud.fetchPurchaseCategories { }
+    Cloud.fetchTaskCategories { }
     Cloud.fetchShoppingItems { }
     Cloud.fetchTransactionItems(for: Date()) { }
+    Cloud.fetchTaskItems { }
+    Cloud.fetchPurchaseItems { }
   }
   
   static let shared = Store()
@@ -27,6 +31,10 @@ class Store {
     if self.shoppingCategories.delete(id) { return true }
     if self.transactionItems.delete(id) { return true }
     if self.transactionCategories.delete(id) { return true }
+    if self.taskItems.delete(id) { return true }
+    if self.taskCategories.delete(id) { return true }
+    if self.purchaseItems.delete(id) { return true }
+    if self.purchaseCategories.delete(id) { return true }
     return false
   }
   
@@ -34,6 +42,10 @@ class Store {
   var shoppingCategories = Cache<ShoppingCategory>()
   var transactionItems = Cache<TransactionItem>()
   var transactionCategories = Cache<TransactionCategory>()
+  var taskItems = Cache<TaskItem>()
+  var taskCategories = Cache<TaskCategory>()
+  var purchaseItems = Cache<PurchaseItem>()
+  var purchaseCategories = Cache<PurchaseCategory>()
 }
 
 class Cache<T: Record> {

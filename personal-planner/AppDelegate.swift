@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       DispatchQueue.main.async {
         if authorized {
           UIApplication.shared.registerForRemoteNotifications()
+          Cloud.subscribeIfNeeded()
         }
       }
     })

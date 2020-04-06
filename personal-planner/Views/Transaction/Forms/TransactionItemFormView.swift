@@ -23,7 +23,7 @@ struct TransactionItemFormView: View {
     _value = State(initialValue: item?.value.stringCurrencyValue ?? "")
     _date = State(initialValue: date ?? transactionItem?.date ?? Date())
     _isInflow = State(initialValue: item?.isInflow ?? false)
-    _category = State(initialValue: item?.transactionCategory ?? nil)
+    _category = State(initialValue: item?.category ?? nil)
   }
   
   private var item: TransactionItem?
@@ -72,7 +72,7 @@ struct TransactionItemFormView: View {
     editingItem.value = self.value.doubleValue
     editingItem.isInflow = self.isInflow
     editingItem.date = self.date
-    editingItem.transactionCategory = self.category
+    editingItem.category = self.category
     editingItem.save()
     self.presentationMode.wrappedValue.dismiss()
   }
