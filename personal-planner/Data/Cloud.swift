@@ -63,7 +63,7 @@ class Cloud {
     Cloud.shared.database.add(subscriptionOperation)
   }
   
-  class func queryOperation(for recordType: Record.Type, predicate: NSPredicate = NSPredicate(value: true)) -> CKQueryOperation {
+  class func queryOperation<T: Record>(for recordType: T.Type, predicate: NSPredicate = NSPredicate(value: true)) -> CKQueryOperation {
     let query = CKQuery(recordType: recordType.recordType, predicate: predicate)
     let nameSort = NSSortDescriptor(key: "name", ascending: true)
     query.sortDescriptors = [nameSort]
@@ -72,7 +72,7 @@ class Cloud {
     return queryOperation
   }
   
-  class func modifyBatch(save: [Record], delete: [Record], completion: @escaping () -> Void) {
+  class func modifyBatch<T: Record>(save: [T], delete: [T], completion: @escaping () -> Void) {
     let recordsToSave = save.map{$0.ckRecord!}
     let recordIDsToDelete = delete.map{$0.recordId}
     let modifyRecordsOperation = CKModifyRecordsOperation(recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete)
@@ -85,7 +85,7 @@ class Cloud {
     Cloud.shared.database.add(modifyRecordsOperation)
   }
   
-  class func modify(save: Record?, delete: Record?, completion: @escaping () -> Void) {
+  class func modify<T: Record>(save: T?, delete: T?, completion: @escaping () -> Void) {
     let modifyRecordsOperation = CKModifyRecordsOperation()
     modifyRecordsOperation.savePolicy = .changedKeys
     if let save = save {
@@ -106,7 +106,7 @@ class Cloud {
     Cloud.shared.database.add(modifyRecordsOperation)
   }
   
-  class func fetch(_ record: Record, completion: @escaping () -> Void) {
+  class func fetch<T: Record>(_ record: T, completion: @escaping () -> Void) {
     let fetchOperation = CKFetchRecordsOperation(recordIDs: [record.recordId])
     let configuration = CKOperation.Configuration()
     configuration.qualityOfService = .userInitiated

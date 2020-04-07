@@ -48,7 +48,7 @@ class Store {
   var purchaseCategories = Cache<PurchaseCategory>()
 }
 
-class Cache<T: Record> {
+class Cache<T: StringIdentifiable> {
   init() {
     self.subject = CurrentValueSubject<[T], Never>([])
     self.publisher = self.subject.eraseToAnyPublisher()

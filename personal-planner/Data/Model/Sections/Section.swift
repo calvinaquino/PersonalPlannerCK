@@ -10,8 +10,8 @@ import Foundation
 import CoreData
 
 protocol Sectionable: Hashable, StringIdentifiable {
-  associatedtype Category: StringIdentifiable, Nameable
-  associatedtype Item: Nameable, Categorizable
+  associatedtype Category: StringIdentifiable, Named
+  associatedtype Item: Named, Categorized
   typealias FilterItem = (Item) -> Bool
   
   var category: Category? { get set }
@@ -27,13 +27,13 @@ protocol Sectionable: Hashable, StringIdentifiable {
   static func sections(items: [Item], categories: [Category], filter: Bool) -> [Self]
 }
 
-extension Sectionable where Item : Needable {
+extension Sectionable where Item : Needed {
   var countVersusTotal: String {
     "\(self.items.filter{!$0.isNeeded}.count)/\(self.items.count)"
   }
 }
 
-extension Sectionable where Item : Valuable {
+extension Sectionable where Item : Valued {
   var total: Double {
     self.items.reduce(0) { $1.valueSigned + $0 }
   }
@@ -103,7 +103,7 @@ extension Array where Element: Sectionable {
   }
 }
 
-extension Array where Element: Sectionable, Element.Item: Priceable {
+extension Array where Element: Sectionable, Element.Item: Priced {
   var totalTransactions: Double {
     var total = 0.0
     for section in self {

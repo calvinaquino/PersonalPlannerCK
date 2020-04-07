@@ -10,67 +10,40 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class ShoppingItem : Record, Nameable, Priceable, Categorizable {
-  override class var recordType: String {
+final class ShoppingItem: NSObject, Record, Named, Priced, Needed {
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> ShoppingItem {
+    ShoppingItem(with: record)
+  }
+  
+  static func store() -> Cache<ShoppingItem> {
+    return Store.shared.shoppingItems
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.ShoppingItem
   }
   
-  private let kName = "name"
-  private let kLocalizedName = "localizedName"
-  private let kPrice = "price"
-  private let kIsNeeded = "isNeeded"
-  private let kShoppingCategory = "shoppingCateogory"
-  
-  static func ==(lhs: ShoppingItem, rhs: ShoppingItem) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name &&
-    lhs.localizedName == rhs.localizedName &&
-    lhs.isNeeded == rhs.isNeeded &&
-    lhs.category == rhs.category
-  )}
-  
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
-  }
   var localizedName: String {
-    get { self.ckRecord[kLocalizedName] ?? "" }
-    set { self.ckRecord[kLocalizedName] = newValue }
+    get { self.ckRecord["localizedName"] ?? "" }
+    set { self.ckRecord["localizedName"] = newValue }
   }
-  var price: Double {
-    get { self.ckRecord[kPrice] ?? 0.0 }
-    set { self.ckRecord[kPrice] = newValue }
-  }
-  var isNeeded: Bool {
-    get { self.ckRecord[kIsNeeded] ?? false }
-    set { self.ckRecord[kIsNeeded] = newValue }
-  }
+}
+
+extension ShoppingItem: Categorized {
+  typealias ParentCategory = ShoppingCategory
   
-  var category: ShoppingCategory? {
-    get {
-      if let reference = self.ckRecord[kShoppingCategory] as? CKRecord.Reference {
-        let record = CKRecord(recordType: ShoppingCategory.recordType, recordID: reference.recordID)
-        let cached = Store.shared.shoppingCategories.items.first { $0.id == record.id }
-        return cached ?? ShoppingCategory(with: record)
-      }
-      return nil
-    }
-    set {
-      if let newShoppingCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newShoppingCategory.ckRecord!.recordID, action: .none)
-        self.ckRecord[kShoppingCategory] = reference
-      } else {
-        self.ckRecord[kShoppingCategory] = nil
-      }
-    }
-  }
+  var categoryKey: String { "shoppingCateogory" }
   
-  override func onSave() {
-    Store.shared.shoppingItems.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.shoppingItems.delete(self.id)
+  func makeCategory(with record: CKRecord) -> ShoppingCategory {
+    ShoppingCategory(with: record)
   }
 }
 

@@ -10,32 +10,30 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionCategory: Record, Nameable {
-  override class var recordType: String {
+final class TransactionCategory: NSObject, Record, Named {
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> TransactionCategory {
+    TransactionCategory(with: record)
+  }
+  
+  static func store() -> Cache<TransactionCategory> {
+    return Store.shared.transactionCategories
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.TransactionCategory
   }
   
-  static func ==(lhs: TransactionCategory, rhs: TransactionCategory) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name &&
-    lhs.budget == rhs.budget
-  )}
-  
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
   var budget: Double {
     get { self.ckRecord["budget"] ?? 0.0 }
     set { self.ckRecord["budget"] = newValue }
-  }
-  
-  override func onSave() {
-    Store.shared.transactionCategories.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.transactionCategories.delete(self.id)
   }
 }
 

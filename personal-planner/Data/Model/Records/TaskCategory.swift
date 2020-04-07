@@ -10,28 +10,25 @@ import Foundation
 import CloudKit
 import Combine
 
-class TaskCategory: Record, Nameable {
-  override class var recordType: String {
+final class TaskCategory: NSObject, Record, Named {
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> TaskCategory {
+    TaskCategory(with: record)
+  }
+  
+  static func store() -> Cache<TaskCategory> {
+    return Store.shared.taskCategories
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.TaskCategory
-  }
-  static func ==(lhs: TaskCategory, rhs: TaskCategory) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name
-  )}
-  
-  private let kName = "name"
-  
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
-  }
-  
-  override func onSave() {
-    Store.shared.taskCategories.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.taskCategories.delete(self.id)
   }
 }
 

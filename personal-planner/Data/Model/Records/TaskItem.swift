@@ -10,40 +10,35 @@ import Foundation
 import CloudKit
 import Combine
 
-class TaskItem: Record, Categorizable {
-  override class var recordType: String {
+final class TaskItem: NSObject, Record, Named, Dated {
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> TaskItem {
+    TaskItem(with: record)
+  }
+  
+  static func store() -> Cache<TaskItem> {
+    return Store.shared.taskItems
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.TaskItem
   }
   
-  private let kDate = "date"
   private let kDescription = "description"
-  private let kName = "name"
   private let kPriority = "priority"
   private let kRepeatInterval = "repeatInterval"
   private let kRepeats = "repeats"
-  private let kTaskCategory = "taskCategory"
   
-  static func ==(lhs: TaskItem, rhs: TaskItem) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name &&
-    lhs.date == rhs.date &&
-    lhs.description == rhs.description &&
-    lhs.priority == rhs.priority &&
-    lhs.repeats == rhs.repeats &&
-    lhs.category == rhs.category
-  )}
-  
-  var date: Date {
-    get { self.ckRecord[kDate] ?? Date() }
-    set { self.ckRecord[kDate] = newValue }
-  }
   override var description: String {
     get { self.ckRecord[kDescription] ?? "" }
     set { self.ckRecord[kDescription] = newValue }
-  }
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
   }
   var priority: Int {
     get { self.ckRecord[kPriority] ?? 0 }
@@ -57,32 +52,15 @@ class TaskItem: Record, Categorizable {
     get { self.ckRecord[kRepeats] ?? false }
     set { self.ckRecord[kRepeats] = newValue }
   }
+}
+
+extension TaskItem: Categorized {
+  typealias ParentCategory = TaskCategory
   
-  var category: TaskCategory? {
-    get {
-      if let reference = self.ckRecord[kTaskCategory] as? CKRecord.Reference {
-        let record = CKRecord(recordType: TaskCategory.recordType, recordID: reference.recordID)
-        let cached = Store.shared.taskCategories.items.first { $0.id == record.id }
-        return cached ?? TaskCategory(with: record)
-      }
-      return nil
-    }
-    set {
-      if let newShoppingCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newShoppingCategory.ckRecord!.recordID, action: .none)
-        self.ckRecord[kTaskCategory] = reference
-      } else {
-        self.ckRecord[kTaskCategory] = nil
-      }
-    }
-  }
+  var categoryKey: String { "taskCategory" }
   
-  override func onSave() {
-    Store.shared.taskItems.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.taskItems.delete(self.id)
+  func makeCategory(with record: CKRecord) -> TaskCategory {
+    TaskCategory(with: record)
   }
 }
 

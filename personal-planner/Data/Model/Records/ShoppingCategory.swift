@@ -10,31 +10,25 @@ import Foundation
 import CloudKit
 import Combine
 
-class ShoppingCategory: Record, Nameable {
-  override class var recordType: String {
+final class ShoppingCategory: NSObject, Record, Named {  
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> ShoppingCategory {
+    ShoppingCategory(with: record)
+  }
+  
+  static func store() -> Cache<ShoppingCategory> {
+    return Store.shared.shoppingCategories
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.ShoppingCategory
-  }
-  
-  static func ==(lhs: ShoppingCategory, rhs: ShoppingCategory) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name
-  )}
-  
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
-  
-  override var debugDescription: String {
-    "Category - name: \(name)"
-  }
-  
-  override func onSave() {
-    Store.shared.shoppingCategories.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.shoppingCategories.delete(self.id)
   }
 }
 

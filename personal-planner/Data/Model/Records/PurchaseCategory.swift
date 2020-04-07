@@ -10,29 +10,25 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseCategory: Record, Nameable {
-  override class var recordType: String {
+final class PurchaseCategory: NSObject, Record, Named {
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> PurchaseCategory {
+    PurchaseCategory(with: record)
+  }
+  
+  static func store() -> Cache<PurchaseCategory> {
+    return Store.shared.purchaseCategories
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.PurchaseCategory
-  }
-  
-  static func ==(lhs: PurchaseCategory, rhs: PurchaseCategory) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name
-  )}
-  
-  private let kName = "name"
-  
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
-  }
-  
-  override func onSave() {
-    Store.shared.purchaseCategories.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.purchaseCategories.delete(self.id)
   }
 }
 

@@ -10,77 +10,41 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionItem: Record, Nameable, Valuable, Categorizable {
-  override class var recordType: String {
+final class TransactionItem: NSObject, Record, Named, Valued, Dated, Located {
+  var ckRecord: CKRecord!
+  var deleted: Bool
+  
+  required init(with record: CKRecord?) {
+    self.deleted = false
+    self.ckRecord = record
+  }
+  
+  static func makeRecord(with record: CKRecord) -> TransactionItem {
+    TransactionItem(with: record)
+  }
+  
+  static func store() -> Cache<TransactionItem> {
+    return Store.shared.transactionItems
+  }
+  
+  static var recordType: String {
     CKRecord.RecordType.TransactionItem
   }
   
-  static func ==(lhs: TransactionItem, rhs: TransactionItem) -> Bool {(
-    lhs.id == rhs.id &&
-    lhs.name == rhs.name &&
-    lhs.location == rhs.location &&
-    lhs.value == rhs.value &&
-    lhs.isInflow == rhs.isInflow &&
-    lhs.date == rhs.date &&
-    lhs.category == rhs.category
-  )}
-  
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
-  var location: String {
-    get { self.ckRecord["location"] ?? "" }
-    set { self.ckRecord["location"] = newValue }
-  }
-  var value: Double {
-    get { self.ckRecord["value"] ?? 0.0 }
-    set { self.ckRecord["value"] = newValue }
-  }
-  var isInflow: Bool {
-    get { self.ckRecord["isInflow"] ?? false }
-    set { self.ckRecord["isInflow"] = newValue}
-  }
-  var date: Date {
-    get { self.ckRecord["date"] ?? Date() }
-    set { self.ckRecord["date"] = newValue }
-  }
-  
-  var valueSigned: Double {
-    isInflow ? value : -value
-  }
-  
-  var category: TransactionCategory? {
-    get {
-      if let reference = self.ckRecord["transactionCategory"] as? CKRecord.Reference {
-        let record = CKRecord(recordType: TransactionCategory.recordType, recordID: reference.recordID)
-        let cached = Store.shared.transactionCategories.items.first { $0.id == record.id }
-        return cached ?? TransactionCategory(with: record)
-      }
-      return nil
-    }
-    set {
-      if let newShoppingCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newShoppingCategory.ckRecord!.recordID, action: .none)
-        self.ckRecord["transactionCategory"] = reference
-      } else {
-        self.ckRecord["transactionCategory"] = nil
-      }
-    }
-  }
-  
-  override func onSave() {
-    Store.shared.transactionItems.save(self)
-  }
-  
-  override func onDelete() {
-    Store.shared.transactionItems.delete(self.id)
-  }
-  
-  class func predicate(month: Int, year: Int) -> NSPredicate {
+  static func predicate(month: Int, year: Int) -> NSPredicate {
     let monthPredicate = NSPredicate(format: "month == %@", month.numberValue)
     let yearPredicate = NSPredicate(format: "year == %@", year.numberValue)
     return NSCompoundPredicate(andPredicateWithSubpredicates: [monthPredicate, yearPredicate])
+  }
+}
+
+extension TransactionItem: Categorized {
+  typealias ParentCategory = TransactionCategory
+  
+  var categoryKey: String { "transactionCategory" }
+  
+  func makeCategory(with record: CKRecord) -> TransactionCategory {
+    TransactionCategory(with: record)
   }
 }
 
