@@ -106,33 +106,33 @@ protocol StringIdentifiable: Identifiable {
   var id: String { get }
 }
 
-protocol Nameable {
+protocol Named {
   var name: String { get set }
 }
 
 // Cannot be negative
-protocol Priceable {
+protocol Priced {
   var price: Double { get set }
 }
 
 // Can be negative
-protocol Valuable {
+protocol Valued {
   var isInflow: Bool { get set }
   var value: Double { get set }
   var valueSigned: Double { get}
 }
 
-extension Valuable {
+extension Valued {
   var valueSigned: Double {
     isInflow ? value : -value
   }
 }
 
-protocol Needable {
+protocol Needed {
   var isNeeded: Bool { get set }
 }
 
-protocol Categorizable {
-  associatedtype Category: StringIdentifiable, Nameable
+protocol Categorized {
+  associatedtype Category: StringIdentifiable, Named
   var category: Category? { get set }
 }

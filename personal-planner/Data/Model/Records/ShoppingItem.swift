@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class ShoppingItem : Record, Nameable, Priceable, Categorizable {
+class ShoppingItem : Record, Named, Priced, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.ShoppingItem
   }

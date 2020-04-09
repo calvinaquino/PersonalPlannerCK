@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 import Combine
 
-class TaskItem: Record, Categorizable {
+class TaskItem: Record, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.TaskItem
   }

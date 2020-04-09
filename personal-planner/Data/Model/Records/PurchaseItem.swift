@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseItem: Record, Categorizable {
+class PurchaseItem: Record, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.PurchaseItem
   }
