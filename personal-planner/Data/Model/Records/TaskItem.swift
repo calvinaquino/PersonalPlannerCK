@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 import Combine
 
-class TaskItem: Record, Categorized {
+class TaskItem: Record, Named, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.TaskItem
   }
@@ -40,10 +40,6 @@ class TaskItem: Record, Categorized {
   override var description: String {
     get { self.ckRecord[kDescription] ?? "" }
     set { self.ckRecord[kDescription] = newValue }
-  }
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
   }
   var priority: Int {
     get { self.ckRecord[kPriority] ?? 0 }

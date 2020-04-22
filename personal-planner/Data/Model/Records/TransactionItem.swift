@@ -25,10 +25,6 @@ class TransactionItem: Record, Named, Valued, Categorized {
     lhs.category == rhs.category
   )}
   
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
   var location: String {
     get { self.ckRecord["location"] ?? "" }
     set { self.ckRecord["location"] = newValue }

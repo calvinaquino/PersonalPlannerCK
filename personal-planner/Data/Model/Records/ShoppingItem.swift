@@ -29,10 +29,6 @@ class ShoppingItem : Record, Named, Priced, Categorized {
     lhs.category == rhs.category
   )}
   
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
-  }
   var localizedName: String {
     get { self.ckRecord[kLocalizedName] ?? "" }
     set { self.ckRecord[kLocalizedName] = newValue }

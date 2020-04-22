@@ -20,13 +20,6 @@ class PurchaseCategory: Record, Named {
     lhs.name == rhs.name
   )}
   
-  private let kName = "name"
-  
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
-  }
-  
   override func onSave() {
     Store.shared.purchaseCategories.save(self)
   }

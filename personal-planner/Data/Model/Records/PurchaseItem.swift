@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseItem: Record, Categorized {
+class PurchaseItem: Record, Named, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.PurchaseItem
   }
@@ -32,10 +32,6 @@ class PurchaseItem: Record, Categorized {
   override var description: String {
     get { self.ckRecord[kDescription] ?? "" }
     set { self.ckRecord[kDescription] = newValue }
-  }
-  var name: String {
-    get { self.ckRecord[kName] ?? "" }
-    set { self.ckRecord[kName] = newValue }
   }
   var instalments: Int {
     get { self.ckRecord[kInstalments] ?? 0 }

@@ -20,11 +20,6 @@ class ShoppingCategory: Record, Named {
     lhs.name == rhs.name
   )}
   
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
-  
   override var debugDescription: String {
     "Category - name: \(name)"
   }

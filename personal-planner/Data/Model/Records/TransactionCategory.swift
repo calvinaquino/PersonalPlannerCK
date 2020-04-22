@@ -21,10 +21,6 @@ class TransactionCategory: Record, Named {
     lhs.budget == rhs.budget
   )}
   
-  var name: String {
-    get { self.ckRecord["name"] ?? "" }
-    set { self.ckRecord["name"] = newValue }
-  }
   var budget: Double {
     get { self.ckRecord["budget"] ?? 0.0 }
     set { self.ckRecord["budget"] = newValue }

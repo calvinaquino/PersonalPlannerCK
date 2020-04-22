@@ -109,6 +109,12 @@ protocol StringIdentifiable: Identifiable {
 protocol Named {
   var name: String { get set }
 }
+extension Named where Self: Record {
+  var name: String {
+    get { self.ckRecord["name"] ?? "" }
+    set { self.ckRecord["name"] = newValue }
+  }
+}
 
 // Cannot be negative
 protocol Priced {
