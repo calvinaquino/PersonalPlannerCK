@@ -24,16 +24,11 @@ struct ContentView: View {
           Image(systemName: "dollarsign.circle")
           Text("Finanças")
       }.tag(1)
-      TaskItemListView()
-        .tabItem {
-          Image(systemName: "square.and.pencil")
-          Text("Tarefas")
-      }.tag(2)
       PurchaseItemListView()
         .tabItem {
           Image(systemName: "star")
           Text("Metas")
-      }.tag(3)
+      }.tag(2)
     }
     .font(.headline)
   }

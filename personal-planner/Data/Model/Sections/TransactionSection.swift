@@ -24,7 +24,7 @@ struct TransactionSection: Hashable, Identifiable {
   }
   
   var total: Double {
-    self.transactions.reduce(0) { $1.valueSigned + $0 }
+    self.transactions.reduce(0) { ($1.isComplete ? $1.valueSigned : 0) + $0 }
   }
   
   var id: String {

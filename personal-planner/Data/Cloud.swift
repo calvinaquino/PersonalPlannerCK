@@ -40,7 +40,7 @@ class Cloud {
     }
     
     let predicate = NSPredicate(value: true)
-    let recordTypes = [CKRecord.RecordType.ShoppingItem, CKRecord.RecordType.ShoppingCategory, CKRecord.RecordType.TransactionItem, CKRecord.RecordType.TransactionCategory, CKRecord.RecordType.TaskItem, CKRecord.RecordType.TaskCategory, CKRecord.RecordType.PurchaseItem, CKRecord.RecordType.PurchaseCategory]
+    let recordTypes = CKRecord.RecordType.All
     var subscriptionsToSave: [CKQuerySubscription] = []
     for recordType in recordTypes {
       let subscription = CKQuerySubscription(recordType: recordType, predicate: predicate, options: [.firesOnRecordCreation, .firesOnRecordDeletion,.firesOnRecordUpdate])
@@ -52,7 +52,7 @@ class Cloud {
     }
     
     let subscriptionOperation = CKModifySubscriptionsOperation(subscriptionsToSave: subscriptionsToSave, subscriptionIDsToDelete: nil)
-    subscriptionOperation.modifySubscriptionsCompletionBlock = { (_, _, error) in
+    subscriptionOperation.modifySubscriptionsCompletionBlock = { (subscription, _, error) in
       if let error = error {
         print(error.localizedDescription)
       } else {
@@ -139,12 +139,6 @@ class Cloud {
           newItem.save()
         case CKRecord.RecordType.TransactionCategory:
           let newItem = TransactionCategory(with: record)
-          newItem.save()
-        case CKRecord.RecordType.TaskItem:
-          let newItem = TaskItem(with: record)
-          newItem.save()
-        case CKRecord.RecordType.TaskCategory:
-          let newItem = TaskCategory(with: record)
           newItem.save()
         case CKRecord.RecordType.PurchaseItem:
           let newItem = PurchaseItem(with: record)
@@ -238,45 +232,6 @@ extension Cloud {
         self.errorAlert(error: error)
       }
       Store.shared.transactionCategories.items = transactionCategories
-      DispatchQueue.main.async {
-        completion()
-      }
-    }
-    Cloud.shared.database.add(fetchOperation)
-  }
-}
-
-// MARK: Task -
-extension Cloud {
-  class func fetchTaskItems(completion: @escaping () -> Void) {
-    var taskItems: [TaskItem] = []
-    let fetchOperation = queryOperation(for: TaskItem.self)
-    fetchOperation.recordFetchedBlock = { record in
-      taskItems.append(TaskItem(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
-      }
-      Store.shared.taskItems.items = taskItems
-      DispatchQueue.main.async {
-        completion()
-      }
-    }
-    Cloud.shared.database.add(fetchOperation)
-  }
-  
-  class func fetchTaskCategories(completion: @escaping () -> Void) {
-    var taskCategories: [TaskCategory] = []
-    let fetchOperation = queryOperation(for: TaskCategory.self)
-    fetchOperation.recordFetchedBlock = { record in
-      taskCategories.append(TaskCategory(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
-      }
-      Store.shared.taskCategories.items = taskCategories
       DispatchQueue.main.async {
         completion()
       }

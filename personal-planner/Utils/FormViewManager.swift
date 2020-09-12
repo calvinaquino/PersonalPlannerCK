@@ -16,8 +16,6 @@ class FormViewManager {
   var shoppingCategoryForm = FormView<ShoppingCategory>()
   var transactionItemForm = FormView<TransactionItem>()
   var transactionCategoryForm = FormView<TransactionCategory>()
-  var taskItemForm = FormView<TaskItem>()
-  var taskCategoryForm = FormView<TaskCategory>()
   var purchaseItemForm = FormView<PurchaseItem>()
   var purchaseCategoryForm = FormView<PurchaseCategory>()
 }

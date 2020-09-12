@@ -23,6 +23,7 @@ struct TransactionItemFormView: View {
     _value = State(initialValue: item?.value.stringCurrencyValue ?? "")
     _date = State(initialValue: date ?? transactionItem?.date ?? Date())
     _isInflow = State(initialValue: item?.isInflow ?? false)
+    _isComplete = State(initialValue: item?.isComplete ?? true)
     _category = State(initialValue: item?.category ?? nil)
   }
   
@@ -35,6 +36,7 @@ struct TransactionItemFormView: View {
   @State private var value: String
   @State private var date: Date
   @State private var isInflow: Bool
+  @State private var isComplete: Bool
   @State private var category: TransactionCategory?
   
   var body: some View {
@@ -45,6 +47,7 @@ struct TransactionItemFormView: View {
           TextField("Valor", text: $value)
             .keyboardType(.decimalPad)
           Toggle("Recebido", isOn: $isInflow)
+          Toggle("Finalizado", isOn: $isComplete)
           DatePicker(selection: $date, displayedComponents: .date) {
             Text("Data")
           }
@@ -71,6 +74,7 @@ struct TransactionItemFormView: View {
     editingItem.name = self.name
     editingItem.value = self.value.doubleValue
     editingItem.isInflow = self.isInflow
+    editingItem.isComplete = self.isComplete
     editingItem.date = self.date
     editingItem.category = self.category
     editingItem.save()

@@ -26,7 +26,7 @@ struct PurchaseItemListView: View {
               self.isActive.toggle()
             }
             RefreshButton(action: {
-              Cloud.fetchTaskCategories { }
+              Cloud.fetchPurchaseCategories { }
               Cloud.fetchPurchaseItems { }
             })
           }

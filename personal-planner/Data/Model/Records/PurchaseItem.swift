@@ -10,13 +10,11 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseItem: Record, Named, Categorized {
+class PurchaseItem: Record, Named, Priced, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.PurchaseItem
   }
   private let kDescription = "description"
-  private let kName = "name"
-  private let kPrice = "price"
   private let kInstalments = "instalments"
   private let kPurchaseCategory = "purchaseCategory"
   
@@ -36,10 +34,6 @@ class PurchaseItem: Record, Named, Categorized {
   var instalments: Int {
     get { self.ckRecord[kInstalments] ?? 0 }
     set { self.ckRecord[kInstalments] = newValue }
-  }
-  var price: Double {
-    get { self.ckRecord[kPrice] ?? 0.0 }
-    set { self.ckRecord[kPrice] = newValue }
   }
   
   var category: PurchaseCategory? {

@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionItem: Record, Named, Valued, Categorized {
+class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.TransactionItem
   }
@@ -22,28 +22,13 @@ class TransactionItem: Record, Named, Valued, Categorized {
     lhs.value == rhs.value &&
     lhs.isInflow == rhs.isInflow &&
     lhs.date == rhs.date &&
+    lhs.isComplete == rhs.isComplete &&
     lhs.category == rhs.category
   )}
   
   var location: String {
     get { self.ckRecord["location"] ?? "" }
     set { self.ckRecord["location"] = newValue }
-  }
-  var value: Double {
-    get { self.ckRecord["value"] ?? 0.0 }
-    set { self.ckRecord["value"] = newValue }
-  }
-  var isInflow: Bool {
-    get { self.ckRecord["isInflow"] ?? false }
-    set { self.ckRecord["isInflow"] = newValue}
-  }
-  var date: Date {
-    get { self.ckRecord["date"] ?? Date() }
-    set { self.ckRecord["date"] = newValue }
-  }
-  
-  var valueSigned: Double {
-    isInflow ? value : -value
   }
   
   var category: TransactionCategory? {

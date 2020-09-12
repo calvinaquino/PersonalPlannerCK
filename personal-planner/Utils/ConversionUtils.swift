@@ -183,3 +183,30 @@ extension Date {
     return DateFormatter().monthSymbols[self.month - 1] + " \(self.year)"
   }
 }
+
+extension Date {
+  func monthsSince(_ date: Date) -> Int {
+    return Calendar.current.dateComponents([.month], from: date, to: self).day!
+  }
+  
+  func daysSince(_ date: Date) -> Int {
+    return Calendar.current.dateComponents([.day], from: date, to: self).day!
+  }
+  
+  func hoursSince(_ date: Date) -> Int {
+    return Calendar.current.dateComponents([.hour], from: date, to: self).day!
+  }
+  
+  func minutesSince(_ date: Date) -> Int {
+    return Calendar.current.dateComponents([.minute], from: date, to: self).day!
+  }
+  
+  func daysSinceDateLabeled(_ date: Date) -> String {
+    let days = self.daysSince(date)
+    if (days > 1) {
+      return "\(days) dias"
+    } else {
+      return "\(days) dias"
+    }
+  }
+}

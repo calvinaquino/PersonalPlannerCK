@@ -77,29 +77,36 @@ extension CKRecord {
   }
 }
 
-extension CKRecord {
-  subscript<Root, Value: CKRecordValueProtocol>(dynamicMember keyPath: WritableKeyPath<Root, Value>) -> Value? {
-    get {
-      let key = NSExpression(forKeyPath: keyPath).keyPath
-      return self[key]
-    }
-    set {
-      let key = NSExpression(forKeyPath: keyPath).keyPath
-      // Fatal error: Could not extract a String from KeyPath Swift.ReferenceWritableKeyPath
-      self[key] = newValue
-    }
-  }
-}
+//extension CKRecord {
+//  subscript<Root, Value: CKRecordValueProtocol>(dynamicMember keyPath: WritableKeyPath<Root, Value>) -> Value? {
+//    get {
+//      let key = NSExpression(forKeyPath: keyPath).keyPath
+//      return self[key]
+//    }
+//    set {
+//      let key = NSExpression(forKeyPath: keyPath).keyPath
+//      // Fatal error: Could not extract a String from KeyPath Swift.ReferenceWritableKeyPath
+//      self[key] = newValue
+//    }
+//  }
+//}
 
 extension CKRecord.RecordType {
   static var ShoppingItem: String { "ShoppingItem" }
   static var ShoppingCategory: String { "ShoppingCategory" }
   static var TransactionItem: String { "TransactionItem" }
   static var TransactionCategory: String { "TransactionCategory" }
-  static var TaskItem: String { "TaskItem" }
-  static var TaskCategory: String { "TaskCategory" }
   static var PurchaseItem: String { "PurchaseItem" }
   static var PurchaseCategory: String { "PurchaseCategory" }
+
+  static var All: [CKRecord.RecordType] = [
+    CKRecord.RecordType.ShoppingItem,
+    CKRecord.RecordType.ShoppingCategory,
+    CKRecord.RecordType.TransactionItem,
+    CKRecord.RecordType.TransactionCategory,
+    CKRecord.RecordType.PurchaseItem,
+    CKRecord.RecordType.PurchaseCategory
+  ]
 }
 
 protocol StringIdentifiable: Identifiable {
@@ -120,6 +127,12 @@ extension Named where Self: Record {
 protocol Priced {
   var price: Double { get set }
 }
+extension Priced where Self: Record {
+  var price: Double {
+    get { self.ckRecord["price"] ?? 0.0 }
+    set { self.ckRecord["price"] = newValue }
+  }
+}
 
 // Can be negative
 protocol Valued {
@@ -128,14 +141,49 @@ protocol Valued {
   var valueSigned: Double { get}
 }
 
-extension Valued {
+extension Valued where Self: Record {
   var valueSigned: Double {
     isInflow ? value : -value
+  }
+  
+  var value: Double {
+    get { self.ckRecord["value"] ?? 0.0 }
+    set { self.ckRecord["value"] = newValue }
+  }
+  var isInflow: Bool {
+    get { self.ckRecord["isInflow"] ?? false }
+    set { self.ckRecord["isInflow"] = newValue}
+  }
+}
+
+protocol Completable {
+  var isComplete: Bool { get set }
+}
+extension Completable where Self: Record {
+  var isComplete: Bool {
+    get { self.ckRecord["isComplete"] ?? false }
+    set { self.ckRecord["isComplete"] = newValue }
   }
 }
 
 protocol Needed {
   var isNeeded: Bool { get set }
+}
+extension Needed where Self: Record {
+  var isNeeded: Bool {
+    get { self.ckRecord["isNeeded"] ?? false }
+    set { self.ckRecord["isNeeded"] = newValue }
+  }
+}
+
+protocol Dated {
+  var date: Date { get set }
+}
+extension Dated where Self: Record {
+  var date: Date {
+    get { self.ckRecord["date"] ?? Date() }
+    set { self.ckRecord["date"] = newValue }
+  }
 }
 
 protocol Categorized {

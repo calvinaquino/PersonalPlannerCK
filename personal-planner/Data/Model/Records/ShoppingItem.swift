@@ -10,15 +10,12 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class ShoppingItem : Record, Named, Priced, Categorized {
+class ShoppingItem : Record, Named, Priced, Needed, Categorized {
   override class var recordType: String {
     CKRecord.RecordType.ShoppingItem
   }
   
-  private let kName = "name"
   private let kLocalizedName = "localizedName"
-  private let kPrice = "price"
-  private let kIsNeeded = "isNeeded"
   private let kShoppingCategory = "shoppingCateogory"
   
   static func ==(lhs: ShoppingItem, rhs: ShoppingItem) -> Bool {(
@@ -32,14 +29,6 @@ class ShoppingItem : Record, Named, Priced, Categorized {
   var localizedName: String {
     get { self.ckRecord[kLocalizedName] ?? "" }
     set { self.ckRecord[kLocalizedName] = newValue }
-  }
-  var price: Double {
-    get { self.ckRecord[kPrice] ?? 0.0 }
-    set { self.ckRecord[kPrice] = newValue }
-  }
-  var isNeeded: Bool {
-    get { self.ckRecord[kIsNeeded] ?? false }
-    set { self.ckRecord[kIsNeeded] = newValue }
   }
   
   var category: ShoppingCategory? {
