@@ -42,6 +42,13 @@ struct ShoppingItemList: View {
               self.editingItem = $0
               self.showingFormScreen = true
             }
+            .contextMenu {
+              Button("Remover", action: { item.delete() })
+              Button(item.isNeeded ? "Adquirido" : "Faltando", action: {
+                item.isNeeded.toggle()
+                item.save()
+              })
+            }
           }
           .onDelete(perform: { offsets in
             self.delete(at: offsets, in: section)

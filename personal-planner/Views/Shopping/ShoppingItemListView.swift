@@ -16,21 +16,15 @@ struct ShoppingItemListView: View {
   @State private var searchText: String = ""
   @State private var isActive = false
   
+  func showFormScreen() {
+    self.editingItem = nil
+    self.showingFormScreen.toggle()
+  }
+  
   var body: some View {
-    NavigationView {
+    StackNavigationView {
       VStack {
-        HStack {
-          SearchBar(searchText: self.$searchText)
-          if searchText.isEmpty {
-            FilterButton(isActive: self.$isActive) {
-              self.isActive.toggle()
-            }
-            RefreshButton(action: {
-              Cloud.fetchShoppingCategories { }
-              Cloud.fetchShoppingItems { }
-            })
-          }
-        }
+        Header(searchText: $searchText, isActive: $isActive)
         ShoppingItemList(
           query: searchText,
           editingItem: self.$editingItem,
@@ -40,20 +34,33 @@ struct ShoppingItemListView: View {
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: ShoppingCategoryListView()) {
-//        Image(systemName: "folder")
-        Text("Categorias")
-        }, trailing: Button(action: {
-          self.editingItem = nil
-          self.showingFormScreen.toggle()
-        }) {
-//        Image(systemName: "plus")
-          Text("Novo")
+        IconButton(systemIcon: "folder")
+      }, trailing: Button(action: self.showFormScreen) {
+        IconButton(systemIcon: "plus")
       })
     }
     .sheet(isPresented: $showingFormScreen) {
       ShoppingItemFormView(with: self.$editingItem.wrappedValue)
     }
-    .navigationViewStyle(StackNavigationViewStyle())
+  }
+  
+  struct Header: View {
+    @Binding var searchText: String
+    @Binding var isActive: Bool
+    var body: some View {
+      HStack {
+        SearchBar(searchText: self.$searchText)
+        if searchText.isEmpty {
+          FilterButton(isActive: self.$isActive) {
+            self.isActive.toggle()
+          }
+          RefreshButton(action: {
+            Cloud.fetchShoppingCategories { }
+            Cloud.fetchShoppingItems { }
+          })
+        }
+      }
+    }
   }
 }
 

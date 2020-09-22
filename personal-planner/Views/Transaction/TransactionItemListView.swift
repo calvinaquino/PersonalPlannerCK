@@ -17,16 +17,48 @@ struct TransactionItemListView: View {
   @State private var searchText: String = ""
   @State private var total: Double = 0.0
   
+  func showFormScreen() {
+    self.editingItem = nil
+    self.showingFormScreen.toggle()
+  }
+  
+  func totalForMonth() -> String {
+    return self.total.stringCurrencyValue
+  }
+  
+  func nextMonth() {
+    self.viewingDate.nextMonth()
+    self.total = 0.0
+  }
+  
+  func previousMonth() {
+    self.viewingDate.previousMonth()
+    self.total = 0.0
+  }
+  
+  func refresh() {
+    Cloud.fetchTransactionCategories{}
+    Cloud.fetchTransactionItems(for: self.viewingDate){}
+  }
+  
+  func sendToNextMonth() {
+    let item = TransactionItem()
+    item.name = "Sobra mês anterior"
+    item.value = self.total
+    item.isInflow = true
+    item.date.day = 1
+    item.date.month = self.viewingDate.month + 1
+    item.date.year = self.viewingDate.year
+    item.save()
+  }
+  
   var body: some View {
-    NavigationView {
+    StackNavigationView {
       VStack(alignment: .center, spacing: 0) {
         HStack {
           SearchBar(searchText: self.$searchText)
           if searchText.isEmpty {
-            RefreshButton(action: {
-              Cloud.fetchTransactionCategories{}
-              Cloud.fetchTransactionItems(for: self.viewingDate){}
-            })
+            RefreshButton(action: self.refresh)
           }
         }
         TransactionItemList(
@@ -36,17 +68,14 @@ struct TransactionItemListView: View {
           editingItem: self.$editingItem,
           showingFormScreen: self.$showingFormScreen
         )
-        Toolbar {
-          Button(action: {
-            self.viewingDate.previousMonth()
-            self.total = 0.0
-          }) {
-            Image(systemName: "chevron.left")
-            .frame(width: 30, height: 30, alignment: .center)
-            .contentShape(Rectangle())
+      }
+      .toolbar(content: {
+        ToolbarItemGroup(placement: .bottomBar) {
+          Button(action: self.previousMonth) {
+            IconButton(systemIcon: "chevron.left")
           }
           Spacer()
-          Text(self.viewingDate.currentMonthAndYear())
+          MonthPicker(currentDate: $viewingDate)
           Spacer()
           Button(action: {
             self.showingAlert.toggle()
@@ -54,49 +83,24 @@ struct TransactionItemListView: View {
             Text(self.totalForMonth())
           }
           Spacer()
-          Button(action: {
-            self.viewingDate.nextMonth()
-            self.total = 0.0
-          }) {
-            Image(systemName: "chevron.right")
-            .frame(width: 30, height: 30, alignment: .center)
-            .contentShape(Rectangle())
+          Button(action: self.nextMonth) {
+            IconButton(systemIcon: "chevron.right")
           }
         }
-      }
+      })
       .navigationBarTitle("Finanças", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: TransactionCategoryListView()) {
-//        Image(systemName: "folder")
-        Text("Categorias")
-      }, trailing: Button(action: {
-        self.editingItem = nil
-        self.showingFormScreen.toggle()
-      }) {
-//        Image(systemName: "plus")
-        Text("Novo")
+        IconButton(systemIcon: "folder")
+      }, trailing: Button(action: self.showFormScreen) {
+        IconButton(systemIcon: "plus")
       })
       .alert(isPresented: self.$showingAlert) {
-        Alert(title: Text("Atenção"), message: Text("Gostaria de enviar \(self.total.stringCurrencyValue) como sobra para o próximo mês?"), primaryButton: .default(Text("Sim"), action: {
-          // create new events
-          let item = TransactionItem()
-          item.name = "Sobra mês anterior"
-          item.value = self.total
-          item.isInflow = true
-          item.date.day = 1
-          item.date.month = self.viewingDate.month + 1
-          item.date.year = self.viewingDate.year
-          item.save()
-        }), secondaryButton: .cancel(Text("Não")))
+        Alert(title: Text("Atenção"), message: Text("Gostaria de enviar \(self.total.stringCurrencyValue) como sobra para o próximo mês?"), primaryButton: .default(Text("Sim"), action: self.sendToNextMonth), secondaryButton: .cancel(Text("Não")))
       }
     }
     .sheet(isPresented: $showingFormScreen) {
       TransactionItemFormView(with: self.$editingItem.wrappedValue, date: self.viewingDate)
     }
-    .navigationViewStyle(StackNavigationViewStyle())
-  }
-  
-  func totalForMonth() -> String {
-    return self.total.stringCurrencyValue
   }
 }
 

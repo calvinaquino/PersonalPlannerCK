@@ -13,12 +13,12 @@ struct TransactionItemRow: View {
   var onTapAction: ((_ item: TransactionItem) -> Void)?
     var body: some View {
         HStack {
-          Image(systemName: item.isComplete ? "dollarsign.circle.fill" : "dollarsign.circle")
           Text(item.name)
             .opacity(item.isComplete ? 1 : 0.35)
           Spacer()
           Text(item.valueSigned.stringCurrencyValue)
             .opacity(item.isComplete ? 1 : 0.35)
+          Image(systemName: item.isComplete ? "dollarsign.circle.fill" : "dollarsign.circle")
         }
         .contentShape(Rectangle())
         .onTapGesture {

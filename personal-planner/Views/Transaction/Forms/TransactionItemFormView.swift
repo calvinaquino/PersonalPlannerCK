@@ -44,18 +44,24 @@ struct TransactionItemFormView: View {
       Form {
         Section {
           TextField("Nome", text: $name)
+            .autocapitalization(.sentences)
           TextField("Valor", text: $value)
             .keyboardType(.decimalPad)
           Toggle("Recebido", isOn: $isInflow)
-          Toggle("Finalizado", isOn: $isComplete)
+          Toggle("Efetuado", isOn: $isComplete)
           DatePicker(selection: $date, displayedComponents: .date) {
             Text("Data")
           }
-          Picker("Categoria", selection: $category) {
-            ForEach(categories.items, id: \.id) { item in
-              Text(item.name).tag(item as TransactionCategory?)
+          HStack {
+            Picker("Categoria", selection: $category) {
+              ForEach(categories.items, id: \.id) { item in
+                Text(item.name).tag(item as TransactionCategory?)
+              }
+              Text("Geral").tag(nil as TransactionCategory?)
             }
-            Text("Geral").tag(nil as TransactionCategory?)
+            .pickerStyle(MenuPickerStyle())
+            Spacer()
+            Text(category?.name ?? "Geral")
           }
         }
       }
@@ -87,4 +93,3 @@ struct TransactionItemFormView_Previews: PreviewProvider {
     TransactionItemFormView()
   }
 }
-

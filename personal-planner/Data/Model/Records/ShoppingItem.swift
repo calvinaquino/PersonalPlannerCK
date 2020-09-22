@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class ShoppingItem : Record, Named, Priced, Needed, Categorized {
+class ShoppingItem : Record, Named, Priced, Needed, Categorized, FormCategoryPickerMenu {
   override class var recordType: String {
     CKRecord.RecordType.ShoppingItem
   }
@@ -56,6 +56,13 @@ class ShoppingItem : Record, Named, Priced, Needed, Categorized {
   
   override func onDelete() {
     Store.shared.shoppingItems.delete(self.id)
+  }
+  
+  var selectedCategoryName: String {
+    if let category = self.category {
+      return category.name
+    }
+    return "Geral"
   }
 }
 

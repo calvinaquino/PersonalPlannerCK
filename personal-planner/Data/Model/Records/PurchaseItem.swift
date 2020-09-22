@@ -10,7 +10,7 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseItem: Record, Named, Priced, Categorized {
+class PurchaseItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
   override class var recordType: String {
     CKRecord.RecordType.PurchaseItem
   }
@@ -61,6 +61,14 @@ class PurchaseItem: Record, Named, Priced, Categorized {
   
   override func onDelete() {
     Store.shared.purchaseItems.delete(self.id)
+  }
+  
+  // this is repeated
+  var selectedCategoryName: String {
+    if let category = self.category {
+      return category.name
+    }
+    return "Geral"
   }
 }
 

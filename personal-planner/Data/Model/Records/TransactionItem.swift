@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized {
+class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized, FormCategoryPickerMenu {
   override class var recordType: String {
     CKRecord.RecordType.TransactionItem
   }
@@ -62,6 +62,13 @@ class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized {
     let monthPredicate = NSPredicate(format: "month == %@", month.numberValue)
     let yearPredicate = NSPredicate(format: "year == %@", year.numberValue)
     return NSCompoundPredicate(andPredicateWithSubpredicates: [monthPredicate, yearPredicate])
+  }
+  
+  var selectedCategoryName: String {
+    if let category = self.category {
+      return category.name
+    }
+    return "Geral"
   }
 }
 

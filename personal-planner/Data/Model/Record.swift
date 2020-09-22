@@ -190,3 +190,7 @@ protocol Categorized {
   associatedtype Category: StringIdentifiable, Named
   var category: Category? { get set }
 }
+
+protocol FormCategoryPickerMenu {
+  var selectedCategoryName: String { get }
+}

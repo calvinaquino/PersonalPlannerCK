@@ -42,15 +42,21 @@ struct PurchaseItemFormView: View {
       Form {
         Section {
           TextField("Nome", text: $name)
+            .autocapitalization(.sentences)
           TextField("Descrição", text: $description)
           TextField("Preço", text: $price)
             .keyboardType(.decimalPad)
 //          TextField("Parcelaa", text: $instalments) // slider?
-          Picker("Categoria", selection: $category) {
-            ForEach(categories.items, id: \.id) { item in
-              Text(item.name).tag(item as PurchaseCategory?)
+          HStack {
+            Picker("Categoria", selection: $category) {
+              ForEach(categories.items, id: \.id) { item in
+                Text(item.name).tag(item as PurchaseCategory?)
+              }
+              Text("Geral").tag(nil as PurchaseCategory?)
             }
-            Text("Geral").tag(nil as PurchaseCategory?)
+            .pickerStyle(MenuPickerStyle())
+            Spacer()
+            Text(category?.name ?? "Geral")
           }
         }
       }

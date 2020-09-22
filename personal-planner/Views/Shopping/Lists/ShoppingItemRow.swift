@@ -15,8 +15,10 @@ struct ShoppingItemRow: View {
     HStack {
       VStack(alignment: .leading) {
         Text(item.name)
-        Text(item.localizedName)
+        if item.localizedName.count > 0 {
+          Text(item.localizedName)
           .font(.subheadline)
+        }
       }
       Spacer()
       Text(item.price.stringCurrencyValue)

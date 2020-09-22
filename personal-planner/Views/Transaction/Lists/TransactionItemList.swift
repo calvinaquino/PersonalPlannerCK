@@ -17,6 +17,7 @@ struct TransactionItemList: View {
   @ObservedObject private var transactionItems = TransactionItems.shared
   @ObservedObject private var transactionCategories = TransactionCategories.shared
   
+  @State var dragAmount = CGSize.zero
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
@@ -33,18 +34,37 @@ struct TransactionItemList: View {
     TransactionSection.sections(items: transactionItems.items, categories: transactionCategories.items)
   }
   
+  func delete(at offsets: IndexSet, in section: TransactionSection) {
+    for offset in offsets {
+      let item = section.transactions[offset]
+      item.delete()
+    }
+  }
+  
+  func updateTotals() {
+    self.totalTransaction.wrappedValue = self.sections.reduce(0) { $1.total + $0 }
+  }
+  
+  func openFormScreen(for item: TransactionItem) {
+    self.editingItem = item
+    self.showingFormScreen.toggle()
+  }
+  
   var body: some View {
     List {
       ForEach(sections, id: \.id) { section in
-        Section(header: HStack {
-          Text(section.categoryName)
-          Spacer()
-          Text(section.currentVersusTotal)
-        }) {
+        Section(header: SectionHeader(section: section)) {
           ForEach(section.transactions, id: \.id) { item in
             TransactionItemRow(item: item) {
-              self.editingItem = $0
-              self.showingFormScreen.toggle()
+              self.openFormScreen(for: $0)
+            }
+            .contextMenu {
+              Button("Remover", action: { item.delete() })
+              Button("Efetuar", action: {
+                item.isComplete.toggle()
+                item.save()
+                self.updateTotals()
+              })
             }
           }
           .onDelete(perform: { offsets in
@@ -58,26 +78,18 @@ struct TransactionItemList: View {
           }
         }
       }
-//      .sheet(isPresented: self.$showingFormScreen, onDismiss: {
-//        self.editingItem = nil
-//      }) {
-//        TransactionItemFormView(with: self.editingItem, date: nil)
-//          .onDisappear {
-//            self.updateTotals()
-//        }
-//      }
     }
   }
   
-  func delete(at offsets: IndexSet, in section: TransactionSection) {
-    for offset in offsets {
-      let item = section.transactions[offset]
-      item.delete()
+  struct SectionHeader: View {
+    var section: TransactionSection
+    var body: some View {
+      HStack {
+        Text(section.categoryName)
+        Spacer()
+        Text(section.currentVersusTotal)
+      }
     }
-  }
-  
-  func updateTotals() {
-    self.totalTransaction.wrappedValue = self.transactionItems.items.reduce(0) { $1.valueSigned + $0 }
   }
 }
 

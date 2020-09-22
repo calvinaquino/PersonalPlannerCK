@@ -16,8 +16,13 @@ struct PurchaseItemListView: View {
   @State private var searchText: String = ""
   @State private var isActive = false
   
+  func showFormScreen() {
+    self.editingItem = nil
+    self.showingFormScreen.toggle()
+  }
+  
   var body: some View {
-    NavigationView {
+    StackNavigationView {
       VStack {
         HStack {
           SearchBar(searchText: self.$searchText)
@@ -40,20 +45,14 @@ struct PurchaseItemListView: View {
       }
       .navigationBarTitle("Metas", displayMode: .inline)
       .navigationBarItems(leading: NavigationLink(destination: PurchaseCategoryListView()) {
-//        Image(systemName: "folder")
-        Text("Categorias")
-        }, trailing: Button(action: {
-          self.editingItem = nil
-          self.showingFormScreen.toggle()
-        }) {
-//        Image(systemName: "plus")
-          Text("Novo")
+        IconButton(systemIcon: "folder")
+      }, trailing: Button(action: self.showFormScreen) {
+        IconButton(systemIcon: "plus")
       })
     }
     .sheet(isPresented: $showingFormScreen) {
       PurchaseItemFormView(with: self.$editingItem.wrappedValue)
     }
-    .navigationViewStyle(StackNavigationViewStyle())
   }
 }
 

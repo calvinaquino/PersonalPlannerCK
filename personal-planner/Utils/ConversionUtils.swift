@@ -88,7 +88,7 @@ extension String: NumberConvertible, DoubleConvertible, IntConvertible {
   }
   
   var doubleValue: Double {
-    self.numberValue.doubleValue
+    self.replacingOccurrences(of: ",", with: ".").numberValue.doubleValue
   }
   
   var intValue: Int {
