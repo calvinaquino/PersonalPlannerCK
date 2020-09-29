@@ -1,5 +1,5 @@
 //
-//  PurchaseItemFormView.swift
+//  GoalItemFormView.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-04-04.
@@ -11,14 +11,14 @@ import Foundation
 import Combine
 import SwiftUI
 
-struct PurchaseItemFormView: View {
+struct GoalItemFormView: View {
   
   init() {
-    self.init(with: FormViewManager.shared.purchaseItemForm.editingItem)
+    self.init(with: FormViewManager.shared.goalItemForm.editingItem)
   }
 
-  init(with purchaseItem: PurchaseItem?) {
-    self.item = purchaseItem
+  init(with goalItem: GoalItem?) {
+    self.item = goalItem
     _name = State(initialValue: item?.name ?? "")
     _description = State(initialValue: item?.description ?? "")
     _price = State(initialValue: item?.price.stringValue ?? "")
@@ -26,16 +26,16 @@ struct PurchaseItemFormView: View {
     _category = State(initialValue: item?.category ?? nil)
   }
   
-  private var item: PurchaseItem?
+  private var item: GoalItem?
   
-  @ObservedObject private var categories = PurchaseCategories()
+  @ObservedObject private var categories = GoalCategories()
   @Environment(\.presentationMode) var presentationMode
   
   @State private var name: String
   @State private var description: String
   @State private var price: String
   @State private var instalments: Int
-  @State private var category: PurchaseCategory?
+  @State private var category: GoalCategory?
   
   var body: some View {
     NavigationView {
@@ -50,9 +50,9 @@ struct PurchaseItemFormView: View {
           HStack {
             Picker("Categoria", selection: $category) {
               ForEach(categories.items, id: \.id) { item in
-                Text(item.name).tag(item as PurchaseCategory?)
+                Text(item.name).tag(item as GoalCategory?)
               }
-              Text("Geral").tag(nil as PurchaseCategory?)
+              Text("Geral").tag(nil as GoalCategory?)
             }
             .pickerStyle(MenuPickerStyle())
             Spacer()
@@ -71,7 +71,7 @@ struct PurchaseItemFormView: View {
   }
   
   func save() {
-    let editingItem = self.item ?? PurchaseItem()
+    let editingItem = self.item ?? GoalItem()
     editingItem.name = self.name
     editingItem.description = self.description
     editingItem.price = self.price.doubleValue
@@ -82,8 +82,8 @@ struct PurchaseItemFormView: View {
   }
 }
 
-struct PurchaseItemFormView_Previews: PreviewProvider {
+struct GoalItemFormView_Previews: PreviewProvider {
   static var previews: some View {
-    PurchaseItemFormView()
+    GoalItemFormView()
   }
 }

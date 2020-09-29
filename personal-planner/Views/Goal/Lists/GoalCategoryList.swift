@@ -1,5 +1,5 @@
 //
-//  PurchaseCategoryList.swift
+//  GoalCategoryList.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-04-04.
@@ -8,22 +8,22 @@
 
 import SwiftUI
 
-struct PurchaseCategoryList: View {
+struct GoalCategoryList: View {
   
-  @ObservedObject private var purchaseCategories = PurchaseCategories.shared
+  @ObservedObject private var goalCategories = GoalCategories.shared
   
   @Binding private var showingFormScreen: Bool
-  @Binding private var editingItem: PurchaseCategory?
+  @Binding private var editingItem: GoalCategory?
   
-  init(query: String, editingItem: Binding<PurchaseCategory?>, showingFormScreen: Binding<Bool>) {
+  init(query: String, editingItem: Binding<GoalCategory?>, showingFormScreen: Binding<Bool>) {
     self._editingItem = editingItem
     self._showingFormScreen = showingFormScreen
-    self.purchaseCategories.query = query
+    self.goalCategories.query = query
   }
   
   var body: some View {
     List {
-      ForEach(purchaseCategories.items, id: \.id) { item in
+      ForEach(goalCategories.items, id: \.id) { item in
         HStack {
           Text(item.name)
           Spacer()
@@ -40,14 +40,14 @@ struct PurchaseCategoryList: View {
   
   func delete(at offsets: IndexSet) {
     for offset in offsets {
-      let item = self.purchaseCategories.items[offset]
+      let item = self.goalCategories.items[offset]
       item.delete()
     }
   }
 }
 
-struct PurchaseCategoryList_Previews: PreviewProvider {
+struct GoalCategoryList_Previews: PreviewProvider {
   static var previews: some View {
-    PurchaseCategoryList(query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
+    GoalCategoryList(query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
   }
 }

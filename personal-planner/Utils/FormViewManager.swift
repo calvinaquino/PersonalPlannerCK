@@ -16,8 +16,8 @@ class FormViewManager {
   var shoppingCategoryForm = FormView<ShoppingCategory>()
   var transactionItemForm = FormView<TransactionItem>()
   var transactionCategoryForm = FormView<TransactionCategory>()
-  var purchaseItemForm = FormView<PurchaseItem>()
-  var purchaseCategoryForm = FormView<PurchaseCategory>()
+  var goalItemForm = FormView<GoalItem>()
+  var goalCategoryForm = FormView<GoalCategory>()
 }
 
 class FormView<T>: ObservableObject {

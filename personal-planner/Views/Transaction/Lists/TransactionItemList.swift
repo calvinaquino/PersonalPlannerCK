@@ -17,7 +17,6 @@ struct TransactionItemList: View {
   @ObservedObject private var transactionItems = TransactionItems.shared
   @ObservedObject private var transactionCategories = TransactionCategories.shared
   
-  @State var dragAmount = CGSize.zero
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: TransactionItem?
   private var totalTransaction: Binding<Double>
@@ -53,7 +52,8 @@ struct TransactionItemList: View {
   var body: some View {
     List {
       ForEach(sections, id: \.id) { section in
-        Section(header: SectionHeader(section: section)) {
+        Section(header: SectionView(title: section.categoryName, rightText: section.currentVersusTotal)
+        ) {
           ForEach(section.transactions, id: \.id) { item in
             TransactionItemRow(item: item) {
               self.openFormScreen(for: $0)
@@ -80,21 +80,19 @@ struct TransactionItemList: View {
       }
     }
   }
-  
-  struct SectionHeader: View {
-    var section: TransactionSection
-    var body: some View {
-      HStack {
-        Text(section.categoryName)
-        Spacer()
-        Text(section.currentVersusTotal)
-      }
-    }
-  }
 }
 
 struct TransactionItemList_Previews: PreviewProvider {
   static var previews: some View {
-    return TransactionItemList(date: Date(), total: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
+    Mock.mockTransactions()
+    return Group {
+      TransactionItemList(date: Date(), total: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
+        .previewLayout(.sizeThatFits)
+        .frame(width: 350, height: 250, alignment: .top)
+      TransactionItemList(date: Date(), total: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
+        .colorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+        .frame(width: 350, height: 250, alignment: .top)
+    }
   }
 }

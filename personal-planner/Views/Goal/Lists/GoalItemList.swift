@@ -1,5 +1,5 @@
 //
-//  PurchaseItemList.swift
+//  GoalItemList.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-04-04.
@@ -8,25 +8,25 @@
 
 import SwiftUI
 
-struct PurchaseItemList: View {
+struct GoalItemList: View {
   
-  @ObservedObject private var purchaseItems = PurchaseItems.shared
-  @ObservedObject private var purchaseCategories = PurchaseCategories.shared
+  @ObservedObject private var goalItems = GoalItems.shared
+  @ObservedObject private var goalCategories = GoalCategories.shared
   
   @Binding var isFiltering: Bool
   @Binding private var showingFormScreen: Bool
-  @Binding private var editingItem: PurchaseItem?
+  @Binding private var editingItem: GoalItem?
   @State private var rotation: Double = 0.0;
   
-  init(query: String, editingItem: Binding<PurchaseItem?>, isFiltering: Binding<Bool>, showingFormScreen: Binding<Bool>) {
+  init(query: String, editingItem: Binding<GoalItem?>, isFiltering: Binding<Bool>, showingFormScreen: Binding<Bool>) {
     self._isFiltering = isFiltering
     self._editingItem = editingItem
     self._showingFormScreen = showingFormScreen
-    self.purchaseItems.query = query
+    self.goalItems.query = query
   }
   
-  var sections: [PurchaseSection] {
-    PurchaseSection.sections(items: purchaseItems.items, categories: purchaseCategories.items, filter: self.isFiltering)
+  var sections: [GoalSection] {
+    GoalSection.sections(items: goalItems.items, categories: goalCategories.items, filter: self.isFiltering)
   }
   
   var body: some View {
@@ -37,7 +37,7 @@ struct PurchaseItemList: View {
           Spacer()
         }) {
           ForEach(section.items, id: \.id) { item in
-            PurchaseItemRow(item: item) {
+            GoalItemRow(item: item) {
               self.editingItem = $0
               self.showingFormScreen = true
             }
@@ -50,7 +50,7 @@ struct PurchaseItemList: View {
     }
   }
   
-  func delete(at offsets: IndexSet, in section: PurchaseSection) {
+  func delete(at offsets: IndexSet, in section: GoalSection) {
     for offset in offsets {
       let item = section.items[offset]
       item.delete()
@@ -58,8 +58,8 @@ struct PurchaseItemList: View {
   }
 }
 
-struct PurchaseItemList_Previews: PreviewProvider {
+struct GoalItemList_Previews: PreviewProvider {
   static var previews: some View {
-    PurchaseItemList(query: "", editingItem: .constant(nil), isFiltering: .constant(false), showingFormScreen: .constant(false))
+    GoalItemList(query: "", editingItem: .constant(nil), isFiltering: .constant(false), showingFormScreen: .constant(false))
   }
 }

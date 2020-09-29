@@ -96,16 +96,16 @@ extension CKRecord.RecordType {
   static var ShoppingCategory: String { "ShoppingCategory" }
   static var TransactionItem: String { "TransactionItem" }
   static var TransactionCategory: String { "TransactionCategory" }
-  static var PurchaseItem: String { "PurchaseItem" }
-  static var PurchaseCategory: String { "PurchaseCategory" }
+  static var GoalItem: String { "GoalItem" }
+  static var GoalCategory: String { "GoalCategory" }
 
   static var All: [CKRecord.RecordType] = [
     CKRecord.RecordType.ShoppingItem,
     CKRecord.RecordType.ShoppingCategory,
     CKRecord.RecordType.TransactionItem,
     CKRecord.RecordType.TransactionCategory,
-    CKRecord.RecordType.PurchaseItem,
-    CKRecord.RecordType.PurchaseCategory
+    CKRecord.RecordType.GoalItem,
+    CKRecord.RecordType.GoalCategory
   ]
 }
 

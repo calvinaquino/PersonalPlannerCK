@@ -37,5 +37,6 @@ struct TransactionItemRow_Previews: PreviewProvider {
   }()
     static var previews: some View {
       TransactionItemRow(item: item) { print($0.name) }
+        .previewLayout(.sizeThatFits)
     }
 }

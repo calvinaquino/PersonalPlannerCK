@@ -24,10 +24,10 @@ struct ContentView: View {
           Image(systemName: "dollarsign.circle")
           Text("Finanças")
       }.tag(1)
-      PurchaseItemListView()
+      GoalItemListView()
         .tabItem {
           Image(systemName: "star")
-          Text("Metas")
+          Text("Objetivos")
       }.tag(2)
     }
     .font(.headline)

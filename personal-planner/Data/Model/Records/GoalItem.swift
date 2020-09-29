@@ -1,5 +1,5 @@
 //
-//  PurchaseItem.swift
+//  GoalItem.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-03-17.
@@ -10,15 +10,15 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
+class GoalItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
   override class var recordType: String {
-    CKRecord.RecordType.PurchaseItem
+    CKRecord.RecordType.GoalItem
   }
   private let kDescription = "description"
   private let kInstalments = "instalments"
-  private let kPurchaseCategory = "purchaseCategory"
+  private let kGoalCategory = "goalCategory"
   
-  static func ==(lhs: PurchaseItem, rhs: PurchaseItem) -> Bool {(
+  static func ==(lhs: GoalItem, rhs: GoalItem) -> Bool {(
     lhs.id == rhs.id &&
       lhs.name == rhs.name &&
       lhs.price == rhs.price &&
@@ -36,31 +36,31 @@ class PurchaseItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
     set { self.ckRecord[kInstalments] = newValue }
   }
   
-  var category: PurchaseCategory? {
+  var category: GoalCategory? {
     get {
-      if let reference = self.ckRecord[kPurchaseCategory] as? CKRecord.Reference {
-        let record = CKRecord(recordType: PurchaseCategory.recordType, recordID: reference.recordID)
-        let cached = Store.shared.purchaseCategories.items.first { $0.id == record.id }
-        return cached ?? PurchaseCategory(with: record)
+      if let reference = self.ckRecord[kGoalCategory] as? CKRecord.Reference {
+        let record = CKRecord(recordType: GoalCategory.recordType, recordID: reference.recordID)
+        let cached = Store.shared.goalCategories.items.first { $0.id == record.id }
+        return cached ?? GoalCategory(with: record)
       }
       return nil
     }
     set {
       if let newCategory = newValue {
         let reference = CKRecord.Reference(recordID: newCategory.ckRecord!.recordID, action: .none)
-        self.ckRecord[kPurchaseCategory] = reference
+        self.ckRecord[kGoalCategory] = reference
       } else {
-        self.ckRecord[kPurchaseCategory] = nil
+        self.ckRecord[kGoalCategory] = nil
       }
     }
   }
   
   override func onSave() {
-    Store.shared.purchaseItems.save(self)
+    Store.shared.goalItems.save(self)
   }
   
   override func onDelete() {
-    Store.shared.purchaseItems.delete(self.id)
+    Store.shared.goalItems.delete(self.id)
   }
   
   // this is repeated
@@ -72,11 +72,11 @@ class PurchaseItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
   }
 }
 
-class PurchaseItems: ObservableObject {
-  static let shared = PurchaseItems()
+class GoalItems: ObservableObject {
+  static let shared = GoalItems()
   
   required init() {
-    self.itemSubscriber = Store.shared.purchaseItems.publisher
+    self.itemSubscriber = Store.shared.goalItems.publisher
       .receive(on: RunLoop.main)
       .map({ $0.sorted{ $0.name < $1.name } })
       .sink(receiveValue: { items in
@@ -93,8 +93,8 @@ class PurchaseItems: ObservableObject {
   }
   
   var itemSubscriber: AnyCancellable!
-  @Published private var _items: [PurchaseItem] = []
-  @Published private var _filteredItems: [PurchaseItem] = []
+  @Published private var _items: [GoalItem] = []
+  @Published private var _filteredItems: [GoalItem] = []
   var query: String = "" {
     didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }
@@ -104,10 +104,10 @@ class PurchaseItems: ObservableObject {
   }
   
   func fetch() {
-    Cloud.fetchPurchaseItems { }
+    Cloud.fetchGoalItems { }
   }
   
-  var items: [PurchaseItem] {
+  var items: [GoalItem] {
     return self.query.isEmpty ? _items : _filteredItems
   }
 }

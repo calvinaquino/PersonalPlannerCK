@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionCategory: Record, Named {
+class TransactionCategory: Record, Named, ObservableObject {
   override class var recordType: String {
     CKRecord.RecordType.TransactionCategory
   }

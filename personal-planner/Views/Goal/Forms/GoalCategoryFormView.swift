@@ -1,5 +1,5 @@
 //
-//  PurchaseCategoryFormView.swift
+//  GoalCategoryFormView.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-04-04.
@@ -8,17 +8,17 @@
 
 import SwiftUI
 
-struct PurchaseCategoryFormView: View {
+struct GoalCategoryFormView: View {
   init() {
     self.init(with: nil)
   }
   
-  init(with purchaseCategory: PurchaseCategory?) {
-    self.item = purchaseCategory
+  init(with goalCategory: GoalCategory?) {
+    self.item = goalCategory
     _name = State(initialValue: item?.name ?? "")
   }
   
-  private var item: PurchaseCategory?
+  private var item: GoalCategory?
   
   @Environment(\.presentationMode) var presentationMode
   
@@ -42,15 +42,15 @@ struct PurchaseCategoryFormView: View {
   }
   
   func save() {
-    let editingItem = self.item ?? PurchaseCategory()
+    let editingItem = self.item ?? GoalCategory()
     editingItem.name = self.name
     editingItem.save()
     self.presentationMode.wrappedValue.dismiss()
   }
 }
 
-struct PurchaseCategoryFormView_Previews: PreviewProvider {
+struct GoalCategoryFormView_Previews: PreviewProvider {
   static var previews: some View {
-    PurchaseCategoryFormView()
+    GoalCategoryFormView()
   }
 }

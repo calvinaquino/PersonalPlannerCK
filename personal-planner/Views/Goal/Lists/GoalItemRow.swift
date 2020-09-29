@@ -1,5 +1,5 @@
 //
-//  PurchaseItemRow.swift
+//  GoalItemRow.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-04-04.
@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct PurchaseItemRow: View {
-  var item: PurchaseItem!
-  var onTapAction: ((_ item: PurchaseItem) -> Void)?
+struct GoalItemRow: View {
+  var item: GoalItem!
+  var onTapAction: ((_ item: GoalItem) -> Void)?
   var body: some View {
     HStack {
       VStack(alignment: .leading) {
@@ -28,9 +28,9 @@ struct PurchaseItemRow: View {
   }
 }
 
-struct PurchaseItemRow_Previews: PreviewProvider {
-  static var item: PurchaseItem = {
-    var _item = PurchaseItem()
+struct GoalItemRow_Previews: PreviewProvider {
+  static var item: GoalItem = {
+    var _item = GoalItem()
     _item.name = "Cueca"
     _item.description = "Underwear"
     _item.price = 9.99
@@ -38,6 +38,6 @@ struct PurchaseItemRow_Previews: PreviewProvider {
     return _item
   }()
   static var previews: some View {
-    PurchaseItemRow(item: item, onTapAction: { print($0.name) })
+    GoalItemRow(item: item, onTapAction: { print($0.name) })
   }
 }

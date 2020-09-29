@@ -23,8 +23,13 @@ struct StackNavigationView<Content: View>: View {
   }
 }
 
-//struct StackNavigationView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    StackNavigationView()
-//  }
-//}
+struct StackNavigationView_Previews: PreviewProvider {
+  static var previews: some View {
+    StackNavigationView {
+      VStack {
+        Text("Hi I am content")
+        Text("Hi content I am also content")
+      }
+    }
+  }
+}

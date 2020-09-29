@@ -1,5 +1,5 @@
 //
-//  PurchaseCategory.swift
+//  GoalCategory.swift
 //  personal-planner
 //
 //  Created by Calvin De Aquino on 2020-03-17.
@@ -10,31 +10,31 @@ import Foundation
 import CloudKit
 import Combine
 
-class PurchaseCategory: Record, Named {
+class GoalCategory: Record, Named {
   override class var recordType: String {
-    CKRecord.RecordType.PurchaseCategory
+    CKRecord.RecordType.GoalCategory
   }
   
-  static func ==(lhs: PurchaseCategory, rhs: PurchaseCategory) -> Bool {(
+  static func ==(lhs: GoalCategory, rhs: GoalCategory) -> Bool {(
     lhs.id == rhs.id &&
     lhs.name == rhs.name
   )}
   
   override func onSave() {
-    Store.shared.purchaseCategories.save(self)
+    Store.shared.goalCategories.save(self)
   }
   
   override func onDelete() {
-    Store.shared.purchaseCategories.delete(self.id)
+    Store.shared.goalCategories.delete(self.id)
   }
 }
 
-class PurchaseCategories: ObservableObject, Equatable, Identifiable {
-  static let shared = PurchaseCategories()
+class GoalCategories: ObservableObject, Equatable, Identifiable {
+  static let shared = GoalCategories()
   
   let id: String = UUID().uuidString
   
-  static func ==(lhs: PurchaseCategories, rhs: PurchaseCategories) -> Bool {(
+  static func ==(lhs: GoalCategories, rhs: GoalCategories) -> Bool {(
     lhs.id == rhs.id &&
     lhs._items.count == rhs._items.count &&
     lhs._filteredItems.count == rhs._filteredItems.count &&
@@ -42,7 +42,7 @@ class PurchaseCategories: ObservableObject, Equatable, Identifiable {
   )}
   
   required init() {
-    self.itemSubscriber = Store.shared.purchaseCategories.publisher
+    self.itemSubscriber = Store.shared.goalCategories.publisher
       .receive(on: RunLoop.main)
       .map({ $0.sorted{ $0.name < $1.name } })
       .sink(receiveValue: { items in
@@ -59,8 +59,8 @@ class PurchaseCategories: ObservableObject, Equatable, Identifiable {
   }
   
   var itemSubscriber: AnyCancellable!
-  @Published private var _items: [PurchaseCategory] = []
-  @Published private var _filteredItems: [PurchaseCategory] = []
+  @Published private var _items: [GoalCategory] = []
+  @Published private var _filteredItems: [GoalCategory] = []
   var query: String = "" {
     didSet {
       self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) }
@@ -72,10 +72,10 @@ class PurchaseCategories: ObservableObject, Equatable, Identifiable {
   }
   
   func fetch() {
-    Cloud.fetchPurchaseCategories { }
+    Cloud.fetchGoalCategories { }
   }
   
-  var items: [PurchaseCategory] {
+  var items: [GoalCategory] {
     return self.query.isEmpty ? _items : _filteredItems
   }
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import Combine
 
 fileprivate let kIsSubscribed = "isSubscribedPublic"
 fileprivate let kIsSubscribed2 = "isSubscribedPublic2"
@@ -140,11 +141,11 @@ class Cloud {
         case CKRecord.RecordType.TransactionCategory:
           let newItem = TransactionCategory(with: record)
           newItem.save()
-        case CKRecord.RecordType.PurchaseItem:
-          let newItem = PurchaseItem(with: record)
+        case CKRecord.RecordType.GoalItem:
+          let newItem = GoalItem(with: record)
           newItem.save()
-        case CKRecord.RecordType.PurchaseCategory:
-          let newItem = PurchaseCategory(with: record)
+        case CKRecord.RecordType.GoalCategory:
+          let newItem = GoalCategory(with: record)
           newItem.save()
         default:
           break
@@ -240,19 +241,19 @@ extension Cloud {
   }
 }
 
-// MARK: Purchase -
+// MARK: Goal -
 extension Cloud {
-  class func fetchPurchaseItems(completion: @escaping () -> Void) {
-    var purchaseItems: [PurchaseItem] = []
-    let fetchOperation = queryOperation(for: PurchaseItem.self)
+  class func fetchGoalItems(completion: @escaping () -> Void) {
+    var goalItems: [GoalItem] = []
+    let fetchOperation = queryOperation(for: GoalItem.self)
     fetchOperation.recordFetchedBlock = { record in
-      purchaseItems.append(PurchaseItem(with: record))
+      goalItems.append(GoalItem(with: record))
     }
     fetchOperation.queryCompletionBlock = { cursor, error in
       if let error = error {
         self.errorAlert(error: error)
       }
-      Store.shared.purchaseItems.items = purchaseItems
+      Store.shared.goalItems.items = goalItems
       DispatchQueue.main.async {
         completion()
       }
@@ -260,17 +261,17 @@ extension Cloud {
     Cloud.shared.database.add(fetchOperation)
   }
   
-  class func fetchPurchaseCategories(completion: @escaping () -> Void) {
-    var purchaseCategories: [PurchaseCategory] = []
-    let fetchOperation = queryOperation(for: PurchaseCategory.self)
+  class func fetchGoalCategories(completion: @escaping () -> Void) {
+    var goalCategories: [GoalCategory] = []
+    let fetchOperation = queryOperation(for: GoalCategory.self)
     fetchOperation.recordFetchedBlock = { record in
-      purchaseCategories.append(PurchaseCategory(with: record))
+      goalCategories.append(GoalCategory(with: record))
     }
     fetchOperation.queryCompletionBlock = { cursor, error in
       if let error = error {
         self.errorAlert(error: error)
       }
-      Store.shared.purchaseCategories.items = purchaseCategories
+      Store.shared.goalCategories.items = goalCategories
       DispatchQueue.main.async {
         completion()
       }
@@ -278,3 +279,26 @@ extension Cloud {
     Cloud.shared.database.add(fetchOperation)
   }
 }
+
+//extension Cloud {
+//  class func fetchRecords(for recordType: Record.Type, predicate: NSPredicate? = nil) -> Future<Void, Error> {
+//    return Future<Void, Error> { promise in
+////      var purchaseCategories: [] = []
+//      let fetchOperation = queryOperation(for: recordType)
+//      fetchOperation.recordFetchedBlock = { record in
+////        purchaseCategories.append(PurchaseCategory(with: record))
+//      }
+//      fetchOperation.queryCompletionBlock = { cursor, error in
+//        if let error = error {
+//          self.errorAlert(error: error)
+//          promise(.failure(error))
+//        }
+////        Store.shared.purchaseCategories.items = purchaseCategories
+//        DispatchQueue.main.async {
+//          promise(.success(()))
+//        }
+//      }
+//      Cloud.shared.database.add(fetchOperation)
+//    }
+//  }
+//}

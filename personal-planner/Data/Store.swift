@@ -10,14 +10,27 @@ import SwiftUI
 import CloudKit
 import Combine
 
+class Storage {
+  static let shared = Storage()
+  var storage: [String: Record] = [:]
+  
+  func save(_ record: Record) {
+    storage[record.id] = record
+  }
+  
+  func fetch(_ recordId: String) -> Record? {
+    return storage[recordId]
+  }
+}
+
 class Store {
   init() {
     Cloud.fetchShoppingCategories { }
     Cloud.fetchTransactionCategories { }
-    Cloud.fetchPurchaseCategories { }
+    Cloud.fetchGoalCategories { }
     Cloud.fetchShoppingItems { }
     Cloud.fetchTransactionItems(for: Date()) { }
-    Cloud.fetchPurchaseItems { }
+    Cloud.fetchGoalItems { }
   }
   
   static let shared = Store()
@@ -29,8 +42,8 @@ class Store {
     if self.shoppingCategories.delete(id) { return true }
     if self.transactionItems.delete(id) { return true }
     if self.transactionCategories.delete(id) { return true }
-    if self.purchaseItems.delete(id) { return true }
-    if self.purchaseCategories.delete(id) { return true }
+    if self.goalItems.delete(id) { return true }
+    if self.goalCategories.delete(id) { return true }
     return false
   }
   
@@ -38,8 +51,8 @@ class Store {
   var shoppingCategories = Cache<ShoppingCategory>()
   var transactionItems = Cache<TransactionItem>()
   var transactionCategories = Cache<TransactionCategory>()
-  var purchaseItems = Cache<PurchaseItem>()
-  var purchaseCategories = Cache<PurchaseCategory>()
+  var goalItems = Cache<GoalItem>()
+  var goalCategories = Cache<GoalCategory>()
 }
 
 class Cache<T: Record> {

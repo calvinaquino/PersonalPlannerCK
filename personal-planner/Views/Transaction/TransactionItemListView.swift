@@ -106,6 +106,7 @@ struct TransactionItemListView: View {
 
 struct TransactionItemListView_Previews: PreviewProvider {
   static var previews: some View {
-    TransactionItemListView()
+    Mock.mockTransactions()
+    return TransactionItemListView()
   }
 }

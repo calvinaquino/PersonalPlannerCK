@@ -32,14 +32,13 @@ struct ShoppingItemList: View {
   var body: some View {
     List {
       ForEach(sections, id: \.id) { section in
-        Section(header: HStack {
-          Text(section.categoryName)
-          Spacer()
-          Text(self.isFiltering ? section.items.count.stringValue : section.countVersusTotal)
-        }) {
+        Section(header: SectionView(title: section.categoryName, rightText: self.isFiltering ? section.items.count.stringValue : section.countVersusTotal)
+        ) {
           ForEach(section.items, id: \.id) { item in
             ShoppingItemRow(item: item) {
+              print("on shopping row tap: \($0)")
               self.editingItem = $0
+//              print("on shopping row tap: \(self.editingItem)")
               self.showingFormScreen = true
             }
             .contextMenu {

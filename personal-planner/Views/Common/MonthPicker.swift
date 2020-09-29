@@ -40,5 +40,6 @@ struct MonthPicker: View {
 struct MonthPicker_Previews: PreviewProvider {
   static var previews: some View {
     MonthPicker(currentDate: .constant(Date()))
+      .previewLayout(.sizeThatFits)
   }
 }
