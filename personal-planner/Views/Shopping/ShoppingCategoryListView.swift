@@ -15,28 +15,27 @@ struct ShoppingCategoryListView: View {
   
   var body: some View {
     VStack {
-      HStack {
-        SearchBar(searchText: self.$searchText)
-        if searchText.isEmpty {
-          RefreshButton(action: {
-            Cloud.fetchShoppingCategories { }
-          })
-        }
-      }
       ShoppingCategoryList(
         query: self.searchText,
         editingItem: self.$editingItem,
         showingFormScreen: self.$showingFormScreen
       )
+      .searchable(text: $searchText)
     }
     .sheet(isPresented: $showingFormScreen) {
         ShoppingCategoryFormView(with: nil)
     }
     .navigationBarTitle("Categories", displayMode: .inline)
-    .navigationBarItems(trailing: Button(action: { self.showingFormScreen.toggle() }) {
-//      Image(systemName: "plus")
-      Text("Novo")
-    })
+    .toolbar {
+      ToolbarItemGroup(placement: .topBarTrailing) {
+        RefreshButton(action: {
+          Cloud.fetchShoppingCategories { }
+        })
+        Button(action: { self.showingFormScreen.toggle() }) {
+            Text("Novo")
+        }
+      }
+    }
   }
 }
 

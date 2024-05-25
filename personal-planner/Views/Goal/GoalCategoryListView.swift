@@ -15,28 +15,27 @@ struct GoalCategoryListView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                SearchBar(searchText: self.$searchText)
-                if searchText.isEmpty {
-                    RefreshButton(action: {
-                        Cloud.fetchGoalCategories { }
-                    })
-                }
-            }
             GoalCategoryList(
                 query: self.searchText,
                 editingItem: self.$editingItem,
                 showingFormScreen: self.$showingFormScreen
             )
+            .searchable(text: $searchText)
         }
         .sheet(isPresented: $showingFormScreen) {
             GoalCategoryFormView(with: nil)
         }
         .navigationBarTitle("Categorias", displayMode: .inline)
-        .navigationBarItems(trailing: Button(action: { self.showingFormScreen.toggle() }) {
-            //      Image(systemName: "plus")
-            Text("Novo")
-        })
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                RefreshButton(action: {
+                    Cloud.fetchGoalCategories { }
+                })
+                Button(action: { self.showingFormScreen.toggle() }) {
+                    Text("Novo")
+                }
+            }
+        }
     }
 }
 

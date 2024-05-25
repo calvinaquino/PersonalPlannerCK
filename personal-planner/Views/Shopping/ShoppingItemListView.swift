@@ -24,42 +24,37 @@ struct ShoppingItemListView: View {
   var body: some View {
     StackNavigationView {
       VStack {
-        Header(searchText: $searchText, isActive: $isActive)
         ShoppingItemList(
           query: searchText,
           editingItem: self.$editingItem,
           isFiltering: self.$isActive,
           showingFormScreen: self.$showingFormScreen
         )
+        .searchable(text: $searchText)
       }
       .navigationBarTitle("Mercado", displayMode: .inline)
-      .navigationBarItems(leading: NavigationLink(destination: ShoppingCategoryListView()) {
-        IconButton(systemIcon: "folder")
-      }, trailing: Button(action: self.showFormScreen) {
-        IconButton(systemIcon: "plus")
-      })
-    }
-    .sheet(isPresented: $showingFormScreen) {
-      ShoppingItemFormView(with: self.$editingItem.wrappedValue)
-    }
-  }
-  
-  struct Header: View {
-    @Binding var searchText: String
-    @Binding var isActive: Bool
-    var body: some View {
-      HStack {
-        SearchBar(searchText: self.$searchText)
-        if searchText.isEmpty {
-          FilterButton(isActive: self.$isActive) {
-            self.isActive.toggle()
+      .toolbar {
+        ToolbarItemGroup(placement: .topBarLeading) {
+          NavigationLink(destination: ShoppingCategoryListView()) {
+            IconButton(systemIcon: "folder")
           }
+        }
+        ToolbarItemGroup(placement: .topBarTrailing) {
           RefreshButton(action: {
             Cloud.fetchShoppingCategories { }
             Cloud.fetchShoppingItems { }
           })
+          FilterButton(isActive: self.$isActive) {
+            self.isActive.toggle()
+          }
+          Button(action: self.showFormScreen) {
+            IconButton(systemIcon: "plus")
+          }
         }
       }
+    }
+    .sheet(isPresented: $showingFormScreen) {
+      ShoppingItemFormView(with: self.$editingItem.wrappedValue)
     }
   }
 }

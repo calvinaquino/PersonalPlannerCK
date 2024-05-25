@@ -19,10 +19,10 @@ struct ContentView: View {
           Image(systemName: "cart")
           Text("Mercado")
       }.tag(0)
-      TransactionItemListView()
+      TaskItemListView()
         .tabItem {
-          Image(systemName: "dollarsign.circle")
-          Text("Finanças")
+          Image(systemName: "checklist.checked")
+          Text("Tarefas")
       }.tag(1)
       GoalItemListView()
         .tabItem {

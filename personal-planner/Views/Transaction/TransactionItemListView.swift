@@ -55,12 +55,6 @@ struct TransactionItemListView: View {
   var body: some View {
     StackNavigationView {
       VStack(alignment: .center, spacing: 0) {
-        HStack {
-          SearchBar(searchText: self.$searchText)
-          if searchText.isEmpty {
-            RefreshButton(action: self.refresh)
-          }
-        }
         TransactionItemList(
           date: self.viewingDate,
           total: self.$total,
@@ -89,11 +83,19 @@ struct TransactionItemListView: View {
         }
       })
       .navigationBarTitle("Finanças", displayMode: .inline)
-      .navigationBarItems(leading: NavigationLink(destination: TransactionCategoryListView()) {
-        IconButton(systemIcon: "folder")
-      }, trailing: Button(action: self.showFormScreen) {
-        IconButton(systemIcon: "plus")
-      })
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          NavigationLink(destination: TransactionCategoryListView()) {
+            IconButton(systemIcon: "folder")
+          }
+        }
+        ToolbarItemGroup(placement: .topBarTrailing) {
+          RefreshButton(action: self.refresh)
+          Button(action: self.showFormScreen) {
+            IconButton(systemIcon: "plus")
+          }
+        }
+      }
       .alert(isPresented: self.$showingAlert) {
         Alert(title: Text("Atenção"), message: Text("Gostaria de enviar \(self.total.stringCurrencyValue) como sobra para o próximo mês?"), primaryButton: .default(Text("Sim"), action: self.sendToNextMonth), secondaryButton: .cancel(Text("Não")))
       }
