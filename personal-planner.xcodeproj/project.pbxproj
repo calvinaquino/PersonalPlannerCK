@@ -64,6 +64,7 @@
 		44EEC6AC24203A0F00E68DB3 /* FormViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */; };
 		44EEC6B62421AE0000E68DB3 /* GoalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6B52421AE0000E68DB3 /* GoalItem.swift */; };
 		44EEC6B82421AE0900E68DB3 /* GoalCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6B72421AE0900E68DB3 /* GoalCategory.swift */; };
+		9898538B2C01856600CC0386 /* TaskItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9898538A2C01856600CC0386 /* TaskItemListView.swift */; };
 		98CC6DA82C018029002E1435 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CC6DA72C018029002E1435 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +150,7 @@
 		44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewManager.swift; sourceTree = "<group>"; };
 		44EEC6B52421AE0000E68DB3 /* GoalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalItem.swift; sourceTree = "<group>"; };
 		44EEC6B72421AE0900E68DB3 /* GoalCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCategory.swift; sourceTree = "<group>"; };
+		9898538A2C01856600CC0386 /* TaskItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItemListView.swift; sourceTree = "<group>"; };
 		98CC6DA72C018029002E1435 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -340,6 +342,7 @@
 		44B24BB624009DEF00B4EA0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				989853892C01853E00CC0386 /* Tasks */,
 				4476CED125192CC60004038E /* Common */,
 				44B24B8624007B3300B4EA0B /* ContentView.swift */,
 				44DE752D24393EBF0028D07D /* Goal */,
@@ -423,6 +426,14 @@
 				44A96E472432FE7500DC44F9 /* GoalSection.swift */,
 			);
 			path = Sections;
+			sourceTree = "<group>";
+		};
+		989853892C01853E00CC0386 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				9898538A2C01856600CC0386 /* TaskItemListView.swift */,
+			);
+			path = Tasks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -594,6 +605,7 @@
 				444283C324024EDF005D731A /* TransactionItemFormView.swift in Sources */,
 				44B24BC42400AAD100B4EA0B /* TransactionItem.swift in Sources */,
 				44B24BD62401AA4D00B4EA0B /* ShoppingItemFormView.swift in Sources */,
+				9898538B2C01856600CC0386 /* TaskItemListView.swift in Sources */,
 				44046D94251ACB7C007A7246 /* RoundedRow.swift in Sources */,
 				448E927C2403AA1100EC2DA1 /* TransactionCategoryListView.swift in Sources */,
 				4476CF31251974EE0004038E /* IconButton.swift in Sources */,
