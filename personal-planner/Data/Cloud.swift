@@ -53,14 +53,16 @@ class Cloud {
     }
     
     let subscriptionOperation = CKModifySubscriptionsOperation(subscriptionsToSave: subscriptionsToSave, subscriptionIDsToDelete: nil)
-    subscriptionOperation.modifySubscriptionsCompletionBlock = { (subscription, _, error) in
-      if let error = error {
-        print(error.localizedDescription)
-      } else {
-        Cloud.isSubscribed = true
-        Cloud.isSubscribed2 = true
+      subscriptionOperation.modifySubscriptionsResultBlock = { result in
+          switch result {
+          case .success():
+              Cloud.isSubscribed = true
+              Cloud.isSubscribed2 = true
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
+          
       }
-    }
     Cloud.shared.database.add(subscriptionOperation)
   }
   
@@ -80,9 +82,14 @@ class Cloud {
     let configuration = CKOperation.Configuration()
     configuration.qualityOfService = .userInitiated
     modifyRecordsOperation.configuration = configuration
-    modifyRecordsOperation.modifyRecordsCompletionBlock = { _, _, _ in
-      completion()
-    }
+      modifyRecordsOperation.modifyRecordsResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              print(error.localizedDescription)
+          default: break
+          }
+          completion()
+      }
     Cloud.shared.database.add(modifyRecordsOperation)
   }
   
@@ -98,12 +105,14 @@ class Cloud {
     let configuration = CKOperation.Configuration()
     configuration.qualityOfService = .userInitiated
     modifyRecordsOperation.configuration = configuration
-    modifyRecordsOperation.modifyRecordsCompletionBlock = { saved, deleted, error in
-      if error != nil {
-        print(error.debugDescription)
+      modifyRecordsOperation.modifyRecordsResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              print(error.localizedDescription)
+          default: break
+          }
+          completion()
       }
-      completion()
-    }
     Cloud.shared.database.add(modifyRecordsOperation)
   }
   
@@ -112,12 +121,22 @@ class Cloud {
     let configuration = CKOperation.Configuration()
     configuration.qualityOfService = .userInitiated
     fetchOperation.configuration = configuration
-    fetchOperation.perRecordCompletionBlock = { fetchedRecord, fetchedRecordId, error in
-      record.ckRecord = fetchedRecord
-    }
-    fetchOperation.fetchRecordsCompletionBlock = { _, error in
-      completion()
-    }
+      fetchOperation.perRecordResultBlock = { (_, result) in
+          switch result {
+          case .success(let fetchedRecord):
+              record.ckRecord = fetchedRecord
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
+      }
+      fetchOperation.fetchRecordsResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              print(error.localizedDescription)
+          default: break
+          }
+          completion()
+      }
     Cloud.shared.database.add(fetchOperation)
   }
   
@@ -126,35 +145,43 @@ class Cloud {
     let configuration = CKOperation.Configuration()
     configuration.qualityOfService = .userInitiated
     fetchOperation.configuration = configuration
-    fetchOperation.perRecordCompletionBlock = { fetchedRecord, fetchedRecordId, error in
-      if let record = fetchedRecord {
-        switch record.recordType {
-        case CKRecord.RecordType.ShoppingItem:
-          let newItem = ShoppingItem(with: record)
-          newItem.save()
-        case CKRecord.RecordType.ShoppingCategory:
-          let newItem = ShoppingCategory(with: record)
-          newItem.save()
-        case CKRecord.RecordType.TransactionItem:
-          let newItem = TransactionItem(with: record)
-          newItem.save()
-        case CKRecord.RecordType.TransactionCategory:
-          let newItem = TransactionCategory(with: record)
-          newItem.save()
-        case CKRecord.RecordType.GoalItem:
-          let newItem = GoalItem(with: record)
-          newItem.save()
-        case CKRecord.RecordType.GoalCategory:
-          let newItem = GoalCategory(with: record)
-          newItem.save()
-        default:
-          break
-        }
+      fetchOperation.perRecordResultBlock = { (_, result) in
+          switch result {
+          case .success(let record):
+              switch record.recordType {
+              case CKRecord.RecordType.ShoppingItem:
+                  let newItem = ShoppingItem(with: record)
+                  newItem.save()
+              case CKRecord.RecordType.ShoppingCategory:
+                  let newItem = ShoppingCategory(with: record)
+                  newItem.save()
+              case CKRecord.RecordType.TransactionItem:
+                  let newItem = TransactionItem(with: record)
+                  newItem.save()
+              case CKRecord.RecordType.TransactionCategory:
+                  let newItem = TransactionCategory(with: record)
+                  newItem.save()
+              case CKRecord.RecordType.GoalItem:
+                  let newItem = GoalItem(with: record)
+                  newItem.save()
+              case CKRecord.RecordType.GoalCategory:
+                  let newItem = GoalCategory(with: record)
+                  newItem.save()
+              default:
+                  break
+              }
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-    }
-    fetchOperation.fetchRecordsCompletionBlock = { recordsByID, error in
-      completion()
-    }
+      fetchOperation.fetchRecordsResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              print(error.localizedDescription)
+          default: break
+          }
+          completion()
+      }
     Cloud.shared.database.add(fetchOperation)
   }
   
@@ -168,36 +195,50 @@ extension Cloud {
   class func fetchShoppingItems(completion: @escaping () -> Void) {
     var shoppingItems: [ShoppingItem] = []
     let fetchOperation = queryOperation(for: ShoppingItem.self)
-    fetchOperation.recordFetchedBlock = { record in
-      shoppingItems.append(ShoppingItem(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
+      fetchOperation.recordMatchedBlock = { _, result in
+          switch result {
+          case .success(let record):
+              shoppingItems.append(ShoppingItem(with: record))
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-      Store.shared.shoppingItems.items = shoppingItems
-      DispatchQueue.main.async {
-        completion()
+      fetchOperation.queryResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              self.errorAlert(error: error)
+          default: break
+          }
+          Store.shared.shoppingItems.items = shoppingItems
+          DispatchQueue.main.async {
+            completion()
+          }
       }
-    }
     Cloud.shared.database.add(fetchOperation)
   }
   
   class func fetchShoppingCategories(completion: @escaping () -> Void) {
     var shoppingCategories: [ShoppingCategory] = []
     let fetchOperation = queryOperation(for: ShoppingCategory.self)
-    fetchOperation.recordFetchedBlock = { record in
-      shoppingCategories.append(ShoppingCategory(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
+      fetchOperation.recordMatchedBlock = { _, result in
+          switch result {
+          case .success(let record):
+              shoppingCategories.append(ShoppingCategory(with: record))
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-      Store.shared.shoppingCategories.items = shoppingCategories
-      DispatchQueue.main.async {
-        completion()
+      fetchOperation.queryResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              self.errorAlert(error: error)
+          default: break
+          }
+          Store.shared.shoppingCategories.items = shoppingCategories
+          DispatchQueue.main.async {
+            completion()
+          }
       }
-    }
     Cloud.shared.database.add(fetchOperation)
   }
 }
@@ -207,36 +248,50 @@ extension Cloud {
   class func fetchTransactionItems(for date: Date, completion: @escaping () -> Void) {
     var transactionItems: [TransactionItem] = []
     let fetchOperation = queryOperation(for: TransactionItem.self, predicate: date.currentMonthPredicate)
-    fetchOperation.recordFetchedBlock = { record in
-      transactionItems.append(TransactionItem(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
+      fetchOperation.recordMatchedBlock = { _, result in
+          switch result {
+          case .success(let record):
+              transactionItems.append(TransactionItem(with: record))
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-      Store.shared.transactionItems.items = transactionItems
-      DispatchQueue.main.async {
-        completion()
+      fetchOperation.queryResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              self.errorAlert(error: error)
+          default: break
+          }
+          Store.shared.transactionItems.items = transactionItems
+          DispatchQueue.main.async {
+            completion()
+          }
       }
-    }
     Cloud.shared.database.add(fetchOperation)
   }
   
   class func fetchTransactionCategories(completion: @escaping () -> Void) {
     var transactionCategories: [TransactionCategory] = []
     let fetchOperation = queryOperation(for: TransactionCategory.self)
-    fetchOperation.recordFetchedBlock = { record in
-      transactionCategories.append(TransactionCategory(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
+      fetchOperation.recordMatchedBlock = { _, result in
+          switch result {
+          case .success(let record):
+              transactionCategories.append(TransactionCategory(with: record))
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-      Store.shared.transactionCategories.items = transactionCategories
-      DispatchQueue.main.async {
-        completion()
+      fetchOperation.queryResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              self.errorAlert(error: error)
+          default: break
+          }
+          Store.shared.transactionCategories.items = transactionCategories
+          DispatchQueue.main.async {
+            completion()
+          }
       }
-    }
     Cloud.shared.database.add(fetchOperation)
   }
 }
@@ -246,36 +301,50 @@ extension Cloud {
   class func fetchGoalItems(completion: @escaping () -> Void) {
     var goalItems: [GoalItem] = []
     let fetchOperation = queryOperation(for: GoalItem.self)
-    fetchOperation.recordFetchedBlock = { record in
-      goalItems.append(GoalItem(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
+      fetchOperation.recordMatchedBlock = { _, result in
+          switch result {
+          case .success(let record):
+              goalItems.append(GoalItem(with: record))
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-      Store.shared.goalItems.items = goalItems
-      DispatchQueue.main.async {
-        completion()
+      fetchOperation.queryResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              self.errorAlert(error: error)
+          default: break
+          }
+          Store.shared.goalItems.items = goalItems
+          DispatchQueue.main.async {
+            completion()
+          }
       }
-    }
     Cloud.shared.database.add(fetchOperation)
   }
   
   class func fetchGoalCategories(completion: @escaping () -> Void) {
     var goalCategories: [GoalCategory] = []
     let fetchOperation = queryOperation(for: GoalCategory.self)
-    fetchOperation.recordFetchedBlock = { record in
-      goalCategories.append(GoalCategory(with: record))
-    }
-    fetchOperation.queryCompletionBlock = { cursor, error in
-      if let error = error {
-        self.errorAlert(error: error)
+      fetchOperation.recordMatchedBlock = { _, result in
+          switch result {
+          case .success(let record):
+              goalCategories.append(GoalCategory(with: record))
+          case .failure(let error):
+              print(error.localizedDescription)
+          }
       }
-      Store.shared.goalCategories.items = goalCategories
-      DispatchQueue.main.async {
-        completion()
+      fetchOperation.queryResultBlock = { result in
+          switch result {
+          case .failure(let error):
+              self.errorAlert(error: error)
+          default: break
+          }
+          Store.shared.goalCategories.items = goalCategories
+          DispatchQueue.main.async {
+            completion()
+          }
       }
-    }
     Cloud.shared.database.add(fetchOperation)
   }
 }
