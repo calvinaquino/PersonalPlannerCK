@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,11 +14,9 @@
 		44046D99251ACDAC007A7246 /* SystemColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44046D98251ACDAC007A7246 /* SystemColors.swift */; };
 		44046D9E251AF15C007A7246 /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44046D9D251AF15C007A7246 /* SectionView.swift */; };
 		44046DA3251AF1ED007A7246 /* PreviewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44046DA2251AF1ED007A7246 /* PreviewUtils.swift */; };
-		442DF2FC241732B100BB1D89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 442DF2FB241732B100BB1D89 /* Assets.xcassets */; };
 		444283C324024EDF005D731A /* TransactionItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444283C224024EDF005D731A /* TransactionItemFormView.swift */; };
 		444283C524032988005D731A /* TransactionItemList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444283C424032988005D731A /* TransactionItemList.swift */; };
 		4452BAAD24A1B5FB0009B742 /* PersonalPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4452BAAC24A1B5FB0009B742 /* PersonalPlannerApp.swift */; };
-		4452BAAF24A1BB360009B742 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4452BAAE24A1BB360009B742 /* SceneDelegate.swift */; };
 		4456E0562521C2F80094915B /* CloudKitEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4456E0552521C2F80094915B /* CloudKitEncoder.swift */; };
 		4456E05B2521C3070094915B /* CloudKitDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4456E05A2521C3070094915B /* CloudKitDecoder.swift */; };
 		446605D62519829900F10B00 /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446605D52519829900F10B00 /* MonthPicker.swift */; };
@@ -43,7 +41,6 @@
 		44B24B8524007B3300B4EA0B /* personal_planner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8324007B3300B4EA0B /* personal_planner.xcdatamodeld */; };
 		44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B8624007B3300B4EA0B /* ContentView.swift */; };
 		44B24B8C24007B3500B4EA0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44B24B8B24007B3500B4EA0B /* Preview Assets.xcassets */; };
-		44B24B8F24007B3500B4EA0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */; };
 		44B24B9A24007B3600B4EA0B /* personal_plannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24B9924007B3600B4EA0B /* personal_plannerTests.swift */; };
 		44B24BA524007B3600B4EA0B /* personal_plannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B24BA424007B3600B4EA0B /* personal_plannerUITests.swift */; };
 		44B24BB524007C9800B4EA0B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B24BB424007C9800B4EA0B /* CloudKit.framework */; };
@@ -67,6 +64,7 @@
 		44EEC6AC24203A0F00E68DB3 /* FormViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */; };
 		44EEC6B62421AE0000E68DB3 /* GoalItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6B52421AE0000E68DB3 /* GoalItem.swift */; };
 		44EEC6B82421AE0900E68DB3 /* GoalCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EEC6B72421AE0900E68DB3 /* GoalCategory.swift */; };
+		98CC6DA82C018029002E1435 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98CC6DA72C018029002E1435 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,11 +92,9 @@
 		44046D98251ACDAC007A7246 /* SystemColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemColors.swift; sourceTree = "<group>"; };
 		44046D9D251AF15C007A7246 /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
 		44046DA2251AF1ED007A7246 /* PreviewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewUtils.swift; sourceTree = "<group>"; };
-		442DF2FB241732B100BB1D89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../Downloads/AppIcons/Assets.xcassets; sourceTree = "<group>"; };
 		444283C224024EDF005D731A /* TransactionItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemFormView.swift; sourceTree = "<group>"; };
 		444283C424032988005D731A /* TransactionItemList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionItemList.swift; sourceTree = "<group>"; };
 		4452BAAC24A1B5FB0009B742 /* PersonalPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalPlannerApp.swift; sourceTree = "<group>"; };
-		4452BAAE24A1BB360009B742 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4456E0552521C2F80094915B /* CloudKitEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitEncoder.swift; sourceTree = "<group>"; };
 		4456E05A2521C3070094915B /* CloudKitDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitDecoder.swift; sourceTree = "<group>"; };
 		446605D52519829900F10B00 /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
@@ -124,7 +120,6 @@
 		44B24B8424007B3300B4EA0B /* personal_planner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = personal_planner.xcdatamodel; sourceTree = "<group>"; };
 		44B24B8624007B3300B4EA0B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		44B24B8B24007B3500B4EA0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		44B24B8E24007B3500B4EA0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44B24B9024007B3500B4EA0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44B24B9524007B3600B4EA0B /* personal-plannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "personal-plannerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44B24B9924007B3600B4EA0B /* personal_plannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = personal_plannerTests.swift; sourceTree = "<group>"; };
@@ -154,6 +149,7 @@
 		44EEC6AB24203A0F00E68DB3 /* FormViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewManager.swift; sourceTree = "<group>"; };
 		44EEC6B52421AE0000E68DB3 /* GoalItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalItem.swift; sourceTree = "<group>"; };
 		44EEC6B72421AE0900E68DB3 /* GoalCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCategory.swift; sourceTree = "<group>"; };
+		98CC6DA72C018029002E1435 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,12 +292,10 @@
 				44B24BB224007C2800B4EA0B /* personal-planner.entitlements */,
 				44B24B7F24007B3300B4EA0B /* AppDelegate.swift */,
 				4452BAAC24A1B5FB0009B742 /* PersonalPlannerApp.swift */,
-				4452BAAE24A1BB360009B742 /* SceneDelegate.swift */,
 				44B24BC72400ACAE00B4EA0B /* Utils */,
 				44B24BB624009DEF00B4EA0B /* Views */,
 				44B24BB724009DFC00B4EA0B /* Data */,
-				442DF2FB241732B100BB1D89 /* Assets.xcassets */,
-				44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */,
+				98CC6DA72C018029002E1435 /* Assets.xcassets */,
 				44B24B9024007B3500B4EA0B /* Info.plist */,
 				44B24B8324007B3300B4EA0B /* personal_planner.xcdatamodeld */,
 				44B24B8A24007B3500B4EA0B /* Preview Content */,
@@ -495,8 +489,9 @@
 		44B24B7424007B3300B4EA0B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Calvin Aquino";
 				TargetAttributes = {
 					44B24B7B24007B3300B4EA0B = {
@@ -539,9 +534,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44B24B8F24007B3500B4EA0B /* LaunchScreen.storyboard in Resources */,
+				98CC6DA82C018029002E1435 /* Assets.xcassets in Resources */,
 				44B24B8C24007B3500B4EA0B /* Preview Assets.xcassets in Resources */,
-				442DF2FC241732B100BB1D89 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,7 +575,6 @@
 				44EEC6B62421AE0000E68DB3 /* GoalItem.swift in Sources */,
 				44046D9E251AF15C007A7246 /* SectionView.swift in Sources */,
 				4484BB18240C68F9009ED7F7 /* Record.swift in Sources */,
-				4452BAAF24A1BB360009B742 /* SceneDelegate.swift in Sources */,
 				44B24B8724007B3300B4EA0B /* ContentView.swift in Sources */,
 				44AA4BC424103754007ACF16 /* RefreshButton.swift in Sources */,
 				44DE753A24393FDE0028D07D /* GoalItemList.swift in Sources */,
@@ -654,17 +647,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		44B24B8D24007B3500B4EA0B /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				44B24B8E24007B3500B4EA0B /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		44B24BA724007B3600B4EA0B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -703,6 +685,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -764,6 +747,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

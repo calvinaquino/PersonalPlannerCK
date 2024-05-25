@@ -44,7 +44,7 @@ class Cloud {
     let recordTypes = CKRecord.RecordType.All
     var subscriptionsToSave: [CKQuerySubscription] = []
     for recordType in recordTypes {
-      let subscription = CKQuerySubscription(recordType: recordType, predicate: predicate, options: [.firesOnRecordCreation, .firesOnRecordDeletion,.firesOnRecordUpdate])
+        let subscription = CKQuerySubscription(recordType: recordType, predicate: predicate, subscriptionID: "PPGeneralSubscription")
       let info = CKSubscription.NotificationInfo()
       info.shouldSendContentAvailable = true
       //    info.alertBody = ""
