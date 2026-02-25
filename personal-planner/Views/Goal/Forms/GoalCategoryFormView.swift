@@ -9,48 +9,55 @@
 import SwiftUI
 
 struct GoalCategoryFormView: View {
-  init() {
-    self.init(with: nil)
-  }
-  
-  init(with goalCategory: GoalCategory?) {
-    self.item = goalCategory
-    _name = State(initialValue: item?.name ?? "")
-  }
-  
-  private var item: GoalCategory?
-  
-  @Environment(\.dismiss) var dismiss
-  
-  @State private var name: String
-  
-  var body: some View {
-    NavigationView {
-      Form {
-        Section {
-          TextField("Nome", text: $name)
-        }
-      }
-      .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
-      .navigationBarItems(leading: Button(action: { dismiss() }) {
-          Text("Cancelar")
-      }, trailing: Button(action: { self.save()}) {
-          Text("Salvar")
-      })
+    init() {
+        self.init(with: nil)
     }
-    .navigationViewStyle(StackNavigationViewStyle())
-  }
-  
-  func save() {
-    let editingItem = self.item ?? GoalCategory()
-    editingItem.name = self.name
-    editingItem.save()
-    dismiss()
-  }
+    
+    init(with goalCategory: GoalCategory?) {
+        self.item = goalCategory
+        _name = State(initialValue: item?.name ?? "")
+    }
+    
+    private var item: GoalCategory?
+    
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var name: String
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Nome", text: $name)
+                }
+            }
+            .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(action: { dismiss() }) {
+                        Text("Cancelar")
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(action: { self.save()}) {
+                        Text("Salvar")
+                    }
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    func save() {
+        let editingItem = self.item ?? GoalCategory()
+        editingItem.name = self.name
+        editingItem.save()
+        dismiss()
+    }
 }
 
 struct GoalCategoryFormView_Previews: PreviewProvider {
-  static var previews: some View {
-    GoalCategoryFormView()
-  }
+    static var previews: some View {
+        GoalCategoryFormView()
+    }
 }

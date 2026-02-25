@@ -9,52 +9,59 @@
 import SwiftUI
 
 struct TransactionCategoryFormView: View {
-  init() {
-    self.init(with: nil)
-  }
-  
-  init(with transactionCategory: TransactionCategory?) {
-    self.item = transactionCategory
-    _name = State(initialValue: item?.name ?? "")
-    _budget = State(initialValue: item?.budget.stringCurrencyValue ?? "")
-  }
-  
-  private var item: TransactionCategory?
-  
-    @Environment(\.dismiss) var dismiss
-  
-  @State private var name: String
-  @State private var budget: String
-  
-  var body: some View {
-    NavigationView {
-      Form {
-        Section {
-          TextField("Nome", text: $name)
-          TextField("Orçamento", text: $budget)
-        }
-      }
-      .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
-      .navigationBarItems(leading: Button(action: { dismiss() }) {
-          Text("Cancelar")
-      }, trailing: Button(action: { self.save()}) {
-          Text("Salvar")
-      })
+    init() {
+        self.init(with: nil)
     }
-    .navigationViewStyle(StackNavigationViewStyle())
-  }
-  
-  func save() {
-    let editingItem = self.item ?? TransactionCategory()
-    editingItem.name = self.name
-    editingItem.budget = self.budget.doubleValue
-    editingItem.save()
-    dismiss()
-  }
+    
+    init(with transactionCategory: TransactionCategory?) {
+        self.item = transactionCategory
+        _name = State(initialValue: item?.name ?? "")
+        _budget = State(initialValue: item?.budget.stringCurrencyValue ?? "")
+    }
+    
+    private var item: TransactionCategory?
+    
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var name: String
+    @State private var budget: String
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Nome", text: $name)
+                    TextField("Orçamento", text: $budget)
+                }
+            }
+            .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(action: { dismiss() }) {
+                        Text("Cancelar")
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(action: { self.save()}) {
+                        Text("Salvar")
+                    }
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    func save() {
+        let editingItem = self.item ?? TransactionCategory()
+        editingItem.name = self.name
+        editingItem.budget = self.budget.doubleValue
+        editingItem.save()
+        dismiss()
+    }
 }
 
 struct TransactionCategoryFormView_Previews: PreviewProvider {
-  static var previews: some View {
-    TransactionCategoryFormView()
-  }
+    static var previews: some View {
+        TransactionCategoryFormView()
+    }
 }

@@ -12,84 +12,91 @@ import Combine
 import SwiftUI
 
 struct TransactionItemFormView: View {
-  
-  init() {
-    self.init(with: nil, date: nil)
-  }
-
-  init(with transactionItem: TransactionItem?, date: Date?) {
-    self.item = transactionItem
-    _name = State(initialValue: item?.name ?? "")
-    _value = State(initialValue: item?.value.stringCurrencyValue ?? "")
-    _date = State(initialValue: date ?? transactionItem?.date ?? Date())
-    _isInflow = State(initialValue: item?.isInflow ?? false)
-    _isComplete = State(initialValue: item?.isComplete ?? true)
-    _category = State(initialValue: item?.category ?? nil)
-  }
-  
-  private var item: TransactionItem?
-  
-  @ObservedObject private var categories = TransactionCategories()
-    @Environment(\.dismiss) var dismiss
-  
-  @State private var name: String
-  @State private var value: String
-  @State private var date: Date
-  @State private var isInflow: Bool
-  @State private var isComplete: Bool
-  @State private var category: TransactionCategory?
-  
-  var body: some View {
-    NavigationView {
-      Form {
-        Section {
-          TextField("Nome", text: $name)
-            .autocapitalization(.sentences)
-          TextField("Valor", text: $value)
-            .keyboardType(.decimalPad)
-          Toggle("Recebido", isOn: $isInflow)
-          Toggle("Efetuado", isOn: $isComplete)
-          DatePicker(selection: $date, displayedComponents: .date) {
-            Text("Data")
-          }
-          HStack {
-            Picker("Categoria", selection: $category) {
-              ForEach(categories.items, id: \.id) { item in
-                Text(item.name).tag(item as TransactionCategory?)
-              }
-              Text("Geral").tag(nil as TransactionCategory?)
-            }
-            .pickerStyle(MenuPickerStyle())
-            Spacer()
-            Text(category?.name ?? "Geral")
-          }
-        }
-      }
-      .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
-      .navigationBarItems(leading: Button(action: { dismiss() }) {
-          Text("Cancelar")
-      }, trailing: Button(action: { self.save()}) {
-          Text("Salvar")
-      })
+    
+    init() {
+        self.init(with: nil, date: nil)
     }
-    .navigationViewStyle(StackNavigationViewStyle())
-  }
-  
-  func save() {
-    let editingItem = self.item ?? TransactionItem()
-    editingItem.name = self.name
-    editingItem.value = self.value.doubleValue
-    editingItem.isInflow = self.isInflow
-    editingItem.isComplete = self.isComplete
-    editingItem.date = self.date
-    editingItem.category = self.category
-    editingItem.save()
-    dismiss()
-  }
+    
+    init(with transactionItem: TransactionItem?, date: Date?) {
+        self.item = transactionItem
+        _name = State(initialValue: item?.name ?? "")
+        _value = State(initialValue: item?.value.stringCurrencyValue ?? "")
+        _date = State(initialValue: date ?? transactionItem?.date ?? Date())
+        _isInflow = State(initialValue: item?.isInflow ?? false)
+        _isComplete = State(initialValue: item?.isComplete ?? true)
+        _category = State(initialValue: item?.category ?? nil)
+    }
+    
+    private var item: TransactionItem?
+    
+    @ObservedObject private var categories = TransactionCategories()
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var name: String
+    @State private var value: String
+    @State private var date: Date
+    @State private var isInflow: Bool
+    @State private var isComplete: Bool
+    @State private var category: TransactionCategory?
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("Nome", text: $name)
+                        .autocapitalization(.sentences)
+                    TextField("Valor", text: $value)
+                        .keyboardType(.decimalPad)
+                    Toggle("Recebido", isOn: $isInflow)
+                    Toggle("Efetuado", isOn: $isComplete)
+                    DatePicker(selection: $date, displayedComponents: .date) {
+                        Text("Data")
+                    }
+                    HStack {
+                        Picker("Categoria", selection: $category) {
+                            ForEach(categories.items, id: \.id) { item in
+                                Text(item.name).tag(item as TransactionCategory?)
+                            }
+                            Text("Geral").tag(nil as TransactionCategory?)
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        Spacer()
+                        Text(category?.name ?? "Geral")
+                    }
+                }
+            }
+            .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(action: { dismiss() }) {
+                        Text("Cancelar")
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(action: { self.save()}) {
+                        Text("Salvar")
+                    }
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    func save() {
+        let editingItem = self.item ?? TransactionItem()
+        editingItem.name = self.name
+        editingItem.value = self.value.doubleValue
+        editingItem.isInflow = self.isInflow
+        editingItem.isComplete = self.isComplete
+        editingItem.date = self.date
+        editingItem.category = self.category
+        editingItem.save()
+        dismiss()
+    }
 }
 
 struct TransactionItemFormView_Previews: PreviewProvider {
-  static var previews: some View {
-    TransactionItemFormView()
-  }
+    static var previews: some View {
+        TransactionItemFormView()
+    }
 }
