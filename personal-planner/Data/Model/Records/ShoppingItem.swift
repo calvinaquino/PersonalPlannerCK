@@ -42,7 +42,7 @@ class ShoppingItem : Record, Named, Priced, Needed, Categorized, FormCategoryPic
     }
     set {
       if let newShoppingCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newShoppingCategory.ckRecord!.recordID, action: .none)
+        let reference = CKRecord.Reference(recordID: newShoppingCategory.ckRecord.recordID, action: .none)
         self.ckRecord[kShoppingCategory] = reference
       } else {
         self.ckRecord[kShoppingCategory] = nil
@@ -66,7 +66,8 @@ class ShoppingItem : Record, Named, Priced, Needed, Categorized, FormCategoryPic
   }
 }
 
-class ShoppingItems: ObservableObject {
+@Observable
+class ShoppingItems {
   static let shared = ShoppingItems()
   
   required init() {
@@ -83,12 +84,12 @@ class ShoppingItems: ObservableObject {
   }
   
   deinit {
-    self.itemSubscriber.cancel()
+    self.itemSubscriber?.cancel()
   }
   
-  var itemSubscriber: AnyCancellable!
-  @Published private var _items: [ShoppingItem] = []
-  @Published private var _filteredItems: [ShoppingItem] = []
+  @ObservationIgnored var itemSubscriber: AnyCancellable?
+  private var _items: [ShoppingItem] = []
+  private var _filteredItems: [ShoppingItem] = []
   var query: String = "" {
     didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }

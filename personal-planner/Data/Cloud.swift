@@ -76,7 +76,7 @@ class Cloud {
   }
   
   class func modifyBatch(save: [Record], delete: [Record], completion: @escaping () -> Void) {
-    let recordsToSave = save.map{$0.ckRecord!}
+    let recordsToSave = save.map{$0.ckRecord}
     let recordIDsToDelete = delete.map{$0.recordId}
     let modifyRecordsOperation = CKModifyRecordsOperation(recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete)
     let configuration = CKOperation.Configuration()

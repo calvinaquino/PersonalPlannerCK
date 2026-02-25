@@ -42,7 +42,7 @@ class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized, F
     }
     set {
       if let newTransactionCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newTransactionCategory.ckRecord!.recordID, action: .none)
+        let reference = CKRecord.Reference(recordID: newTransactionCategory.ckRecord.recordID, action: .none)
         self.ckRecord["transactionCategory"] = reference
       } else {
         self.ckRecord["transactionCategory"] = nil
@@ -72,7 +72,8 @@ class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized, F
   }
 }
 
-class TransactionItems: ObservableObject {
+@Observable
+class TransactionItems {
   static let shared = TransactionItems(date: Date())
   
   required init(date: Date) {
@@ -90,12 +91,12 @@ class TransactionItems: ObservableObject {
   }
   
   deinit {
-    self.itemSubscriber.cancel()
+    self.itemSubscriber?.cancel()
   }
   
-  var itemSubscriber: AnyCancellable!
-  @Published private var _items: [TransactionItem] = []
-  @Published private var _filteredItems: [TransactionItem] = []
+  @ObservationIgnored var itemSubscriber: AnyCancellable?
+  private var _items: [TransactionItem] = []
+  private var _filteredItems: [TransactionItem] = []
   var query: String = "" {
     didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TransactionCategoryList: View {
-  @ObservedObject private var transactionCategories = TransactionCategories.shared
+  @State private var transactionCategories = TransactionCategories.shared
   
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: TransactionCategory?

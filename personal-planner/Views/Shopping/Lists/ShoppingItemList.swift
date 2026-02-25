@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ShoppingItemList: View {
   
-  @ObservedObject private var shoppingItems = ShoppingItems.shared
-  @ObservedObject private var shoppingCategories = ShoppingCategories.shared
+  @State private var shoppingItems = ShoppingItems.shared
+  @State private var shoppingCategories = ShoppingCategories.shared
   
   @Binding var isFiltering: Bool
   @Binding private var showingFormScreen: Bool
@@ -25,7 +25,7 @@ struct ShoppingItemList: View {
   }
   
   var sections: [ShoppingSection] {
-    ShoppingSection.sections(items: shoppingItems.items, categories: shoppingCategories.items, filter: self.isFiltering)
+      ShoppingSection.sections(items: shoppingItems.items, categories: shoppingCategories.items, filter: self.isFiltering)
   }
   
   var body: some View {

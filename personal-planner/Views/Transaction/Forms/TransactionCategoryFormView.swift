@@ -27,7 +27,7 @@ struct TransactionCategoryFormView: View {
     @State private var budget: String
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     TextField("Nome", text: $name)
@@ -48,7 +48,6 @@ struct TransactionCategoryFormView: View {
                 }
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func save() {

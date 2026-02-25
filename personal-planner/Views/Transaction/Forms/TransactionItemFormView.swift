@@ -29,7 +29,7 @@ struct TransactionItemFormView: View {
     
     private var item: TransactionItem?
     
-    @ObservedObject private var categories = TransactionCategories()
+    @State private var categories = TransactionCategories.shared
     @Environment(\.dismiss) var dismiss
     
     @State private var name: String
@@ -40,7 +40,7 @@ struct TransactionItemFormView: View {
     @State private var category: TransactionCategory?
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     TextField("Nome", text: $name)
@@ -79,7 +79,6 @@ struct TransactionItemFormView: View {
                 }
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func save() {

@@ -10,19 +10,6 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class Storage {
-  static let shared = Storage()
-  var storage: [String: Record] = [:]
-  
-  func save(_ record: Record) {
-    storage[record.id] = record
-  }
-  
-  func fetch(_ recordId: String) -> Record? {
-    return storage[recordId]
-  }
-}
-
 class Store {
   init() {
     Cloud.fetchShoppingCategories { }

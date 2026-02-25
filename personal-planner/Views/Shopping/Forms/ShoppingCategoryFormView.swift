@@ -25,7 +25,7 @@ struct ShoppingCategoryFormView: View {
     @State private var name: String
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     TextField("Nome", text: $name)
@@ -45,7 +45,6 @@ struct ShoppingCategoryFormView: View {
                 }
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func save() {

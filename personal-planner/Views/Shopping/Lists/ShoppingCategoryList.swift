@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ShoppingCategoryList: View {
   
-  @ObservedObject private var shoppingCategories = ShoppingCategories.shared
+  @State private var shoppingCategories = ShoppingCategories.shared
   
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: ShoppingCategory?

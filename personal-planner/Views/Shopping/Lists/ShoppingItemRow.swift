@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ShoppingItemRow: View {
-  var item: ShoppingItem!
+  var item: ShoppingItem
   var onTapAction: ((_ item: ShoppingItem) -> Void)?
   var body: some View {
     HStack {

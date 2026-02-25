@@ -10,8 +10,8 @@ import SwiftUI
 
 struct GoalItemList: View {
   
-  @ObservedObject private var goalItems = GoalItems.shared
-  @ObservedObject private var goalCategories = GoalCategories.shared
+  @State private var goalItems = GoalItems.shared
+  @State private var goalCategories = GoalCategories.shared
   
   @Binding var isFiltering: Bool
   @Binding private var showingFormScreen: Bool

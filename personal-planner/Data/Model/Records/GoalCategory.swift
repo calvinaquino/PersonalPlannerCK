@@ -9,6 +9,7 @@
 import Foundation
 import CloudKit
 import Combine
+import Observation
 
 class GoalCategory: Record, Named {
   override class var recordType: String {
@@ -29,7 +30,8 @@ class GoalCategory: Record, Named {
   }
 }
 
-class GoalCategories: ObservableObject, Equatable, Identifiable {
+@Observable
+class GoalCategories: Equatable, Identifiable {
   static let shared = GoalCategories()
   
   let id: String = UUID().uuidString
@@ -55,12 +57,12 @@ class GoalCategories: ObservableObject, Equatable, Identifiable {
   }
   
   deinit {
-    self.itemSubscriber.cancel()
+    self.itemSubscriber?.cancel()
   }
   
-  var itemSubscriber: AnyCancellable!
-  @Published private var _items: [GoalCategory] = []
-  @Published private var _filteredItems: [GoalCategory] = []
+  @ObservationIgnored var itemSubscriber: AnyCancellable?
+  private var _items: [GoalCategory] = []
+  private var _filteredItems: [GoalCategory] = []
   var query: String = "" {
     didSet {
       self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct GoalCategoryList: View {
   
-  @ObservedObject private var goalCategories = GoalCategories.shared
+  @State private var goalCategories = GoalCategories.shared
   
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: GoalCategory?

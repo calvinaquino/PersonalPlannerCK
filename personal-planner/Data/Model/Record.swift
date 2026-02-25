@@ -10,20 +10,20 @@ import Foundation
 import CloudKit
 
 @objc class Record: NSObject, StringIdentifiable {
-  open var ckRecord: CKRecord!
+  open var ckRecord: CKRecord
   var deleted: Bool = false
-  
+
   var id: String {
     self.ckRecord.recordID.recordName
   }
-  
+
   var recordId: CKRecord.ID {
     self.ckRecord.recordID
   }
-  
+
   required init(with record: CKRecord?) {
-    super.init()
     self.ckRecord = record ?? Record.newCKRecord(recordType: Self.recordType)
+    super.init()
   }
   
   convenience init(withRecordName recordName: String) {
@@ -76,20 +76,6 @@ extension CKRecord {
     self.recordID.recordName
   }
 }
-
-//extension CKRecord {
-//  subscript<Root, Value: CKRecordValueProtocol>(dynamicMember keyPath: WritableKeyPath<Root, Value>) -> Value? {
-//    get {
-//      let key = NSExpression(forKeyPath: keyPath).keyPath
-//      return self[key]
-//    }
-//    set {
-//      let key = NSExpression(forKeyPath: keyPath).keyPath
-//      // Fatal error: Could not extract a String from KeyPath Swift.ReferenceWritableKeyPath
-//      self[key] = newValue
-//    }
-//  }
-//}
 
 extension CKRecord.RecordType {
   static var ShoppingItem: String { "ShoppingItem" }

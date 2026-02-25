@@ -9,6 +9,7 @@
 import Foundation
 import CloudKit
 import Combine
+import Observation
 
 class GoalItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
   override class var recordType: String {
@@ -47,7 +48,7 @@ class GoalItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
     }
     set {
       if let newCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newCategory.ckRecord!.recordID, action: .none)
+        let reference = CKRecord.Reference(recordID: newCategory.ckRecord.recordID, action: .none)
         self.ckRecord[kGoalCategory] = reference
       } else {
         self.ckRecord[kGoalCategory] = nil
@@ -72,7 +73,9 @@ class GoalItem: Record, Named, Priced, Categorized, FormCategoryPickerMenu {
   }
 }
 
-class GoalItems: ObservableObject {
+
+@Observable
+class GoalItems {
   static let shared = GoalItems()
   
   required init() {
@@ -89,12 +92,12 @@ class GoalItems: ObservableObject {
   }
   
   deinit {
-    self.itemSubscriber.cancel()
+    self.itemSubscriber?.cancel()
   }
   
-  var itemSubscriber: AnyCancellable!
-  @Published private var _items: [GoalItem] = []
-  @Published private var _filteredItems: [GoalItem] = []
+  @ObservationIgnored var itemSubscriber: AnyCancellable?
+  private var _items: [GoalItem] = []
+  private var _filteredItems: [GoalItem] = []
   var query: String = "" {
     didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }

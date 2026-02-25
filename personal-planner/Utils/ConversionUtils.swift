@@ -154,11 +154,11 @@ extension Date {
     }
   
   func endOfMonth() -> Date {
-    Calendar.current.dateInterval(of: .month, for: self)!.end
+    Calendar.current.dateInterval(of: .month, for: self)?.end ?? self
   }
 
   func startOfMonth() -> Date {
-    Calendar.current.dateInterval(of: .month, for: self)!.start
+    Calendar.current.dateInterval(of: .month, for: self)?.start ?? self
   }
   
   mutating func nextMonth() {
@@ -203,8 +203,8 @@ extension Date {
   
   func daysSinceDateLabeled(_ date: Date) -> String {
     let days = self.daysSince(date)
-    if (days > 1) {
-      return "\(days) dias"
+    if days == 1 {
+      return "\(days) dia"
     } else {
       return "\(days) dias"
     }

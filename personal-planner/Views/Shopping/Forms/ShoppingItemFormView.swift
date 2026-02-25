@@ -28,7 +28,7 @@ struct ShoppingItemFormView: View {
     
     private var item: ShoppingItem?
     
-    @ObservedObject private var categories = ShoppingCategories()
+    @State private var categories = ShoppingCategories.shared
     @Environment(\.dismiss) var dismiss
     
     @State private var name: String
@@ -38,7 +38,7 @@ struct ShoppingItemFormView: View {
     @State private var category: ShoppingCategory?
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     TextField("Nome", text: $name)
@@ -74,7 +74,6 @@ struct ShoppingItemFormView: View {
                 }
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func save() {

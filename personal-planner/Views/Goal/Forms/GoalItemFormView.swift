@@ -28,7 +28,7 @@ struct GoalItemFormView: View {
     
     private var item: GoalItem?
     
-    @ObservedObject private var categories = GoalCategories()
+    @State private var categories = GoalCategories.shared
     @Environment(\.dismiss) var dismiss
     
     @State private var name: String
@@ -38,7 +38,7 @@ struct GoalItemFormView: View {
     @State private var category: GoalCategory?
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
                     TextField("Nome", text: $name)
@@ -74,7 +74,6 @@ struct GoalItemFormView: View {
                 }
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func save() {

@@ -10,7 +10,7 @@ import SwiftUI
 import CloudKit
 import Combine
 
-class TransactionCategory: Record, Named, ObservableObject {
+class TransactionCategory: Record, Named {
   override class var recordType: String {
     CKRecord.RecordType.TransactionCategory
   }
@@ -35,7 +35,8 @@ class TransactionCategory: Record, Named, ObservableObject {
   }
 }
 
-class TransactionCategories: ObservableObject, Equatable, Identifiable {
+@Observable
+class TransactionCategories: Equatable, Identifiable {
   static let shared = TransactionCategories()
   
   let id: String = UUID().uuidString
@@ -61,12 +62,12 @@ class TransactionCategories: ObservableObject, Equatable, Identifiable {
   }
   
   deinit {
-    self.itemSubscriber.cancel()
+    self.itemSubscriber?.cancel()
   }
   
-  var itemSubscriber: AnyCancellable!
-  @Published private var _items: [TransactionCategory] = []
-  @Published private var _filteredItems: [TransactionCategory] = []
+  @ObservationIgnored var itemSubscriber: AnyCancellable?
+  private var _items: [TransactionCategory] = []
+  private var _filteredItems: [TransactionCategory] = []
   var query: String = "" {
     didSet { self._filteredItems = _items.filter{ self.filterPredicate().evaluate(with: $0.name) } }
   }

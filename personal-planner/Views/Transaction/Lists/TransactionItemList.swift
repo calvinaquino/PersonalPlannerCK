@@ -14,8 +14,8 @@ import SwiftUI
 
 struct TransactionItemList: View {
   
-  @ObservedObject private var transactionItems = TransactionItems.shared
-  @ObservedObject private var transactionCategories = TransactionCategories.shared
+  @State private var transactionItems = TransactionItems.shared
+  @State private var transactionCategories = TransactionCategories.shared
   
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: TransactionItem?

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct GoalItemRow: View {
-  var item: GoalItem!
+  var item: GoalItem
   var onTapAction: ((_ item: GoalItem) -> Void)?
   var body: some View {
     HStack {
