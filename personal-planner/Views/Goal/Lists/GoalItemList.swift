@@ -16,7 +16,6 @@ struct GoalItemList: View {
   @Binding var isFiltering: Bool
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: GoalItem?
-  @State private var rotation: Double = 0.0;
   
   init(query: String, editingItem: Binding<GoalItem?>, isFiltering: Binding<Bool>, showingFormScreen: Binding<Bool>) {
     self._isFiltering = isFiltering
