@@ -41,8 +41,8 @@ class TransactionItem: Record, Named, Valued, Completable, Dated, Categorized, F
       return nil
     }
     set {
-      if let newShoppingCategory = newValue {
-        let reference = CKRecord.Reference(recordID: newShoppingCategory.ckRecord!.recordID, action: .none)
+      if let newTransactionCategory = newValue {
+        let reference = CKRecord.Reference(recordID: newTransactionCategory.ckRecord!.recordID, action: .none)
         self.ckRecord["transactionCategory"] = reference
       } else {
         self.ckRecord["transactionCategory"] = nil

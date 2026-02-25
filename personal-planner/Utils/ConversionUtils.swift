@@ -171,7 +171,7 @@ extension Date {
   }
   
   mutating func previousMonth() {
-    if self.month - 1 < 0 {
+    if self.month - 1 < 1 {
       self.month = 12
       self.year = self.year - 1
     } else {
@@ -186,7 +186,7 @@ extension Date {
 
 extension Date {
   func monthsSince(_ date: Date) -> Int {
-    return Calendar.current.dateComponents([.month], from: date, to: self).day!
+    return Calendar.current.dateComponents([.month], from: date, to: self).month!
   }
   
   func daysSince(_ date: Date) -> Int {
@@ -194,11 +194,11 @@ extension Date {
   }
   
   func hoursSince(_ date: Date) -> Int {
-    return Calendar.current.dateComponents([.hour], from: date, to: self).day!
+    return Calendar.current.dateComponents([.hour], from: date, to: self).hour!
   }
   
   func minutesSince(_ date: Date) -> Int {
-    return Calendar.current.dateComponents([.minute], from: date, to: self).day!
+    return Calendar.current.dateComponents([.minute], from: date, to: self).minute!
   }
   
   func daysSinceDateLabeled(_ date: Date) -> String {

@@ -16,7 +16,7 @@ class ShoppingItem : Record, Named, Priced, Needed, Categorized, FormCategoryPic
   }
   
   private let kLocalizedName = "localizedName"
-  private let kShoppingCategory = "shoppingCateogory"
+  private let kShoppingCategory = "shoppingCategory"
   
   static func ==(lhs: ShoppingItem, rhs: ShoppingItem) -> Bool {(
     lhs.id == rhs.id &&

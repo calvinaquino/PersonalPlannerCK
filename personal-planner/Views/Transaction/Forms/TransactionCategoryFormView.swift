@@ -21,7 +21,7 @@ struct TransactionCategoryFormView: View {
   
   private var item: TransactionCategory?
   
-  @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
   
   @State private var name: String
   @State private var budget: String
@@ -35,7 +35,7 @@ struct TransactionCategoryFormView: View {
         }
       }
       .navigationBarTitle(self.item != nil ? "Editar categoria" : "Nova categoria", displayMode: .inline)
-      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+      .navigationBarItems(leading: Button(action: { dismiss() }) {
           Text("Cancelar")
       }, trailing: Button(action: { self.save()}) {
           Text("Salvar")
@@ -49,7 +49,7 @@ struct TransactionCategoryFormView: View {
     editingItem.name = self.name
     editingItem.budget = self.budget.doubleValue
     editingItem.save()
-    self.presentationMode.wrappedValue.dismiss()
+    dismiss()
   }
 }
 

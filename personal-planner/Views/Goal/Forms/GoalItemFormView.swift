@@ -29,7 +29,7 @@ struct GoalItemFormView: View {
   private var item: GoalItem?
   
   @ObservedObject private var categories = GoalCategories()
-  @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
   
   @State private var name: String
   @State private var description: String
@@ -61,7 +61,7 @@ struct GoalItemFormView: View {
         }
       }
       .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
-      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+      .navigationBarItems(leading: Button(action: { dismiss() }) {
           Text("Cancelar")
       }, trailing: Button(action: { self.save()}) {
           Text("Salvar")
@@ -78,7 +78,7 @@ struct GoalItemFormView: View {
     editingItem.instalments = self.instalments
     editingItem.category = self.category
     editingItem.save()
-    self.presentationMode.wrappedValue.dismiss()
+    dismiss()
   }
 }
 

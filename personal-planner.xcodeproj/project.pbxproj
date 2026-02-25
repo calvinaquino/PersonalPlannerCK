@@ -635,11 +635,13 @@
 				DEVELOPMENT_TEAM = 5F35F2ZNFF;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "personal-planner/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Accounty;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.3;
+				MARKETING_VERSION = 0.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = Planejador;
 				SUPPORTS_MACCATALYST = YES;
@@ -659,11 +661,13 @@
 				DEVELOPMENT_TEAM = 5F35F2ZNFF;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "personal-planner/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Accounty;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.3;
+				MARKETING_VERSION = 0.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.calvinaquino.personal-planner";
 				PRODUCT_NAME = Planejador;
 				SUPPORTS_MACCATALYST = YES;

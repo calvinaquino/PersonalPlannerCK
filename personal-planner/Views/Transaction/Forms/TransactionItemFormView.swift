@@ -30,7 +30,7 @@ struct TransactionItemFormView: View {
   private var item: TransactionItem?
   
   @ObservedObject private var categories = TransactionCategories()
-  @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
   
   @State private var name: String
   @State private var value: String
@@ -66,7 +66,7 @@ struct TransactionItemFormView: View {
         }
       }
       .navigationBarTitle(self.item != nil ? "Editar item" : "Novo item", displayMode: .inline)
-      .navigationBarItems(leading: Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
+      .navigationBarItems(leading: Button(action: { dismiss() }) {
           Text("Cancelar")
       }, trailing: Button(action: { self.save()}) {
           Text("Salvar")
@@ -84,7 +84,7 @@ struct TransactionItemFormView: View {
     editingItem.date = self.date
     editingItem.category = self.category
     editingItem.save()
-    self.presentationMode.wrappedValue.dismiss()
+    dismiss()
   }
 }
 

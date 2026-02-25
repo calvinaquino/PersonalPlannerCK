@@ -9,9 +9,10 @@
 import SwiftUI
 
 struct IconButton: View {
-  let size: CGFloat = 30;
-  @State var systemIcon: String
-  @State var alignment: Alignment = .center
+    let size: CGFloat = 30;
+    let systemIcon: String
+    let alignment: Alignment = .center
+    
     var body: some View {
       Image(systemName: self.systemIcon)
         .frame(width: self.size, height: self.size, alignment: self.alignment)
