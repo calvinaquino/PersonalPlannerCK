@@ -12,17 +12,11 @@ struct GoalItemList: View {
   
   @State private var goalItems = GoalItems.shared
   @State private var goalCategories = GoalCategories.shared
-  
+
+  var query: String
   @Binding var isFiltering: Bool
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: GoalItem?
-  
-  init(query: String, editingItem: Binding<GoalItem?>, isFiltering: Binding<Bool>, showingFormScreen: Binding<Bool>) {
-    self._isFiltering = isFiltering
-    self._editingItem = editingItem
-    self._showingFormScreen = showingFormScreen
-    self.goalItems.query = query
-  }
   
   var sections: [GoalSection] {
     GoalSection.sections(items: goalItems.items, categories: goalCategories.items, filter: self.isFiltering)
@@ -47,8 +41,14 @@ struct GoalItemList: View {
         }
       }
     }
+    .onChange(of: query) { _, newValue in
+      goalItems.query = newValue
+    }
+    .onAppear {
+      goalItems.query = query
+    }
   }
-  
+
   func delete(at offsets: IndexSet, in section: GoalSection) {
     for offset in offsets {
       let item = section.items[offset]

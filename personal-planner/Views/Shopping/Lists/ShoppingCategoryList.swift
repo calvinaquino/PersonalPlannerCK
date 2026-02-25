@@ -11,16 +11,11 @@ import SwiftUI
 struct ShoppingCategoryList: View {
   
   @State private var shoppingCategories = ShoppingCategories.shared
-  
+
+  var query: String
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: ShoppingCategory?
-  
-  init(query: String, editingItem: Binding<ShoppingCategory?>, showingFormScreen: Binding<Bool>) {
-    self._editingItem = editingItem
-    self._showingFormScreen = showingFormScreen
-    self.shoppingCategories.query = query
-  }
-  
+
   var body: some View {
     List {
       ForEach(shoppingCategories.items, id: \.id) { item in
@@ -35,6 +30,12 @@ struct ShoppingCategoryList: View {
         }
       }
       .onDelete(perform: self.delete)
+    }
+    .onChange(of: query) { _, newValue in
+      shoppingCategories.query = newValue
+    }
+    .onAppear {
+      shoppingCategories.query = query
     }
   }
   

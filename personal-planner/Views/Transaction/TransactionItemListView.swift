@@ -57,7 +57,7 @@ struct TransactionItemListView: View {
       VStack(alignment: .center, spacing: 0) {
         TransactionItemList(
           date: self.viewingDate,
-          total: self.$total,
+          totalTransaction: self.$total,
           query: self.searchText,
           editingItem: self.$editingItem,
           showingFormScreen: self.$showingFormScreen

@@ -16,18 +16,12 @@ struct TransactionItemList: View {
   
   @State private var transactionItems = TransactionItems.shared
   @State private var transactionCategories = TransactionCategories.shared
-  
+
+  var date: Date
+  var totalTransaction: Binding<Double>
+  var query: String
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: TransactionItem?
-  private var totalTransaction: Binding<Double>
-  
-  init(date: Date, total: Binding<Double>, query: String, editingItem: Binding<TransactionItem?>, showingFormScreen: Binding<Bool>) {
-    _transactionItems.wrappedValue.query = query
-    _transactionItems.wrappedValue.date = date
-    totalTransaction = total
-    _editingItem = editingItem
-    _showingFormScreen = showingFormScreen
-  }
   
   var sections: [TransactionSection] {
     TransactionSection.sections(items: transactionItems.items, categories: transactionCategories.items)
@@ -79,6 +73,16 @@ struct TransactionItemList: View {
         }
       }
     }
+    .onChange(of: query) { _, newValue in
+      transactionItems.query = newValue
+    }
+    .onChange(of: date) { _, newValue in
+      transactionItems.date = newValue
+    }
+    .onAppear {
+      transactionItems.query = query
+      transactionItems.date = date
+    }
   }
 }
 
@@ -86,10 +90,10 @@ struct TransactionItemList_Previews: PreviewProvider {
   static var previews: some View {
     Mock.mockTransactions()
     return Group {
-      TransactionItemList(date: Date(), total: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
+      TransactionItemList(date: Date(), totalTransaction: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
         .previewLayout(.sizeThatFits)
         .frame(width: 350, height: 250, alignment: .top)
-      TransactionItemList(date: Date(), total: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
+      TransactionItemList(date: Date(), totalTransaction: .constant(200.0), query: "", editingItem: .constant(nil), showingFormScreen: .constant(false))
         .colorScheme(.dark)
         .previewLayout(.sizeThatFits)
         .frame(width: 350, height: 250, alignment: .top)

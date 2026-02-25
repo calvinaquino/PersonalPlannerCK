@@ -11,15 +11,10 @@ import SwiftUI
 struct GoalCategoryList: View {
   
   @State private var goalCategories = GoalCategories.shared
-  
+
+  var query: String
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: GoalCategory?
-  
-  init(query: String, editingItem: Binding<GoalCategory?>, showingFormScreen: Binding<Bool>) {
-    self._editingItem = editingItem
-    self._showingFormScreen = showingFormScreen
-    self.goalCategories.query = query
-  }
   
   var body: some View {
     List {
@@ -35,6 +30,12 @@ struct GoalCategoryList: View {
         }
       }
       .onDelete(perform: self.delete)
+    }
+    .onChange(of: query) { _, newValue in
+      goalCategories.query = newValue
+    }
+    .onAppear {
+      goalCategories.query = query
     }
   }
   

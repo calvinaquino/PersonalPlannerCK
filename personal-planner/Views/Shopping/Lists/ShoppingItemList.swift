@@ -12,17 +12,11 @@ struct ShoppingItemList: View {
   
   @State private var shoppingItems = ShoppingItems.shared
   @State private var shoppingCategories = ShoppingCategories.shared
-  
+
+  var query: String
   @Binding var isFiltering: Bool
   @Binding private var showingFormScreen: Bool
   @Binding private var editingItem: ShoppingItem?
-  
-  init(query: String, editingItem: Binding<ShoppingItem?>, isFiltering: Binding<Bool>, showingFormScreen: Binding<Bool>) {
-    self._isFiltering = isFiltering
-    self._editingItem = editingItem
-    self._showingFormScreen = showingFormScreen
-    self.shoppingItems.query = query
-  }
   
   var sections: [ShoppingSection] {
       ShoppingSection.sections(items: shoppingItems.items, categories: shoppingCategories.items, filter: self.isFiltering)
@@ -54,8 +48,14 @@ struct ShoppingItemList: View {
         }
       }
     }
+    .onChange(of: query) { _, newValue in
+      shoppingItems.query = newValue
+    }
+    .onAppear {
+      shoppingItems.query = query
+    }
   }
-  
+
   func delete(at offsets: IndexSet, in section: ShoppingSection) {
     for offset in offsets {
       let item = section.items[offset]
